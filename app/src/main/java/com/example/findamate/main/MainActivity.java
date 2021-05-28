@@ -15,8 +15,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.findamate.R;
+import com.example.findamate.domain.Student;
 import com.example.findamate.helper.CustomView;
 import com.example.findamate.helper.DataBaseStudentList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     Activity activity = this;
@@ -37,10 +41,20 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout studentSettingLayout;
     Button logButton;
 
+    //임시
+    List<Student> studentList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //임시 데이터
+        studentList.add(new Student("20519", "임준형"));
+        studentList.add(new Student("2400", "랄로"));
+        studentList.add(new Student("2401", "파카"));
+        studentList.add(new Student("9999", "도파"));
+        studentList.add(new Student("기모링", "괴물쥐"));
 
         studentContainer = findViewById(R.id.studentContainer);
         classInformation = findViewById(R.id.classInformation);
@@ -59,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
         studentSettingLayout = findViewById(R.id.studentSettingLayout);
         logButton = findViewById(R.id.logButton);
 
+
+        loadStudents();
         bindEvents();
     }
 
@@ -137,6 +153,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void loadStudents() {
+        for(int i = 0; i < studentList.size(); i++) {
+            Student student = studentList.get(i);
+
+            newStudentProfile(student.getId(), student.getName());
+        }
     }
 
     private void newStudentProfile(String id, String name) {

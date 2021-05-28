@@ -9,9 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FindAMate">
-        <activity android:name=".main.WaitingActivity"></activity>
+        <activity android:name=".main.LogMatchingActivity"></activity>
+        <activity android:name=".main.WaitingActivity" />
         <activity android:name=".main.SignupActivity" />
-        <activity android:name=".main.MatchingActivity" />
+        <activity android:name=".main.MatchingActivity" >
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
         <activity android:name=".main.LoginActivity" />
         <activity android:name=".main.LogActivity" />
         <activity android:name=".main.MainActivity">
