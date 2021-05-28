@@ -3,6 +3,7 @@ package com.example.findamate.main;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView studentSettingButton;
     ImageView studentSettingCancelButton;
     LinearLayout studentSettingLayout;
+    Button logButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         studentSettingButton = findViewById(R.id.studentSettingButton);
         studentSettingCancelButton = findViewById(R.id.studentSettingCancelButton);
         studentSettingLayout = findViewById(R.id.studentSettingLayout);
-        //findViewById(R.id.name).setVisibility(View.INVISIBLE);
+        logButton = findViewById(R.id.logButton);
 
         bindEvents();
     }
@@ -124,6 +126,15 @@ public class MainActivity extends AppCompatActivity {
                 showStudentSettingButton(true);
                 showStudentSettingCancelButton(false);
                 showStudentSettingLayout(true);
+            }
+        });
+
+        logButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, LogActivity.class);
+                intent.putExtra("classInformation", classInformation.getText().toString());
+                startActivity(intent);
             }
         });
     }
