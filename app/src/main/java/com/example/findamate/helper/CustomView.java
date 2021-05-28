@@ -1,16 +1,26 @@
-package com.example.findamate;
+package com.example.findamate.helper;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.example.findamate.R;
+
 public class CustomView extends LinearLayout {
-    public CustomView(Context context) {
+    private String id;
+    private String name;
+
+    public CustomView(Context context, String id, String name) {
         super(context);
+
+        this.id = id;
+        this.name = name;
+        init(context);
     }
 
     public CustomView(Context context, @Nullable AttributeSet attrs) {
@@ -31,5 +41,8 @@ public class CustomView extends LinearLayout {
     private void init(Context context) {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater.inflate(R.layout.layout_profile, this, true);
+
+        TextView textView = findViewById(R.id.name);
+        textView.setText(id + " " + name);
     }
 }

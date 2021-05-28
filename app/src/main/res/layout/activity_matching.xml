@@ -36,12 +36,12 @@
         android:layout_weight="15"
         android:gravity="center">
 
-        <com.example.findamate.CustomView
+        <com.example.findamate.helper.CustomView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginRight="80dp"/>
 
-        <com.example.findamate.CustomView
+        <com.example.findamate.helper.CustomView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginLeft="80dp"/>
