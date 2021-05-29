@@ -1,8 +1,10 @@
 package com.example.findamate.main;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     EditText studentId;
     EditText studentName;
     Button addStudentButton;
+    Button simulationButton;
+    Button startButton;
     ImageView studentSettingButton;
     ImageView studentSettingCancelButton;
     LinearLayout studentSettingLayout;
@@ -68,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         studentId = findViewById(R.id.studentId);
         studentName = findViewById(R.id.studentName);
         addStudentButton = findViewById(R.id.addStudentButton);
+        simulationButton = findViewById(R.id.simulationButton);
+        startButton = findViewById(R.id.startButton);
         studentSettingButton = findViewById(R.id.studentSettingButton);
         studentSettingCancelButton = findViewById(R.id.studentSettingCancelButton);
         studentSettingLayout = findViewById(R.id.studentSettingLayout);
@@ -149,6 +155,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity, LogActivity.class);
+                intent.putExtra("classInformation", classInformation.getText().toString());
+                startActivity(intent);
+            }
+        });
+
+        simulationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, PopupActivity.class);
                 intent.putExtra("classInformation", classInformation.getText().toString());
                 startActivity(intent);
             }

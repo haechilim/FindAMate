@@ -290,6 +290,21 @@
             android:paddingLeft="10dp">
 
             <Button
+                android:id="@+id/simulationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="시뮬레리션"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp">
+
+            <Button
+                android:id="@+id/startButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="짝 찾기"/>

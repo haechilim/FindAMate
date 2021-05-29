@@ -66,48 +66,7 @@
         android:layout_weight="2"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
 
-
-            <RadioGroup
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <RadioButton
-                    android:id="@+id/radioButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="이성"/>
-
-                <RadioButton
-                    android:id="@+id/radioButton2"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="동성" />
-
-                <RadioButton
-                    android:id="@+id/radioButton3"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="무작위" />
-            </RadioGroup>
-
-            <CheckBox
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="중복 허용"
-                android:layout_gravity="center"/>
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
