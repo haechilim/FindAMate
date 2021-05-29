@@ -24,7 +24,7 @@ public class PopupActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popup);
 
-        String data = getIntent().getStringExtra("classInformation");
+        String classInformation = getIntent().getStringExtra("classInformation");
 
         matchingMode = findViewById(R.id.matchingMode);
         checkbox = findViewById(R.id.checkbox);
@@ -42,8 +42,8 @@ public class PopupActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), WaitingActivity.class);
-                intent.putExtra("classInformation", data);
-                intent.putExtra("matchingMode", matchingMode.getCheckedRadioButtonId());
+                intent.putExtra("classInformation", classInformation);
+                intent.putExtra("matchingModeId", matchingMode.getCheckedRadioButtonId());
                 intent.putExtra("overlap", checkbox.isChecked());
                 startActivity(intent);
                 finish();

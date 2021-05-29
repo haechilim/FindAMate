@@ -21,6 +21,7 @@
             android:textStyle="bold"/>
 
         <TextView
+            android:id="@+id/classInformationOfWaiting"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="8"
@@ -31,33 +32,11 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/studentContainerOfWaiting"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="15">
 
-        <com.example.findamate.helper.CustomView
-            android:layout_width="100dp"
-            android:layout_height="100dp"/>
-
-        <com.example.findamate.helper.CustomView
-            android:layout_width="100dp"
-            android:layout_height="100dp"/>
-
-        <com.example.findamate.helper.CustomView
-            android:layout_width="100dp"
-            android:layout_height="100dp"/>
-
-        <com.example.findamate.helper.CustomView
-            android:layout_width="100dp"
-            android:layout_height="100dp"/>
-
-        <com.example.findamate.helper.CustomView
-            android:layout_width="100dp"
-            android:layout_height="100dp"/>
-
-        <com.example.findamate.helper.CustomView
-            android:layout_width="100dp"
-            android:layout_height="100dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -66,16 +45,20 @@
         android:layout_weight="2"
         android:orientation="horizontal">
 
-
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:gravity="right"
             android:paddingRight="10dp"
             android:paddingLeft="10dp">
 
             <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="취소"/>
+
+            <Button
+                android:id="@+id/startMatching"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="매칭 시작!"/>

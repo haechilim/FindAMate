@@ -13,4 +13,12 @@ public class History {
     public List<StudentsPair> getStudentsPairList() {
         return studentsPairList;
     }
+
+    public int size() {
+        return studentsPairList.size();
+    }
+
+    public StudentsPair get(int index) {
+        return studentsPairList.get(index);
+    }
 }
