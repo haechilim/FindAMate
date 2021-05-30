@@ -24,27 +24,94 @@ public class MatchingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matching);
 
-        students.add(new Student("20519", "임준형"));
-        students.add(new Student("2400", "랄로"));
-        students.add(new Student("20514", "파카"));
-        students.add(new Student("20516", "괴물쥐"));
-        students.add(new Student("20518", "로지컬"));
-        students.add(new Student("20510", "도파"));
-        students.add(new Student("24519", "감스트"));
-        students.add(new Student("2401", "진용진"));
-        students.add(new Student("2402", "전국진"));
-        students.add(new Student("2403", "논리왕 전기"));
-        students.add(new Student("2404", "미야"));
-        students.add(new Student("2405", "구루루"));
+        students.add(new Student("20519", "임준형",true));
+        students.add(new Student("2400", "랄로",true));
+        students.add(new Student("20514", "파카",true));
+        students.add(new Student("20516", "괴물쥐",false));
+        students.add(new Student("20518", "로지컬",true));
+        students.add(new Student("20510", "도파",false));
+        students.add(new Student("24519", "감스트",true));
+        students.add(new Student("2401", "진용진",true));
+        students.add(new Student("2402", "전국진",false));
+        students.add(new Student("2403", "논리왕 전기",false));
+        students.add(new Student("2404", "미야",false));
+        students.add(new Student("2405", "구루루",true));
+        students.add(new Student("1105", "우주하마",true));
+
+        students.get(0).addFavoritePartner(students.get(1));
+        students.get(0).addFavoritePartner(students.get(8));
+        students.get(0).addFavoritePartner(students.get(3));
+
+        students.get(1).addFavoritePartner(students.get(10));
+        students.get(1).addFavoritePartner(students.get(11));
+        students.get(1).addFavoritePartner(students.get(9));
+
+        students.get(2).addFavoritePartner(students.get(9));
+        students.get(2).addFavoritePartner(students.get(6));
+        students.get(2).addFavoritePartner(students.get(10));
+
+        students.get(3).addFavoritePartner(students.get(1));
+        students.get(3).addFavoritePartner(students.get(0));
+        students.get(3).addFavoritePartner(students.get(10));
+
+        students.get(4).addFavoritePartner(students.get(7));
+        students.get(4).addFavoritePartner(students.get(8));
+        students.get(4).addFavoritePartner(students.get(9));
+
+        students.get(5).addFavoritePartner(students.get(1));
+        students.get(5).addFavoritePartner(students.get(2));
+        students.get(5).addFavoritePartner(students.get(0));
+
+        students.get(6).addFavoritePartner(students.get(4));
+        students.get(6).addFavoritePartner(students.get(0));
+        students.get(6).addFavoritePartner(students.get(5));
+
+        students.get(7).addFavoritePartner(students.get(8));
+        students.get(7).addFavoritePartner(students.get(6));
+        students.get(7).addFavoritePartner(students.get(10));
+
+        students.get(8).addFavoritePartner(students.get(3));
+        students.get(8).addFavoritePartner(students.get(11));
+        students.get(8).addFavoritePartner(students.get(5));
+
+        students.get(9).addFavoritePartner(students.get(4));
+        students.get(9).addFavoritePartner(students.get(10));
+        students.get(9).addFavoritePartner(students.get(6));
+
+        students.get(10).addFavoritePartner(students.get(1));
+        students.get(10).addFavoritePartner(students.get(5));
+        students.get(10).addFavoritePartner(students.get(4));
+
+        students.get(11).addFavoritePartner(students.get(9));
+        students.get(11).addFavoritePartner(students.get(4));
+        students.get(11).addFavoritePartner(students.get(7));
+
+        students.get(12).addFavoritePartner(students.get(9));
+        students.get(12).addFavoritePartner(students.get(4));
+        students.get(12).addFavoritePartner(students.get(7));
 
         resultList = findViewById(R.id.resultList);
 
+        matchingPartner();
+
+        for(int i = 0; i < students.size(); i++) {
+            Student student = students.get(i);
+
+            for(int j = 0; j < student.getPartners().size(); j++) {
+                Student partner = student.getPartners().get(j);
+                Log.d("wtf", partner.getName() + "    " + student.getScore());
+            }
+        }
         //LogMatchingAdapter resultAdapter = new LogMatchingAdapter(this, history.getStudentsPairList());
         //resultList.setAdapter(resultAdapter);
     }
 
     private boolean matchingPartner() {
-        for (int choice = 0; choice < students.size() - 1; choice++) {
+        Student sampleStudent = students.get(0);
+
+        if(sampleStudent == null) return false;
+
+        for (int choice = 0; choice < sampleStudent.favoritePartnersSize(); choice++) {
             for (int i = 0; i < students.size(); i++) {
                 Student student = students.get(i);
                 Student partner = student.getFavoritePartner(choice);
@@ -64,8 +131,8 @@ public class MatchingActivity extends AppCompatActivity {
 
             if(student.isHasPartner()) continue;
 
-            for (int choice = 0; choice < students.size() - 1; choice++) {
-                Student partner = student.getFavoritePartner(choice);
+            for (int j = i + 1; j < students.size(); j++) {
+                Student partner = students.get(j);
 
                 if(student.isExpartner(partner)) continue;
                 if(!partner.isHasPartner()) {

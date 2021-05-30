@@ -35,12 +35,16 @@ public class Student {
         return false;
     }
 
+    public void addFavoritePartner(Student partner) {
+        favoritePartners.add(partner);
+    }
+
     public int getFavoritePartnerIndex(Student student) {
-        for(int index = 0; index < favoritePartners.size(); index++) {
-            if(favoritePartners.get(index).getId() == student.getId()) return index;
+        for(int index = 0; index < favoritePartnersSize(); index++) {
+            if(favoritePartners.get(index).getId() == student.getId()) return favoritePartnersSize() - index;
         }
 
-        return -1;
+        return 0;
     }
 
     public void addPartner(Student student) {
@@ -49,6 +53,10 @@ public class Student {
 
     public void addScore(int number) {
         score += number;
+    }
+
+    public int favoritePartnersSize() {
+        return favoritePartners.size();
     }
 
     public String getId() {
