@@ -6,6 +6,12 @@ import java.util.List;
 public class History {
     private List<StudentsPair> studentsPairList = new ArrayList<>();
 
+    public History() {}
+
+    public History(List<StudentsPair> studentsPairList) {
+        this.studentsPairList = studentsPairList;
+    }
+
     public void addStudentsPair(StudentsPair studentsPair) {
         studentsPairList.add(studentsPair);
     }

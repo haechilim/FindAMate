@@ -1,18 +1,16 @@
 package com.example.findamate.main;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.findamate.R;
 import com.example.findamate.adapter.LogMatchingAdapter;
-import com.example.findamate.domain.History;
 import com.example.findamate.domain.Student;
 import com.example.findamate.domain.StudentsPair;
 
@@ -20,16 +18,18 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class MatchingActivity extends AppCompatActivity {
-    TextView classInformationOfMatching;
-    ListView resultList;
+public class SimulationActivity extends AppCompatActivity {
+    TextView classInformationOfSimulation;
+    ListView simulationList;
+    Button closeSimulation;
+    Button startSimulation;
     List<Student> students = new ArrayList<>();
     List<StudentsPair> studentsPairList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_matching);
+        setContentView(R.layout.activity_simulation);
 
         students.add(new Student("20519", "임준형",true));
         students.add(new Student("2400", "랄로",true));
@@ -102,23 +102,30 @@ public class MatchingActivity extends AppCompatActivity {
         int matchingModeId = intent.getIntExtra("matchingModeId", -1);
         boolean overlap = intent.getBooleanExtra("overlap", false);
 
-        classInformationOfMatching = findViewById(R.id.classInformationOfMatching);
-        resultList = findViewById(R.id.resultList);
-
-        classInformationOfMatching.setText(classInformation);
-        matchingPartner(overlap);
-
-        /*for(int i = 0; i < students.size(); i++) {
-            Student student = students.get(i);
-
-            for(int j = 0; j < student.getPartners().size(); j++) {
-                Student partner = student.getPartners().get(j);
-                Log.d("wtf", student.getName() + "    " + partner.getName() + "    " + student.getScore());
-            }
-        }*/
+        classInformationOfSimulation = findViewById(R.id.classInformationOfSimulation);
+        simulationList = findViewById(R.id.simulationList);
+        closeSimulation = findViewById(R.id.closeSimulation);
+        startSimulation = findViewById(R.id.startSimulation);
 
         LogMatchingAdapter resultAdapter = new LogMatchingAdapter(this, studentsPairList);
-        resultList.setAdapter(resultAdapter);
+        simulationList.setAdapter(resultAdapter);
+
+        classInformationOfSimulation.setText(classInformation);
+
+        closeSimulation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        startSimulation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                matchingPartner(overlap);
+                resultAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private boolean matchingPartner(boolean overlap) {

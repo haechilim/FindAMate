@@ -24,7 +24,9 @@ public class PopupActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popup);
 
-        String classInformation = getIntent().getStringExtra("classInformation");
+        Intent intent = getIntent();
+        boolean isSimulation = intent.getBooleanExtra("isSimulation", true);
+        String classInformation = intent.getStringExtra("classInformation");
 
         matchingMode = findViewById(R.id.matchingMode);
         checkbox = findViewById(R.id.checkbox);
@@ -41,7 +43,7 @@ public class PopupActivity extends Activity {
         matchingConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), WaitingActivity.class);
+                Intent intent = new Intent(getBaseContext(), isSimulation ? SimulationActivity.class : WaitingActivity.class);
                 intent.putExtra("classInformation", classInformation);
                 intent.putExtra("matchingModeId", matchingMode.getCheckedRadioButtonId());
                 intent.putExtra("overlap", checkbox.isChecked());

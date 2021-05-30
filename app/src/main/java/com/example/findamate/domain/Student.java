@@ -35,6 +35,10 @@ public class Student {
         return false;
     }
 
+    public void clearHasPartner() {
+        hasPartner = false;
+    }
+
     public void addFavoritePartner(Student partner) {
         favoritePartners.add(partner);
     }

@@ -163,7 +163,10 @@ public class MainActivity extends AppCompatActivity {
         simulationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(activity, PopupActivity.class);
+                intent.putExtra("isSimulation", true);
+                intent.putExtra("classInformation", classInformation.getText().toString());
+                startActivity(intent);
             }
         });
 
@@ -171,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity, PopupActivity.class);
+                intent.putExtra("isSimulation", false);
                 intent.putExtra("classInformation", classInformation.getText().toString());
                 startActivity(intent);
             }

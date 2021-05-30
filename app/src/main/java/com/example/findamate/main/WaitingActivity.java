@@ -38,7 +38,7 @@ public class WaitingActivity extends AppCompatActivity {
         studentList.add(new Student("9999", "도파"));
         studentList.add(new Student("기모링", "괴물쥐"));
 
-        Intent intent = new Intent();
+        Intent intent = getIntent();
         String classInformation = intent.getStringExtra("classInformation");
         int matchingModeId = intent.getIntExtra("matchingModeId", -1);
         boolean overlap = intent.getBooleanExtra("overlap", false);
