@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.findamate.R;
 import com.example.findamate.domain.Student;
-import com.example.findamate.helper.CustomView;
+import com.example.findamate.helper.StudentView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,7 @@ public class WaitingActivity extends AppCompatActivity {
         for(int i = 0; i < studentList.size(); i++) {
             Student student = studentList.get(i);
 
-            CustomView studentProfile = new CustomView(this, student.getId(), student.getName());
+            StudentView studentProfile = new StudentView(this, student.getId(), student.getName());
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(300, 400);
             studentContainerOfWaiting.addView(studentProfile, layoutParams);

@@ -149,27 +149,27 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <!--<com.example.findamate.helper.CustomView
+        <!--<com.example.findamate.helper.StudentView
             android:layout_width="100dp"
             android:layout_height="100dp" />
 
-        <com.example.findamate.helper.CustomView
+        <com.example.findamate.helper.StudentView
             android:layout_width="100dp"
             android:layout_height="100dp" />
 
-        <com.example.findamate.helper.CustomView
+        <com.example.findamate.helper.StudentView
             android:layout_width="100dp"
             android:layout_height="100dp" />
 
-        <com.example.findamate.helper.CustomView
+        <com.example.findamate.helper.StudentView
             android:layout_width="100dp"
             android:layout_height="100dp" />
 
-        <com.example.findamate.helper.CustomView
+        <com.example.findamate.helper.StudentView
             android:layout_width="100dp"
             android:layout_height="100dp" />
 
-        <com.example.findamate.helper.CustomView
+        <com.example.findamate.helper.StudentView
             android:layout_width="100dp"
             android:layout_height="100dp" />-->
     </LinearLayout>

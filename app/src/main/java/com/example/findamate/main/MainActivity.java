@@ -1,14 +1,9 @@
 package com.example.findamate.main;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,52 +11,41 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.findamate.R;
-import com.example.findamate.domain.Student;
-import com.example.findamate.helper.CustomView;
-import com.example.findamate.helper.DataBaseStudentList;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.findamate.R;
+import com.example.findamate.domain.Classroom;
+import com.example.findamate.domain.School;
+import com.example.findamate.domain.Student;
+import com.example.findamate.helper.StudentView;
 
 public class MainActivity extends AppCompatActivity {
-    Activity activity = this;
-    LinearLayout studentContainer;
-    TextView classInformation;
-    ImageView classSettingButton;
-    ImageView classSettingCancelButton;
-    LinearLayout classSettingLayout;
-    EditText schoolName;
-    EditText grade;
-    EditText classNumber;
-    Button applyButton;
-    EditText studentId;
-    EditText studentName;
-    Button addStudentButton;
-    Button simulationButton;
-    Button startButton;
-    ImageView studentSettingButton;
-    ImageView studentSettingCancelButton;
-    LinearLayout studentSettingLayout;
-    Button logButton;
-
-    //임시
-    List<Student> studentList = new ArrayList<>();
+    private LinearLayout studentContainer;
+    private TextView schoolView;
+    private ImageView classSettingButton;
+    private ImageView classSettingCancelButton;
+    private LinearLayout classSettingLayout;
+    private EditText schoolName;
+    private EditText grade;
+    private EditText classNumber;
+    private Button applyButton;
+    private EditText studentId;
+    private EditText studentName;
+    private Button addStudentButton;
+    private Button simulationButton;
+    private Button startButton;
+    private ImageView studentSettingButton;
+    private ImageView studentSettingCancelButton;
+    private LinearLayout studentSettingLayout;
+    private Button logButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //임시 데이터
-        studentList.add(new Student("20519", "임준형"));
-        studentList.add(new Student("2400", "랄로"));
-        studentList.add(new Student("2401", "파카"));
-        studentList.add(new Student("9999", "도파"));
-        studentList.add(new Student("기모링", "괴물쥐"));
-
         studentContainer = findViewById(R.id.studentContainer);
-        classInformation = findViewById(R.id.classInformation);
+        schoolView = findViewById(R.id.classInformation);
         classSettingButton = findViewById(R.id.classSettingButton);
         classSettingCancelButton = findViewById(R.id.classSettingCancelButton);
         classSettingLayout = findViewById(R.id.classSettingLayout);
@@ -79,9 +63,47 @@ public class MainActivity extends AppCompatActivity {
         studentSettingLayout = findViewById(R.id.studentSettingLayout);
         logButton = findViewById(R.id.logButton);
 
-
-        loadStudents();
+        load();
+        updateUi();
         bindEvents();
+    }
+
+    private void load() {
+        loadSchool();
+        loadStudents();
+    }
+
+    private void loadSchool() {
+        Classroom.school.setName("선린고");
+        Classroom.school.setYear("2");
+        Classroom.school.setNumber("5");
+    }
+
+    private void loadStudents() {
+        //임시 데이터
+        Classroom.students.add(new Student("20519", "임준형"));
+        Classroom.students.add(new Student("2400", "랄로"));
+        Classroom.students.add(new Student("2401", "파카"));
+        Classroom.students.add(new Student("9999", "도파"));
+        Classroom.students.add(new Student("기모링", "괴물쥐"));
+    }
+
+    private void updateUi() {
+        updateSchool();
+        addStudentViews();
+    }
+
+    private void updateSchool() {
+        School school = Classroom.school;
+        schoolView.setText(String.format("%s %s학년 %s반", school.getName(), school.getYear(), school.getNumber()));
+    }
+
+    private void addStudentViews() {
+        for(int i = 0; i < Classroom.students.size(); i++) {
+            Student student = Classroom.students.get(i);
+
+            addStudentView(student.getId(), student.getName());
+        }
     }
 
     private void bindEvents() {
@@ -106,12 +128,17 @@ public class MainActivity extends AppCompatActivity {
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String editTextSchoolName = schoolName.getText().toString().trim();
-                String editTextGrade = grade.getText().toString().trim();
-                String editText = classNumber.getText().toString().trim();
+                String schoolName = MainActivity.this.schoolName.getText().toString().trim();
+                String year = MainActivity.this.grade.getText().toString().trim();
+                String number = classNumber.getText().toString().trim();
 
-                if(!editTextSchoolName.isEmpty() && !editTextGrade.isEmpty() && !editText.isEmpty()) {
-                    classInformation.setText("학급 : " + editTextSchoolName + " " + editTextGrade + "학년 " + editText + "반");
+                if(!schoolName.isEmpty() && !year.isEmpty() && !number.isEmpty()) {
+                    School school = Classroom.school;
+                    school.setName(schoolName);
+                    school.setYear(year);
+                    school.setYear(number);
+
+                    updateSchool();
                     hideKeyboard();
                 }
             }
@@ -125,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if(!id.isEmpty() && !name.isEmpty()) {
                     //DataBaseStudentList dataBaseStudentList = new DataBaseStudentList(activity);
-                    newStudentProfile(id, name);
+                    addStudentView(id, name);
                     studentId.setText("");
                     studentName.setText("");
                     hideKeyboard();
@@ -154,8 +181,8 @@ public class MainActivity extends AppCompatActivity {
         logButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, LogActivity.class);
-                intent.putExtra("classInformation", classInformation.getText().toString());
+                Intent intent = new Intent(MainActivity.this, HistoryListActivity.class);
+                intent.putExtra("classInformation", schoolView.getText().toString());
                 startActivity(intent);
             }
         });
@@ -163,9 +190,9 @@ public class MainActivity extends AppCompatActivity {
         simulationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, PopupActivity.class);
+                Intent intent = new Intent(MainActivity.this, PopupActivity.class);
                 intent.putExtra("isSimulation", true);
-                intent.putExtra("classInformation", classInformation.getText().toString());
+                intent.putExtra("classInformation", schoolView.getText().toString());
                 startActivity(intent);
             }
         });
@@ -173,34 +200,26 @@ public class MainActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, PopupActivity.class);
+                Intent intent = new Intent(MainActivity.this, PopupActivity.class);
                 intent.putExtra("isSimulation", false);
-                intent.putExtra("classInformation", classInformation.getText().toString());
+                intent.putExtra("classInformation", schoolView.getText().toString());
                 startActivity(intent);
             }
         });
     }
 
-    private void loadStudents() {
-        for(int i = 0; i < studentList.size(); i++) {
-            Student student = studentList.get(i);
-
-            newStudentProfile(student.getId(), student.getName());
-        }
-    }
-
-    private void newStudentProfile(String id, String name) {
-        CustomView studentProfile = new CustomView(this, id, name);
+    private void addStudentView(String id, String name) {
+        StudentView studentView = new StudentView(this, id, name);
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(300, 400);
-        studentContainer.addView(studentProfile, layoutParams);
+        studentContainer.addView(studentView, layoutParams);
     }
 
     private void hideKeyboard() {
-        View view = activity.getCurrentFocus();
+        View view = getCurrentFocus();
 
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }

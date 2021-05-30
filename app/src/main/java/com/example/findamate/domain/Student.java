@@ -6,8 +6,9 @@ import java.util.List;
 public class Student {
     private String id;
     private String name;
-    private boolean hasPartner;
     private boolean male;
+    private String snsId;
+    private boolean hasPartner;
     private List<Student> favoritePartners = new ArrayList<>();
     private List<Student> partners = new ArrayList<>();
     private int score = 0;

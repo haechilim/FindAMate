@@ -11,11 +11,11 @@ import androidx.annotation.Nullable;
 
 import com.example.findamate.R;
 
-public class CustomView extends LinearLayout {
+public class StudentView extends LinearLayout {
     private String id;
     private String name;
 
-    public CustomView(Context context, String id, String name) {
+    public StudentView(Context context, String id, String name) {
         super(context);
 
         this.id = id;
@@ -23,17 +23,17 @@ public class CustomView extends LinearLayout {
         init(context);
     }
 
-    public CustomView(Context context, @Nullable AttributeSet attrs) {
+    public StudentView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public CustomView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public StudentView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
-    public CustomView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public StudentView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }

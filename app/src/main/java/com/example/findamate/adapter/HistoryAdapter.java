@@ -9,18 +9,17 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.findamate.R;
-import com.example.findamate.domain.History;
-import com.example.findamate.main.LogActivity;
-import com.example.findamate.main.LogMatchingActivity;
+import com.example.findamate.domain.MatchingResult;
+import com.example.findamate.main.HistoryActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryAdapter extends BaseAdapter {
     Context context;
-    List<History> histories = new ArrayList<>();
+    List<MatchingResult> histories = new ArrayList<>();
 
-    public HistoryAdapter(Context context, List<History> histories) {
+    public HistoryAdapter(Context context, List<MatchingResult> histories) {
         this.context = context;
         this.histories = histories;
     }
@@ -52,7 +51,7 @@ public class HistoryAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, LogMatchingActivity.class);
+                Intent intent = new Intent(context, HistoryActivity.class);
                 intent.putExtra("history number", historyNumber);
                 context.startActivity(intent);
             }

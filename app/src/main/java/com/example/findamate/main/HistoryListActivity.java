@@ -2,8 +2,6 @@ package com.example.findamate.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,13 +10,11 @@ import android.widget.TextView;
 
 import com.example.findamate.R;
 import com.example.findamate.adapter.HistoryAdapter;
+import com.example.findamate.domain.MatchingResult;
 import com.example.findamate.domain.History;
-import com.example.findamate.domain.MatchingManager;
 
-import org.w3c.dom.Text;
-
-public class LogActivity extends AppCompatActivity {
-    MatchingManager matchingManager = new MatchingManager();
+public class HistoryListActivity extends AppCompatActivity {
+    History history = new History();
     TextView classInformationOfLog;
     ListView historyList;
     Button closeButton;
@@ -36,19 +32,19 @@ public class LogActivity extends AppCompatActivity {
 
         classInformationOfLog.setText(classInformation);
 
-        matchingManager.addHistory(new History());
-        matchingManager.addHistory(new History());
-        matchingManager.addHistory(new History());
-        matchingManager.addHistory(new History());
-        matchingManager.addHistory(new History());
-        matchingManager.addHistory(new History());
-        matchingManager.addHistory(new History());
-        matchingManager.addHistory(new History());
-        matchingManager.addHistory(new History());
-        matchingManager.addHistory(new History());
-        matchingManager.addHistory(new History());
+        history.addResult(new MatchingResult());
+        history.addResult(new MatchingResult());
+        history.addResult(new MatchingResult());
+        history.addResult(new MatchingResult());
+        history.addResult(new MatchingResult());
+        history.addResult(new MatchingResult());
+        history.addResult(new MatchingResult());
+        history.addResult(new MatchingResult());
+        history.addResult(new MatchingResult());
+        history.addResult(new MatchingResult());
+        history.addResult(new MatchingResult());
 
-        HistoryAdapter historyAdapter = new HistoryAdapter(this, matchingManager.getHistories());
+        HistoryAdapter historyAdapter = new HistoryAdapter(this, history.getResults());
         historyList.setAdapter(historyAdapter);
 
         closeButton.setOnClickListener(new View.OnClickListener() {

@@ -6,13 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.example.findamate.R;
-import com.example.findamate.domain.MatchingManager;
 import com.example.findamate.domain.Student;
 import com.example.findamate.domain.StudentsPair;
-import com.example.findamate.helper.CustomView;
+import com.example.findamate.helper.StudentView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +50,8 @@ public class LogMatchingAdapter extends BaseAdapter {
         LinearLayout containerOfStudent1 = view.findViewById(R.id.student1);
         LinearLayout containerOfStudent2 = view.findViewById(R.id.student2);
 
-        CustomView profileOfStudent1 = new CustomView(context, student1.getId(), student1.getName());
-        CustomView profileOfStudent2 = new CustomView(context, student2.getId(), student2.getName());
+        StudentView profileOfStudent1 = new StudentView(context, student1.getId(), student1.getName());
+        StudentView profileOfStudent2 = new StudentView(context, student2.getId(), student2.getName());
 
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 

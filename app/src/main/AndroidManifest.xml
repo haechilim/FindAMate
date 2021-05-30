@@ -13,7 +13,7 @@
         <activity
             android:name=".main.PopupActivity"
             android:theme="@android:style/Theme.Dialog" />
-        <activity android:name=".main.LogMatchingActivity" />
+        <activity android:name=".main.HistoryActivity" />
         <activity android:name=".main.WaitingActivity" />
         <activity android:name=".main.SignupActivity" />
         <activity android:name=".main.MatchingActivity">
@@ -26,7 +26,7 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".main.LoginActivity" />
-        <activity android:name=".main.LogActivity" />
+        <activity android:name=".main.HistoryListActivity" />
         <activity android:name=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

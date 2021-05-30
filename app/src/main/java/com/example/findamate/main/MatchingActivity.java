@@ -1,18 +1,14 @@
 package com.example.findamate.main;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.findamate.R;
 import com.example.findamate.adapter.LogMatchingAdapter;
-import com.example.findamate.domain.History;
 import com.example.findamate.domain.Student;
 import com.example.findamate.domain.StudentsPair;
 

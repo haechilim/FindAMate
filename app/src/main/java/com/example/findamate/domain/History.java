@@ -4,27 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class History {
-    private List<StudentsPair> studentsPairList = new ArrayList<>();
+    private List<MatchingResult> results = new ArrayList<>();
 
-    public History() {}
-
-    public History(List<StudentsPair> studentsPairList) {
-        this.studentsPairList = studentsPairList;
+    public void addResult(MatchingResult result) {
+        results.add(result);
     }
 
-    public void addStudentsPair(StudentsPair studentsPair) {
-        studentsPairList.add(studentsPair);
-    }
-
-    public List<StudentsPair> getStudentsPairList() {
-        return studentsPairList;
-    }
-
-    public int size() {
-        return studentsPairList.size();
-    }
-
-    public StudentsPair get(int index) {
-        return studentsPairList.get(index);
+    public List<MatchingResult> getResults() {
+        return results;
     }
 }
