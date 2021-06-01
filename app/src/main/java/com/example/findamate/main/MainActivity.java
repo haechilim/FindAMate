@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.findamate.R;
@@ -19,11 +20,18 @@ import com.example.findamate.domain.School;
 import com.example.findamate.domain.Student;
 import com.example.findamate.helper.StudentView;
 
+// 배경색: #323232
+// 전체만족도 : #c7c7c7
+// 전체만족도(값) : #42d2c4
 public class MainActivity extends AppCompatActivity {
     private LinearLayout studentContainer;
     private TextView schoolView;
     private ImageView classSettingButton;
-    private ImageView classSettingCancelButton;
+    private ImageView logButton;
+    private ImageView simulationButton;
+    private ImageView studentSettingButton;
+    private ImageView startButton;
+    /*private ImageView classSettingCancelButton;
     private LinearLayout classSettingLayout;
     private EditText schoolName;
     private EditText grade;
@@ -31,13 +39,10 @@ public class MainActivity extends AppCompatActivity {
     private Button applyButton;
     private EditText studentId;
     private EditText studentName;
-    private Button addStudentButton;
-    private Button simulationButton;
-    private Button startButton;
-    private ImageView studentSettingButton;
+    private ImageView addStudentButton;
     private ImageView studentSettingCancelButton;
-    private LinearLayout studentSettingLayout;
-    private Button logButton;
+    private LinearLayout studentSettingLayout;*/
+    private School school = Classroom.school;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +52,11 @@ public class MainActivity extends AppCompatActivity {
         studentContainer = findViewById(R.id.studentContainer);
         schoolView = findViewById(R.id.classInformation);
         classSettingButton = findViewById(R.id.classSettingButton);
-        classSettingCancelButton = findViewById(R.id.classSettingCancelButton);
+        studentSettingButton = findViewById(R.id.studentSettingButton);
+        logButton = findViewById(R.id.logButton);
+        simulationButton = findViewById(R.id.simulationButton);
+        startButton = findViewById(R.id.startButton);
+        /*classSettingCancelButton = findViewById(R.id.classSettingCancelButton);
         classSettingLayout = findViewById(R.id.classSettingLayout);
         schoolName = findViewById(R.id.schoolName);
         grade = findViewById(R.id.grade);
@@ -56,12 +65,8 @@ public class MainActivity extends AppCompatActivity {
         studentId = findViewById(R.id.studentId);
         studentName = findViewById(R.id.studentName);
         addStudentButton = findViewById(R.id.addStudentButton);
-        simulationButton = findViewById(R.id.simulationButton);
-        startButton = findViewById(R.id.startButton);
-        studentSettingButton = findViewById(R.id.studentSettingButton);
         studentSettingCancelButton = findViewById(R.id.studentSettingCancelButton);
-        studentSettingLayout = findViewById(R.id.studentSettingLayout);
-        logButton = findViewById(R.id.logButton);
+        studentSettingLayout = findViewById(R.id.studentSettingLayout);*/
 
         load();
         updateUi();
@@ -94,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateSchool() {
-        School school = Classroom.school;
         schoolView.setText(String.format("%s %s학년 %s반", school.getName(), school.getYear(), school.getNumber()));
     }
 
@@ -106,17 +110,34 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 0){
+            if(resultCode == 100) {
+                school.setName(data.getStringExtra("name"));
+                school.setYear(data.getStringExtra("year"));
+                school.setNumber(data.getStringExtra("number"));
+                updateSchool();
+            }
+        }
+    }
+
     private void bindEvents() {
         classSettingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showClassSettingButton(false);
-                showClassSettingCancelButton(true);
-                showClassSettingLayout(false);
+                Intent intent = new Intent(MainActivity.this, PopupClassSettingActivity.class);
+
+                intent.putExtra("name", school.getName());
+                intent.putExtra("year", school.getYear());
+                intent.putExtra("number", school.getNumber());
+                startActivityForResult(intent, 0);
             }
         });
 
-        classSettingCancelButton.setOnClickListener(new View.OnClickListener() {
+        /*classSettingCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showClassSettingButton(true);
@@ -205,13 +226,14 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("classInformation", schoolView.getText().toString());
                 startActivity(intent);
             }
-        });
+        });*/
     }
 
     private void addStudentView(String id, String name) {
         StudentView studentView = new StudentView(this, id, name);
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(300, 400);
+        //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(300, 400);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(200, 250);
         studentContainer.addView(studentView, layoutParams);
     }
 
@@ -224,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void showClassSettingButton(boolean visibility) {
+    /*private void showClassSettingButton(boolean visibility) {
         classSettingButton.setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 
@@ -246,5 +268,5 @@ public class MainActivity extends AppCompatActivity {
 
     private void showStudentSettingLayout(boolean visibility) {
         studentSettingLayout.setVisibility(visibility ? View.VISIBLE : View.GONE);
-    }
+    }*/
 }

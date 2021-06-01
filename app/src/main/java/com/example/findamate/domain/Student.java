@@ -8,6 +8,8 @@ public class Student {
     private String name;
     private boolean male;
     private String snsId;
+    private int avatarId;
+
     private boolean hasPartner;
     private List<Student> favoritePartners = new ArrayList<>();
     private List<Student> partners = new ArrayList<>();
