@@ -10,9 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.findamate.R;
-import com.example.findamate.adapter.LogMatchingAdapter;
 import com.example.findamate.domain.Student;
-import com.example.findamate.domain.StudentsPair;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -24,26 +22,26 @@ public class SimulationActivity extends AppCompatActivity {
     Button closeSimulation;
     Button startSimulation;
     List<Student> students = new ArrayList<>();
-    List<StudentsPair> studentsPairList = new ArrayList<>();
+    //List<StudentsPair> studentsPairList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simulation);
 
-        students.add(new Student("20519", "임준형",true));
-        students.add(new Student("2400", "랄로",true));
-        students.add(new Student("20514", "파카",true));
-        students.add(new Student("20516", "괴물쥐",false));
-        students.add(new Student("20518", "로지컬",true));
-        students.add(new Student("20510", "도파",false));
-        students.add(new Student("24519", "감스트",true));
-        students.add(new Student("2401", "진용진",true));
-        students.add(new Student("2402", "전국진",false));
-        students.add(new Student("2403", "논리왕 전기",false));
-        students.add(new Student("2404", "미야",false));
-        students.add(new Student("2405", "구루루",true));
-        students.add(new Student("1105", "우주하마",true));
+        students.add(new Student("20519", "임준형", true));
+        students.add(new Student("2400", "랄로", true));
+        students.add(new Student("20514", "파카", true));
+        students.add(new Student("20516", "괴물쥐", false));
+        students.add(new Student("20518", "로지컬", true));
+        students.add(new Student("20510", "도파", false));
+        students.add(new Student("24519", "감스트", true));
+        students.add(new Student("2401", "진용진", true));
+        students.add(new Student("2402", "전국진", false));
+        students.add(new Student("2403", "논리왕 전기", false));
+        students.add(new Student("2404", "미야", false));
+        students.add(new Student("2405", "구루루", true));
+        students.add(new Student("1105", "우주하마", true));
 
         students.get(0).addFavoritePartner(students.get(1));
         students.get(0).addFavoritePartner(students.get(8));
@@ -107,7 +105,7 @@ public class SimulationActivity extends AppCompatActivity {
         closeSimulation = findViewById(R.id.closeSimulation);
         startSimulation = findViewById(R.id.startSimulation);
 
-        LogMatchingAdapter resultAdapter = new LogMatchingAdapter(this, studentsPairList);
+        /*LogMatchingAdapter resultAdapter = new LogMatchingAdapter(this, studentsPairList);
         simulationList.setAdapter(resultAdapter);
 
         classInformationOfSimulation.setText(classInformation);
@@ -218,5 +216,6 @@ public class SimulationActivity extends AppCompatActivity {
         }
 
         return true;
+    }*/
     }
 }

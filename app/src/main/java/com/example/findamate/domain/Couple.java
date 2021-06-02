@@ -1,10 +1,10 @@
 package com.example.findamate.domain;
 
-public class StudentsPair {
+public class Couple {
     private Student student1;
     private Student student2;
 
-    public StudentsPair(Student student1, Student student2) {
+    public Couple(Student student1, Student student2) {
         this.student1 = student1;
         this.student2 = student2;
     }

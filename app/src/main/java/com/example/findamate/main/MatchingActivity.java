@@ -8,9 +8,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.findamate.R;
-import com.example.findamate.adapter.LogMatchingAdapter;
 import com.example.findamate.domain.Student;
-import com.example.findamate.domain.StudentsPair;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -20,7 +18,7 @@ public class MatchingActivity extends AppCompatActivity {
     TextView classInformationOfMatching;
     ListView resultList;
     List<Student> students = new ArrayList<>();
-    List<StudentsPair> studentsPairList = new ArrayList<>();
+    //List<StudentsPair> studentsPairList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +100,7 @@ public class MatchingActivity extends AppCompatActivity {
         resultList = findViewById(R.id.resultList);
 
         classInformationOfMatching.setText(classInformation);
-        matchingPartner(overlap);
+        //matchingPartner(overlap);
 
         /*for(int i = 0; i < students.size(); i++) {
             Student student = students.get(i);
@@ -113,11 +111,11 @@ public class MatchingActivity extends AppCompatActivity {
             }
         }*/
 
-        LogMatchingAdapter resultAdapter = new LogMatchingAdapter(this, studentsPairList);
-        resultList.setAdapter(resultAdapter);
+      /*  LogMatchingAdapter resultAdapter = new LogMatchingAdapter(this, studentsPairList);
+        resultList.setAdapter(resultAdapter);*/
     }
 
-    private boolean matchingPartner(boolean overlap) {
+    /*private boolean matchingPartner(boolean overlap) {
         students.sort(new Comparator<Student>() {
             @Override
             public int compare(Student o1, Student o2) {
@@ -207,5 +205,5 @@ public class MatchingActivity extends AppCompatActivity {
         }
 
         return true;
-    }
+    }*/
 }

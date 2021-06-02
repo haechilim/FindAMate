@@ -3,6 +3,7 @@ package com.example.findamate.main;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -26,11 +27,6 @@ import com.example.findamate.helper.StudentView;
 public class MainActivity extends AppCompatActivity {
     private LinearLayout studentContainer;
     private TextView schoolView;
-    private ImageView classSettingButton;
-    private ImageView logButton;
-    private ImageView simulationButton;
-    private ImageView studentSettingButton;
-    private ImageView startButton;
     /*private ImageView classSettingCancelButton;
     private LinearLayout classSettingLayout;
     private EditText schoolName;
@@ -43,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView studentSettingCancelButton;
     private LinearLayout studentSettingLayout;*/
     private School school = Classroom.school;
+    private String schoolInformation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
         studentContainer = findViewById(R.id.studentContainer);
         schoolView = findViewById(R.id.classInformation);
-        classSettingButton = findViewById(R.id.classSettingButton);
-        studentSettingButton = findViewById(R.id.studentSettingButton);
-        logButton = findViewById(R.id.logButton);
-        simulationButton = findViewById(R.id.simulationButton);
+        /*simulationButton = findViewById(R.id.simulationButton);
         startButton = findViewById(R.id.startButton);
-        /*classSettingCancelButton = findViewById(R.id.classSettingCancelButton);
+        classSettingCancelButton = findViewById(R.id.classSettingCancelButton);
         classSettingLayout = findViewById(R.id.classSettingLayout);
         schoolName = findViewById(R.id.schoolName);
         grade = findViewById(R.id.grade);
@@ -99,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateSchool() {
-        schoolView.setText(String.format("%s %s학년 %s반", school.getName(), school.getYear(), school.getNumber()));
+        schoolInformation = String.format("%s %s학년 %s반", school.getName(), school.getYear(), school.getNumber());
+        schoolView.setText(schoolInformation);
     }
 
     private void addStudentViews() {
@@ -129,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void bindEvents() {
-        classSettingButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.studentSettingButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, PopupClassSettingActivity.class);
@@ -141,11 +136,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        studentSettingButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.studentSettingButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, PopupStudentSettingActivity.class);
                 startActivityForResult(intent, 1);
+            }
+        });
+
+        findViewById(R.id.logButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LogActivity.class);
+                intent.putExtra("classInformation", schoolInformation);
+                startActivity(intent);
             }
         });
 
@@ -199,15 +203,6 @@ public class MainActivity extends AppCompatActivity {
                 showStudentSettingButton(true);
                 showStudentSettingCancelButton(false);
                 showStudentSettingLayout(true);
-            }
-        });
-
-        logButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, HistoryListActivity.class);
-                intent.putExtra("classInformation", schoolView.getText().toString());
-                startActivity(intent);
             }
         });
 

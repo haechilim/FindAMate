@@ -11,10 +11,10 @@ import android.widget.TextView;
 import com.example.findamate.R;
 
 public class PopupStudentSettingActivity extends Activity {
-    EditText studentName;
-    EditText studentSex;
-    EditText studentTalkId;
-    TextView deleteStudent;
+    private EditText studentName;
+    private EditText studentSex;
+    private EditText studentTalkId;
+    private TextView deleteStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
