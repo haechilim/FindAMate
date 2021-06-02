@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="350dp"
-    tools:context=".main.PopupClassSettingActivity">
+    tools:context=".main.PopupStudentSettingActivity">
 
     <ImageView
         android:layout_width="match_parent"
@@ -29,14 +29,14 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="학교"
+                android:layout_weight="1.5"
+                android:gravity="center_vertical"
+                android:text="성명"
                 android:textStyle="bold"
-                android:gravity="center"
                 android:textColor="#000000"/>
 
             <EditText
-                android:id="@+id/className"
+                android:id="@+id/studentName"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="6"
@@ -53,14 +53,14 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="학년"
+                android:layout_weight="1.5"
+                android:gravity="center_vertical"
+                android:text="성별"
                 android:textStyle="bold"
                 android:textColor="#000000"/>
 
             <EditText
-                android:id="@+id/classYear"
+                android:id="@+id/studentSex"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="6"
@@ -77,14 +77,14 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="학급"
-                android:gravity="center"
+                android:layout_weight="1.5"
+                android:text="카톡ID"
+                android:gravity="center_vertical"
                 android:textStyle="bold"
                 android:textColor="#000000"/>
 
             <EditText
-                android:id="@+id/classNumber"
+                android:id="@+id/studentTalkId"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="6"
@@ -101,17 +101,27 @@
             android:layout_marginTop="10dp">
 
             <TextView
-                android:id="@+id/confirmClassSetting"
+                android:id="@+id/deleteStudent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="확인"
+                android:text="삭제"
+                android:textSize="15sp"
+                android:textColor="#ff0000"
+                android:textStyle="bold"
+                android:layout_marginRight="90dp"/>
+
+            <TextView
+                android:id="@+id/addStudent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="추가"
                 android:textSize="15sp"
                 android:textColor="#000000"
                 android:textStyle="bold"
                 android:layout_marginRight="30dp"/>
 
             <TextView
-                android:id="@+id/cancelClassSetting"
+                android:id="@+id/cancelStudent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="취소"

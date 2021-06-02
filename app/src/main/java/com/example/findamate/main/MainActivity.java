@@ -114,13 +114,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 0){
-            if(resultCode == 100) {
-                school.setName(data.getStringExtra("name"));
-                school.setYear(data.getStringExtra("year"));
-                school.setNumber(data.getStringExtra("number"));
-                updateSchool();
-            }
+        if(requestCode == 0 && resultCode == 100) {
+            school.setName(data.getStringExtra("name"));
+            school.setYear(data.getStringExtra("year"));
+            school.setNumber(data.getStringExtra("number"));
+            updateSchool();
+        }
+        else if(requestCode == 1 && resultCode == 200) {
+            data.getStringExtra("name");
+            data.getStringExtra("male");
+            data.getStringExtra("talkId");
+            updateSchool();
         }
     }
 
@@ -134,6 +138,14 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("year", school.getYear());
                 intent.putExtra("number", school.getNumber());
                 startActivityForResult(intent, 0);
+            }
+        });
+
+        studentSettingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PopupStudentSettingActivity.class);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -178,15 +190,6 @@ public class MainActivity extends AppCompatActivity {
                     studentName.setText("");
                     hideKeyboard();
                 }
-            }
-        });
-
-        studentSettingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showStudentSettingButton(false);
-                showStudentSettingCancelButton(true);
-                showStudentSettingLayout(false);
             }
         });
 
