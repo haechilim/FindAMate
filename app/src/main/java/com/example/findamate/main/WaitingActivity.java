@@ -55,6 +55,7 @@ public class WaitingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), MatchingActivity.class);
                 intent.putExtra("classInformation", classInformation);
+                intent.putExtra("isSimulation", false);
                 intent.putExtra("matchingModeId", matchingModeId);
                 intent.putExtra("overlap", overlap);
                 startActivity(intent);

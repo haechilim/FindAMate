@@ -96,6 +96,7 @@ public class MatchingActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String classInformation = intent.getStringExtra("classInformation");
+        boolean isSimulation = intent.getBooleanExtra("isSimulation", false);
         int matchingModeId = intent.getIntExtra("matchingModeId", -1);
         boolean overlap = intent.getBooleanExtra("overlap", false);
 

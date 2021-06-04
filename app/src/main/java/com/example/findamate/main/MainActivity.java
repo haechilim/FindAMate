@@ -124,6 +124,15 @@ public class MainActivity extends AppCompatActivity {
         else if(requestCode == 2 && resultCode == 300) {
             Intent intent = new Intent(this, WaitingActivity.class);
             intent.putExtra("classInformation", school.getName() + " " + school.getYear() + "학년 " + school.getNumber() + "반");
+            intent.putExtra("isSimulation", false);
+            intent.putExtra("matchingModeId", data.getIntExtra("matchingModeId", 0));
+            intent.putExtra("overlap", data.getBooleanExtra("overlap", false));
+            startActivity(intent);
+        }
+        else if(requestCode == 3 && resultCode == 300) {
+            Intent intent = new Intent(this, MatchingActivity.class);
+            intent.putExtra("classInformation", school.getName() + " " + school.getYear() + "학년 " + school.getNumber() + "반");
+            intent.putExtra("isSimulation", true);
             intent.putExtra("matchingModeId", data.getIntExtra("matchingModeId", 0));
             intent.putExtra("overlap", data.getBooleanExtra("overlap", false));
             startActivity(intent);
@@ -164,6 +173,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, PopupMatchingSettingActivity.class);
                 startActivityForResult(intent, 2);
+            }
+        });
+
+        findViewById(R.id.simulationButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PopupMatchingSettingActivity.class);
+                startActivityForResult(intent, 3);
             }
         });
 
