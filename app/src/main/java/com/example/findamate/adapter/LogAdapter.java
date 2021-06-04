@@ -1,6 +1,7 @@
 package com.example.findamate.adapter;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,23 +54,24 @@ public class LogAdapter extends BaseAdapter {
 
         ((TextView) view.findViewById(R.id.date)).setText(simpleDateFormat.format(histories.get(position).getCalendar().getTimeInMillis()));
         LinearLayout container = view.findViewById(R.id.couplesContainer);
-        LinearLayout coupleContainer = new LinearLayout(context);
-        LinearLayout.LayoutParams containerParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        LinearLayout.LayoutParams coupleViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        LinearLayout couplesContainer = new LinearLayout(context);
+        LinearLayout.LayoutParams couplesContainerParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         History history = histories.get(position);
 
-        container.setOrientation(LinearLayout.HORIZONTAL);
+        container.setOrientation(LinearLayout.VERTICAL);
+        couplesContainer.setOrientation(LinearLayout.HORIZONTAL);
+        couplesContainer.setGravity(Gravity.CENTER);
 
-        for(int i = 0; i < history.getCouples().size(); i++) {
+        for(int i = 0; i < 5/*history.getCouples().size()*/; i++) {
             Couple couple = history.getCouples().get(i);
             Student student1 = couple.getStudent1();
             Student student2 = couple.getStudent2();
 
             CoupleView coupleView = new CoupleView(context, student1, student2);
-            coupleContainer.addView(coupleView, coupleViewParams);
+            couplesContainer.addView(coupleView);
         }
 
-        container.addView(coupleContainer, containerParams);
+        container.addView(couplesContainer, couplesContainerParams);
 
         return view;
     }

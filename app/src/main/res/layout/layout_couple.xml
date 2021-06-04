@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="0dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:layout_marginLeft="100dp"
-    android:layout_marginRight="100dp">
+    android:layout_marginRight="5dp"
+    android:layout_marginLeft="5dp">
 
     <com.example.findamate.helper.StudentView
         android:id="@+id/nameOfStudent1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_width="60dp"
+        android:layout_height="80dp"/>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_gravity="center"
         android:src="@drawable/vs2"
         android:layout_marginTop="10dp"
@@ -23,7 +21,6 @@
 
     <com.example.findamate.helper.StudentView
         android:id="@+id/nameOfStudent2"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_width="60dp"
+        android:layout_height="80dp"/>
 </LinearLayout>
