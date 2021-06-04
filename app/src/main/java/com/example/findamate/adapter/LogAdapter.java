@@ -54,12 +54,14 @@ public class LogAdapter extends BaseAdapter {
         ((TextView) view.findViewById(R.id.date)).setText(simpleDateFormat.format(histories.get(position).getCalendar().getTimeInMillis()));
         LinearLayout container = view.findViewById(R.id.couplesContainer);
         LinearLayout coupleContainer = new LinearLayout(context);
+        LinearLayout.LayoutParams containerParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         LinearLayout.LayoutParams coupleViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
         History history = histories.get(position);
 
-        for(int j = 0; j < history.getCouples().size(); j++) {
-            Couple couple = history.getCouples().get(j);
+        container.setOrientation(LinearLayout.HORIZONTAL);
+
+        for(int i = 0; i < history.getCouples().size(); i++) {
+            Couple couple = history.getCouples().get(i);
             Student student1 = couple.getStudent1();
             Student student2 = couple.getStudent2();
 
@@ -67,7 +69,7 @@ public class LogAdapter extends BaseAdapter {
             coupleContainer.addView(coupleView, coupleViewParams);
         }
 
-        container.addView(coupleContainer);
+        container.addView(coupleContainer, containerParams);
 
         return view;
     }

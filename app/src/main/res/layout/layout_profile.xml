@@ -30,10 +30,8 @@ android:layout_height="wrap_content">
             android:lines="1"
             android:maxLines="1"
             android:text="임준형"
-            android:textColor="#000000"
-            android:textSize="15sp"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"/>
+            android:textColor="#ffffff"
+            android:textSize="10sp"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -42,23 +40,20 @@ android:layout_height="wrap_content">
             android:layout_weight="1"
             android:ellipsize="end"
             android:gravity="center"
-            android:lines="1"
             android:maxLines="1"
             android:text="카무이!"
-            android:textSize="10sp"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"/>
+            android:textSize="7sp"
+            android:textColor="#ffffff"
+            android:lines="1"/>
     </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_gravity="end"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_weight="1"
         android:gravity="center"
         android:text="78%"
-        android:textColor="#000000"
-        android:textSize="20sp"/>
+        android:textColor="#ffffff"
+        android:textSize="10sp" />
 </FrameLayout>
