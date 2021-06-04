@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,9 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WaitingActivity extends AppCompatActivity {
-    TextView classInformationOfWaiting;
     LinearLayout studentContainerOfWaiting;
-    Button startMatching;
 
     List<Student> studentList = new ArrayList<>();
 
@@ -28,9 +27,7 @@ public class WaitingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_waiting);
 
-        classInformationOfWaiting = findViewById(R.id.classInformationOfWaiting);
         studentContainerOfWaiting = findViewById(R.id.studentContainerOfWaiting);
-        startMatching = findViewById(R.id.startMatching);
 
         studentList.add(new Student("20519", "임준형"));
         studentList.add(new Student("2400", "랄로"));
@@ -40,10 +37,10 @@ public class WaitingActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String classInformation = intent.getStringExtra("classInformation");
-        int matchingModeId = intent.getIntExtra("matchingModeId", -1);
+        int matchingModeId = intent.getIntExtra("matchingModeId", 0);
         boolean overlap = intent.getBooleanExtra("overlap", false);
 
-        classInformationOfWaiting.setText(classInformation);
+        ((TextView)findViewById(R.id.classInformationOfWaiting)).setText(classInformation);
 
         for(int i = 0; i < studentList.size(); i++) {
             Student student = studentList.get(i);
@@ -54,7 +51,7 @@ public class WaitingActivity extends AppCompatActivity {
             studentContainerOfWaiting.addView(studentProfile, layoutParams);
         }
 
-        startMatching.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.startMatching).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), MatchingActivity.class);

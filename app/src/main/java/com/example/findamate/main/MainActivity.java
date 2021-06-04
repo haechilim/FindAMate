@@ -126,18 +126,17 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("name", school.getName());
             intent.putExtra("year", school.getYear());
             intent.putExtra("number", school.getNumber());
-            intent.putExtra("radioButton", data.getStringExtra("radioButton"));
+            intent.putExtra("matchingModeId", data.getIntExtra("matchingModeId", 0));
             intent.putExtra("overlap", data.getBooleanExtra("overlap", false));
             startActivity(intent);
         }
     }
 
     private void bindEvents() {
-        findViewById(R.id.studentSettingButton).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.classSettingButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, PopupClassSettingActivity.class);
-
                 intent.putExtra("name", school.getName());
                 intent.putExtra("year", school.getYear());
                 intent.putExtra("number", school.getNumber());
@@ -165,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.startButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, PopupStudentSettingActivity.class);
+                Intent intent = new Intent(MainActivity.this, PopupMatchingSettingActivity.class);
                 startActivityForResult(intent, 2);
             }
         });
