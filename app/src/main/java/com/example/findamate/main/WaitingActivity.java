@@ -19,7 +19,6 @@ import java.util.List;
 
 public class WaitingActivity extends AppCompatActivity {
     LinearLayout studentContainerOfWaiting;
-
     List<Student> studentList = new ArrayList<>();
 
     @Override

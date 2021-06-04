@@ -2,12 +2,15 @@ package com.example.findamate.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ListView;
+import android.view.LayoutInflater;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.findamate.R;
+import com.example.findamate.domain.Couple;
 import com.example.findamate.domain.Student;
 
 import java.util.ArrayList;
@@ -16,9 +19,9 @@ import java.util.List;
 
 public class MatchingActivity extends AppCompatActivity {
     TextView classInformationOfMatching;
-    ListView resultList;
+    LinearLayout resultContainer;
     List<Student> students = new ArrayList<>();
-    //List<StudentsPair> studentsPairList = new ArrayList<>();
+    List<Couple> couples = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,10 +100,11 @@ public class MatchingActivity extends AppCompatActivity {
         boolean overlap = intent.getBooleanExtra("overlap", false);
 
         classInformationOfMatching = findViewById(R.id.classInformationOfMatching);
-        resultList = findViewById(R.id.resultList);
+        resultContainer = findViewById(R.id.resultContainer);
 
-        classInformationOfMatching.setText(classInformation);
-        //matchingPartner(overlap);
+        init(classInformation);
+
+        matchingPartner(matchingModeId, overlap);
 
         /*for(int i = 0; i < students.size(); i++) {
             Student student = students.get(i);
@@ -115,7 +119,13 @@ public class MatchingActivity extends AppCompatActivity {
         resultList.setAdapter(resultAdapter);*/
     }
 
-    /*private boolean matchingPartner(boolean overlap) {
+    private void init(String classInformation) {
+        classInformationOfMatching.setText(classInformation);
+        LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layoutInflater.inflate(R.layout.layout_list_history, resultContainer, true);
+    }
+
+    private boolean matchingPartner(int matchingModeId, boolean overlap) {
         students.sort(new Comparator<Student>() {
             @Override
             public int compare(Student o1, Student o2) {
@@ -173,7 +183,7 @@ public class MatchingActivity extends AppCompatActivity {
         student.setHasPartner(true);
         partner.setHasPartner(true);
 
-        studentsPairList.add(new StudentsPair(student, partner));
+        couples.add(new Couple(student, partner));
     }
 
     private void makePartner(Student student) {
@@ -181,7 +191,7 @@ public class MatchingActivity extends AppCompatActivity {
 
         student.setHasPartner(true);
 
-        studentsPairList.add(new StudentsPair(student, student));
+        couples.add(new Couple(student, student));
     }
 
     private void updateScore(Student student, Student partner) {
@@ -205,5 +215,5 @@ public class MatchingActivity extends AppCompatActivity {
         }
 
         return true;
-    }*/
+    }
 }

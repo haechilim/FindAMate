@@ -34,7 +34,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="이성끼리"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:checked="true"/>
 
             <RadioButton
                 android:id="@+id/radioButton2"
