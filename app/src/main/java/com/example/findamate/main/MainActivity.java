@@ -121,6 +121,15 @@ public class MainActivity extends AppCompatActivity {
             data.getStringExtra("talkId");
             updateSchool();
         }
+        else if(requestCode == 2 && resultCode == 300) {
+            Intent intent = new Intent(this, WaitingActivity.class);
+            intent.putExtra("name", school.getName());
+            intent.putExtra("year", school.getYear());
+            intent.putExtra("number", school.getNumber());
+            intent.putExtra("radioButton", data.getStringExtra("radioButton"));
+            intent.putExtra("overlap", data.getBooleanExtra("overlap", false));
+            startActivity(intent);
+        }
     }
 
     private void bindEvents() {
@@ -150,6 +159,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, LogActivity.class);
                 intent.putExtra("classInformation", schoolInformation);
                 startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.startButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PopupStudentSettingActivity.class);
+                startActivityForResult(intent, 2);
             }
         });
 

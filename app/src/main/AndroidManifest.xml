@@ -9,15 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FindAMate">
-        <activity android:name=".main.LogActivity"></activity>
+        <activity android:name=".main.PopupMatchingSettingActivity"></activity>
+        <activity android:name=".main.LogActivity" />
         <activity
             android:name=".main.PopupStudentSettingActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".main.PopupClassSettingActivity"
-            android:theme="@android:style/Theme.Dialog" />
-        <activity
-            android:name=".main.PopupActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".main.SimulationActivity" />
         <activity android:name=".main.WaitingActivity" />
