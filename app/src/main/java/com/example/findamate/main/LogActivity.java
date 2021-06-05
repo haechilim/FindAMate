@@ -38,19 +38,19 @@ public class LogActivity extends AppCompatActivity {
         List<Couple> couples = new ArrayList<>();
         List<History> histories = new ArrayList<>();
 
-        students.add(new Student("20519", "임준형",true));
-        students.add(new Student("2400", "랄로",true));
-        students.add(new Student("20514", "파카",true));
-        students.add(new Student("20516", "괴물쥐",false));
-        students.add(new Student("20518", "로지컬",true));
-        students.add(new Student("20510", "도파",false));
-        students.add(new Student("24519", "감스트",true));
-        students.add(new Student("2401", "진용진",true));
-        students.add(new Student("2402", "전국진",false));
-        students.add(new Student("2403", "논리왕 전기",false));
-        students.add(new Student("2404", "미야",false));
-        students.add(new Student("2405", "구루루",true));
-        students.add(new Student("1105", "우주하마",true));
+        students.add(new Student("20519", "임준형",true,"haechilim", R.drawable.avatar10, "카무이!"));
+        students.add(new Student("2400", "랄로",true,"haechilim", R.drawable.avatar22, "카무이!"));
+        students.add(new Student("20514", "파카",true,"haechilim", R.drawable.avatar49, "카무이!"));
+        students.add(new Student("20516", "괴물쥐",false,"haechilim", R.drawable.avatar27, "카무이!"));
+        students.add(new Student("20518", "로지컬",true,"haechilim", R.drawable.avatar44, "카무이!"));
+        students.add(new Student("20510", "도파",false,"haechilim", R.drawable.avatar30, "카무이!"));
+        students.add(new Student("24519", "감스트",true,"haechilim", R.drawable.avatar29, "카무이!"));
+        students.add(new Student("2401", "진용진",true,"haechilim", R.drawable.avatar19, "카무이!"));
+        students.add(new Student("2402", "전국진",false,"haechilim", R.drawable.avatar11, "카무이!"));
+        students.add(new Student("2403", "논리왕 전기",false,"haechilim", R.drawable.avatar33, "카무이!"));
+        students.add(new Student("2404", "미야",false,"haechilim", R.drawable.avatar32, "카무이!"));
+        students.add(new Student("2405", "구루루",true,"haechilim", R.drawable.avatar23, "카무이!"));
+        students.add(new Student("1105", "우주하마",true,"haechilim", R.drawable.avatar43, "카무이!"));
 
         couples.add(new Couple(students.get(0), students.get(1)));
         couples.add(new Couple(students.get(2), students.get(3)));

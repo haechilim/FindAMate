@@ -39,10 +39,16 @@ public class PopupClassSettingActivity extends Activity {
         findViewById(R.id.confirmClassSetting).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String name = className.getText().toString().trim();
+                String year = classYear.getText().toString().trim();
+                String number = classNumber.getText().toString().trim();
+
+                if(name.equals("") || year.equals("") || number.equals("")) return;
+
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                intent.putExtra("name", className.getText().toString().trim());
-                intent.putExtra("year", classYear.getText().toString().trim());
-                intent.putExtra("number", classNumber.getText().toString().trim());
+                intent.putExtra("name", name);
+                intent.putExtra("year", year);
+                intent.putExtra("number", number);
                 setResult(100, intent);
                 finish();
             }

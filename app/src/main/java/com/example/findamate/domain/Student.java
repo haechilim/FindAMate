@@ -1,5 +1,7 @@
 package com.example.findamate.domain;
 
+import com.example.findamate.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +10,12 @@ public class Student {
     private String name;
     private boolean male;
     private String snsId;
-    private int avatarId;
-
+    private int avatarId = R.drawable.avatar01;
+    private int score = 0;
+    private String statusMessage;
     private boolean hasPartner;
     private List<Student> favoritePartners = new ArrayList<>();
     private List<Student> partners = new ArrayList<>();
-    private int score = 0;
 
     public Student(String id, String name) {
         this.id = id;
@@ -24,6 +26,15 @@ public class Student {
         this.id = id;
         this.name = name;
         this.male = male;
+    }
+
+    public Student(String id, String name, boolean male, String snsId, int avatarId, String statusMessage) {
+        this.id = id;
+        this.name = name;
+        this.male = male;
+        this.snsId = snsId;
+        this.avatarId = avatarId;
+        this.statusMessage = statusMessage;
     }
 
     public Student getFavoritePartner(int choice) {
@@ -120,5 +131,29 @@ public class Student {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public String getSnsId() {
+        return snsId;
+    }
+
+    public void setSnsId(String snsId) {
+        this.snsId = snsId;
+    }
+
+    public int getAvatarId() {
+        return avatarId;
+    }
+
+    public void setAvatarId(int avatarId) {
+        this.avatarId = avatarId;
+    }
+
+    public String getStatusMessage() {
+        return statusMessage;
+    }
+
+    public void setStatusMessage(String statusMessage) {
+        this.statusMessage = statusMessage;
     }
 }

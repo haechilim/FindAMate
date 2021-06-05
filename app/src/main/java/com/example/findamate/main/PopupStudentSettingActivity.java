@@ -12,7 +12,7 @@ import com.example.findamate.R;
 
 public class PopupStudentSettingActivity extends Activity {
     private EditText studentName;
-    private EditText studentSex;
+    private EditText isMale;
     private EditText studentTalkId;
     private TextView deleteStudent;
 
@@ -23,7 +23,7 @@ public class PopupStudentSettingActivity extends Activity {
         setContentView(R.layout.activity_popup_student_setting);
 
         studentName = findViewById(R.id.studentName);
-        studentSex = findViewById(R.id.studentSex);
+        isMale = findViewById(R.id.studentSex);
         studentTalkId = findViewById(R.id.studentTalkId);
         deleteStudent = findViewById(R.id.deleteStudent);
 
@@ -32,22 +32,34 @@ public class PopupStudentSettingActivity extends Activity {
         boolean male = data.getBooleanExtra("male", true);
         String talkId = data.getStringExtra("talkId");
 
-        if(name == null) showDelete(false);
+        if(name == null) {
+            bindEvents(200);
+            showDelete(false);
+        }
         else {
             studentName.setText(name);
-            studentSex.setText(male ? "남" : "여");
+            isMale.setText(male ? "남" : "여");
             studentTalkId.setText(talkId);
+            bindEvents(400);
             showDelete(true);
         }
+    }
 
+    private void bindEvents(int resultCode) {
         findViewById(R.id.addStudent).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String name = studentName.getText().toString().trim();
+                String male = isMale.getText().toString().trim();
+                String talkId = studentTalkId.getText().toString().trim();
+
+                if(name.equals("") || male.equals("") || talkId.equals("")) return;
+
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                intent.putExtra("name", studentName.getText().toString().trim());
-                intent.putExtra("male", studentSex.getText().toString().trim());
-                intent.putExtra("talkId", studentTalkId.getText().toString().trim());
-                setResult(200, intent);
+                intent.putExtra("name", name);
+                intent.putExtra("male", male);
+                intent.putExtra("talkId", talkId);
+                setResult(resultCode, intent);
                 finish();
             }
         });

@@ -41,9 +41,13 @@ public class CoupleView extends LinearLayout {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater.inflate(R.layout.layout_couple, this, true);
 
-        StudentView nameOfStudent1 = findViewById(R.id.nameOfStudent1);
-        StudentView nameOfStudent2 = findViewById(R.id.nameOfStudent2);
-        ((TextView) nameOfStudent1.findViewById(R.id.name)).setText(student1.getId() + " " + student1.getName());
-        ((TextView) nameOfStudent2.findViewById(R.id.name)).setText(student2.getId() + " " + student2.getName());
+        LinearLayout container1 = findViewById(R.id.student1);
+        LinearLayout container2 = findViewById(R.id.student2);
+
+        StudentView studentView1 = new StudentView(context, student1);
+        StudentView studentView2 = new StudentView(context, student2);
+
+        container1.addView(studentView1);
+        container2.addView(studentView2);
     }
 }

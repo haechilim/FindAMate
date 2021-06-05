@@ -28,11 +28,11 @@ public class WaitingActivity extends AppCompatActivity {
 
         studentContainerOfWaiting = findViewById(R.id.studentContainerOfWaiting);
 
-        studentList.add(new Student("20519", "임준형"));
-        studentList.add(new Student("2400", "랄로"));
-        studentList.add(new Student("2401", "파카"));
-        studentList.add(new Student("9999", "도파"));
-        studentList.add(new Student("기모링", "괴물쥐"));
+        studentList.add(new Student("20519", "임준형",true,"haechilim", R.drawable.avatar10, "카무이!"));
+        studentList.add(new Student("2400", "랄로",true,"haechilim", R.drawable.avatar22, "카무이!"));
+        studentList.add(new Student("2401", "파카",true,"haechilim", R.drawable.avatar49, "카무이!"));
+        studentList.add(new Student("9999", "도파",true,"haechilim", R.drawable.avatar27, "카무이!"));
+        studentList.add(new Student("기모링", "괴물쥐",true,"haechilim", R.drawable.avatar44, "카무이!"));
 
         Intent intent = getIntent();
         String classInformation = intent.getStringExtra("classInformation");
@@ -42,9 +42,7 @@ public class WaitingActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.classInformationOfWaiting)).setText(classInformation);
 
         for(int i = 0; i < studentList.size(); i++) {
-            Student student = studentList.get(i);
-
-            StudentView studentProfile = new StudentView(this, student.getId(), student.getName());
+            StudentView studentProfile = new StudentView(this, studentList.get(i));
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(300, 400);
             studentContainerOfWaiting.addView(studentProfile, layoutParams);
