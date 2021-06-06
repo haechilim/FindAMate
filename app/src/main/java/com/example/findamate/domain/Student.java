@@ -72,8 +72,7 @@ public class Student {
 
     private void calculateHappiness() {
         int maxRound = Classroom.getMaxRound();
-
-        if(score == -1) happiness = 0;
+        if(score < 0) happiness = 0;
         else happiness = 100 - (MAX_FAVORITE_SCORE - (double)score / maxRound) * 20;
     }
 
@@ -168,7 +167,7 @@ public class Student {
     @Override
     public String toString() {
         return "Student{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", male=" + male +
                 ", phone='" + phone + '\'' +

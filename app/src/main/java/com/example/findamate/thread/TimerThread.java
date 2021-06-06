@@ -1,14 +1,12 @@
 package com.example.findamate.thread;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 
 import com.example.findamate.activity.MainActivity;
 import com.example.findamate.domain.Couple;
 import com.example.findamate.activity.MatchingActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TimerThread extends Thread {
@@ -41,5 +39,7 @@ public class TimerThread extends Thread {
                 Log.d("wtf", e.toString());
             }
         }
+
+        if(!MatchingActivity.stopThread) matchingActivity.endAnimation();
     }
 }

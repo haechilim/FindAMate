@@ -21,7 +21,7 @@ import java.util.List;
 
 public class LogAdapter extends BaseAdapter {
     private Context context;
-    private List<History> histories = new ArrayList<>();
+    private List<History> histories;
 
     public LogAdapter(Context context, List<History> histories) {
         this.context = context;
@@ -51,6 +51,7 @@ public class LogAdapter extends BaseAdapter {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 
         ((TextView) view.findViewById(R.id.date)).setText(simpleDateFormat.format(histories.get(position).getCalendar().getTimeInMillis()));
+
         LinearLayout container = view.findViewById(R.id.couplesContainer);
         LinearLayout couplesContainer = new LinearLayout(context);
         LinearLayout.LayoutParams couplesContainerParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -60,7 +61,7 @@ public class LogAdapter extends BaseAdapter {
         couplesContainer.setOrientation(LinearLayout.HORIZONTAL);
         couplesContainer.setGravity(Gravity.CENTER);
 
-        for(int i = 0; i < 5/*history.getCouples().size()*/; i++) {
+        for(int i = 0; i < history.getCouples().size(); i++) {
             Couple couple = history.getCouples().get(i);
             Student student1 = couple.getStudent1();
             Student student2 = couple.getStudent2();

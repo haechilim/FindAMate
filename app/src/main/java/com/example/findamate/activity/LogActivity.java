@@ -20,42 +20,49 @@ import java.util.Calendar;
 import java.util.List;
 
 public class LogActivity extends AppCompatActivity {
-    private TextView classInformation;
-    private ListView logList;
+    public final static int TYPE_HISTORY = 0;
+    public final static int TYPE_RESULT = 1;
+    public final static int TYPE_SIMULATION = 2;
+    private List<History> histories = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);
 
-        classInformation = findViewById(R.id.classInformationOfLog);
-        logList = findViewById(R.id.logList);
+        Intent intent = getIntent();
+        int type = intent.getIntExtra("type", TYPE_HISTORY);
 
-        Intent data = getIntent();
-        classInformation.setText(data.getStringExtra("classInformation"));
+        switch (type) {
+            case TYPE_HISTORY:
+                histories = Classroom.histories;
 
-        List<Couple> couples = new ArrayList<>();
-        List<History> histories = new ArrayList<>();
+                findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
 
-        couples.add(new Couple(Classroom.students.get(0), Classroom.students.get(1)));
-        couples.add(new Couple(Classroom.students.get(2), Classroom.students.get(3)));
-        couples.add(new Couple(Classroom.students.get(4), Classroom.students.get(5)));
-        couples.add(new Couple(Classroom.students.get(6), Classroom.students.get(7)));
-        couples.add(new Couple(Classroom.students.get(8), Classroom.students.get(9)));
-        couples.add(new Couple(Classroom.students.get(10), Classroom.students.get(11)));
-        couples.add(new Couple(Classroom.students.get(12), Classroom.students.get(12)));
+                break;
 
-        histories.add(new History(Calendar.getInstance(), couples));
-        histories.add(new History(Calendar.getInstance(), couples));
+            case TYPE_RESULT:
+                histories.add(Classroom.histories.get(Classroom.histories.size() - 1));
+
+                findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(LogActivity.this, MainActivity.class));
+                    }
+                });
+
+                break;
+
+            case TYPE_SIMULATION:
+                break;
+        }
 
         LogAdapter logAdapter = new LogAdapter(this, histories);
-        logList.setAdapter(logAdapter);
-
-        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        ((ListView)findViewById(R.id.logList)).setAdapter(logAdapter);
     }
 }

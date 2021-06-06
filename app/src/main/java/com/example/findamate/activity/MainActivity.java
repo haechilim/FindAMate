@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     private void loadStudents() {
         List<Student> students = Classroom.students;
 
+        if(!students.isEmpty()) return;
+
         students.add(new Student("임준형",true,"haechilim", 10, "카무이!"));
         students.add(new Student("랄로",true,"haechilim", 22, "카무이!"));
         students.add(new Student("파카",true,"haechilim", 49, "카무이!"));
@@ -218,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, LogActivity.class);
-                intent.putExtra("classInformation", schoolInformation);
+                intent.putExtra("type", LogActivity.TYPE_HISTORY);
                 startActivity(intent);
             }
         });

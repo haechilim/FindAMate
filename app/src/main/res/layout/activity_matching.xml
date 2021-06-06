@@ -32,7 +32,7 @@
         android:orientation="horizontal"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_marginBottom="70dp">
+        android:layout_marginBottom="100dp">
 
         <LinearLayout
             android:id="@+id/student1"
@@ -83,11 +83,12 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/skip"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_gravity="right|bottom"
         android:layout_marginBottom="250dp"
-        android:src="@drawable/skip"/>
+        android:src="@drawable/skip" />
 
     <LinearLayout
         android:layout_width="match_parent"

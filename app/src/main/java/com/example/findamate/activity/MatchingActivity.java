@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
@@ -25,7 +27,10 @@ import java.util.Comparator;
 import java.util.List;
 
 public class MatchingActivity extends AppCompatActivity {
+    public static boolean stopThread;
+
     private static Context context;
+    private static TimerThread timer;
     private static List<Couple> knownCouples = new ArrayList<>();
     private static LinearLayout student1;
     private static LinearLayout student2;
@@ -46,6 +51,7 @@ public class MatchingActivity extends AppCompatActivity {
         int mode = intent.getIntExtra("mode", 1);
         boolean duplicated = intent.getBooleanExtra("duplicated", false);
 
+        stopThread = false;
         context = this;
         container = new LinearLayout(this);
         container.setOrientation(LinearLayout.HORIZONTAL);
@@ -56,29 +62,25 @@ public class MatchingActivity extends AppCompatActivity {
         student1 = findViewById(R.id.student1);
         student2 = findViewById(R.id.student2);
 
-        init(Classroom.getClassInfo());
+        findViewById(R.id.skip).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopThread = true;
+                endAnimation();
+            }
+        });
 
+        init(Classroom.getClassInfo());
         matchingPartner(mode, duplicated);
         updateHistory();
 
-        /*for(int i = 0; i < students.size(); i++) {
-            Student student = students.get(i);
-
-            for(int j = 0; j < student.getPartners().size(); j++) {
-                Student partner = student.getPartners().get(j);
-                Log.d("wtf", student.getName() + "    " + partner.getName() + "    " + student.getScore());
-            }
-        }*/
-
-      /*  LogMatchingAdapter resultAdapter = new LogMatchingAdapter(this, studentsPairList);
-        resultList.setAdapter(resultAdapter);*/
-
-        TimerThread timer = new TimerThread(this, couples);
+        timer = new TimerThread(this, couples);
         timer.start();
     }
 
     private void init(String classInformation) {
         this.classInformation.setText(classInformation);
+        knownCouples = new ArrayList<>();
     }
 
     private void updateHistory() {
@@ -91,7 +93,8 @@ public class MatchingActivity extends AppCompatActivity {
         sort();
         clearPartner();
         bestMatching(mode, duplicated);
-        secondBestMatching(mode, duplicated);
+        secondBestMatching(mode, duplicated, true);
+        secondBestMatching(mode, duplicated, false);
 
         return everyoneHasPartner();
     }
@@ -100,7 +103,7 @@ public class MatchingActivity extends AppCompatActivity {
         students.sort(new Comparator<Student>() {
             @Override
             public int compare(Student o1, Student o2) {
-                return o2.getScore() - o1.getScore();
+                return o1.getScore() - o2.getScore();
             }
         });
     }
@@ -127,7 +130,7 @@ public class MatchingActivity extends AppCompatActivity {
         }
     }
 
-    private void secondBestMatching(int mode, boolean duplicated) {
+    private void secondBestMatching(int mode, boolean duplicated, boolean checkSuitable) {
         for (int i = 0; i < students.size(); i++) {
             Student student = students.get(i);
 
@@ -136,7 +139,8 @@ public class MatchingActivity extends AppCompatActivity {
             for (int choice = i + 1; choice < students.size(); choice++) {
                 Student partner = students.get(choice);
 
-                if(!isSuitablePartner(student, partner, mode, duplicated)) continue;
+                if ((student.isHasPartner() || partner.isHasPartner())) continue;
+                if(checkSuitable && !isSuitablePartner(student, partner, mode, duplicated)) continue;
 
                 makePartner(student, partner);
                 updateScore(student, partner);
@@ -146,7 +150,7 @@ public class MatchingActivity extends AppCompatActivity {
     }
 
     private boolean isSuitablePartner(Student student, Student partner, int mode, boolean duplicated) {
-        if (!duplicated && (student.isHasPartner() || partner.isHasPartner())) return false;
+        if ((student.isHasPartner() || partner.isHasPartner())) return false;
         if (!duplicated && student.isExpartner(partner)) return false;
         if (mode == PopupMatchingSettingActivity.MATCHING_MODE_DIFF && student.isMale() == partner.isMale()) return false;
         else if (mode == PopupMatchingSettingActivity.MATCHING_MODE_SAME && student.isMale() != partner.isMale()) return false;
@@ -210,6 +214,12 @@ public class MatchingActivity extends AppCompatActivity {
         }
 
         exCoupleView = new CoupleView(context, couple.getStudent1(), couple.getStudent2());
+    }
+
+    public static void endAnimation() {
+        Intent intent = new Intent(context, LogActivity.class);
+        intent.putExtra("type", LogActivity.TYPE_RESULT);
+        context.startActivity(intent);
     }
 
     private void resetViews() {
