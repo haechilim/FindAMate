@@ -1,4 +1,4 @@
-package com.example.findamate.main;
+package com.example.findamate.activity;
 
 import android.app.Activity;
 import android.content.Intent;

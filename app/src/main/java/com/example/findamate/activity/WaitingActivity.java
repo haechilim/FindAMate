@@ -1,18 +1,16 @@
-package com.example.findamate.main;
+package com.example.findamate.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.findamate.R;
 import com.example.findamate.domain.Student;
-import com.example.findamate.helper.StudentView;
+import com.example.findamate.manager.StudentViewManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +26,11 @@ public class WaitingActivity extends AppCompatActivity {
 
         studentContainerOfWaiting = findViewById(R.id.studentContainerOfWaiting);
 
-        studentList.add(new Student("20519", "임준형",true,"haechilim", R.drawable.avatar10, "카무이!"));
-        studentList.add(new Student("2400", "랄로",true,"haechilim", R.drawable.avatar22, "카무이!"));
-        studentList.add(new Student("2401", "파카",true,"haechilim", R.drawable.avatar49, "카무이!"));
-        studentList.add(new Student("9999", "도파",true,"haechilim", R.drawable.avatar27, "카무이!"));
-        studentList.add(new Student("기모링", "괴물쥐",true,"haechilim", R.drawable.avatar44, "카무이!"));
+        studentList.add(new Student("20519", "임준형",true,"haechilim", 10, "카무이!"));
+        studentList.add(new Student("2400", "랄로",true,"haechilim", 22, "카무이!"));
+        studentList.add(new Student("2401", "파카",true,"haechilim", 49, "카무이!"));
+        studentList.add(new Student("9999", "도파",true,"haechilim", 27, "카무이!"));
+        studentList.add(new Student("기모링", "괴물쥐",true,"haechilim", 44, "카무이!"));
 
         Intent intent = getIntent();
         String classInformation = intent.getStringExtra("classInformation");
@@ -42,10 +40,7 @@ public class WaitingActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.classInformationOfWaiting)).setText(classInformation);
 
         for(int i = 0; i < studentList.size(); i++) {
-            StudentView studentProfile = new StudentView(this, studentList.get(i));
-
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(300, 400);
-            studentContainerOfWaiting.addView(studentProfile, layoutParams);
+            studentContainerOfWaiting.addView(StudentViewManager.getView(this, studentList.get(i), false));
         }
 
         findViewById(R.id.startMatching).setOnClickListener(new View.OnClickListener() {
@@ -57,6 +52,13 @@ public class WaitingActivity extends AppCompatActivity {
                 intent.putExtra("matchingModeId", matchingModeId);
                 intent.putExtra("overlap", overlap);
                 startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

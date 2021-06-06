@@ -1,47 +1,50 @@
-package com.example.findamate.main;
+package com.example.findamate.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ListView;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.findamate.R;
+import com.example.findamate.domain.Couple;
 import com.example.findamate.domain.Student;
+import com.example.findamate.view.CoupleView;
+import com.example.findamate.view.StudentView;
+import com.example.findamate.thread.TimerThread;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class SimulationActivity extends AppCompatActivity {
-    TextView classInformationOfSimulation;
-    ListView simulationList;
-    Button closeSimulation;
-    Button startSimulation;
-    List<Student> students = new ArrayList<>();
-    //List<StudentsPair> studentsPairList = new ArrayList<>();
+public class MatchingActivity extends AppCompatActivity {
+    private TextView classInformationOfMatching;
+    private HorizontalScrollView resultContainer;
+    private List<Couple> couples = new ArrayList<>();
+    private LinearLayout student1;
+    private LinearLayout student2;
+    private List<Student> students = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_simulation);
+        setContentView(R.layout.activity_matching);
 
-        students.add(new Student("20519", "임준형", true));
-        students.add(new Student("2400", "랄로", true));
-        students.add(new Student("20514", "파카", true));
-        students.add(new Student("20516", "괴물쥐", false));
-        students.add(new Student("20518", "로지컬", true));
-        students.add(new Student("20510", "도파", false));
-        students.add(new Student("24519", "감스트", true));
-        students.add(new Student("2401", "진용진", true));
-        students.add(new Student("2402", "전국진", false));
-        students.add(new Student("2403", "논리왕 전기", false));
-        students.add(new Student("2404", "미야", false));
-        students.add(new Student("2405", "구루루", true));
-        students.add(new Student("1105", "우주하마", true));
+        students.add(new Student("20519", "임준형",true,"haechilim", R.drawable.avatar10, "카무이!"));
+        students.add(new Student("2400", "랄로",true,"haechilim", R.drawable.avatar22, "카무이!"));
+        students.add(new Student("20514", "파카",true,"haechilim", R.drawable.avatar49, "카무이!"));
+        students.add(new Student("20516", "괴물쥐",false,"haechilim", R.drawable.avatar27, "카무이!"));
+        students.add(new Student("20518", "로지컬",true,"haechilim", R.drawable.avatar44, "카무이!"));
+        students.add(new Student("20510", "도파",false,"haechilim", R.drawable.avatar30, "카무이!"));
+        students.add(new Student("24519", "감스트",true,"haechilim", R.drawable.avatar29, "카무이!"));
+        students.add(new Student("2401", "진용진",true,"haechilim", R.drawable.avatar19, "카무이!"));
+        students.add(new Student("2402", "전국진",false,"haechilim", R.drawable.avatar11, "카무이!"));
+        students.add(new Student("2403", "논리왕 전기",false,"haechilim", R.drawable.avatar33, "카무이!"));
+        students.add(new Student("2404", "미야",false,"haechilim", R.drawable.avatar32, "카무이!"));
+        students.add(new Student("2405", "구루루",true,"haechilim", R.drawable.avatar23, "카무이!"));
+        students.add(new Student("1105", "우주하마",true,"haechilim", R.drawable.avatar43, "카무이!"));
 
         students.get(0).addFavoritePartner(students.get(1));
         students.get(0).addFavoritePartner(students.get(8));
@@ -97,36 +100,40 @@ public class SimulationActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String classInformation = intent.getStringExtra("classInformation");
+        boolean isSimulation = intent.getBooleanExtra("isSimulation", false);
         int matchingModeId = intent.getIntExtra("matchingModeId", -1);
         boolean overlap = intent.getBooleanExtra("overlap", false);
 
-        classInformationOfSimulation = findViewById(R.id.classInformationOfSimulation);
-        simulationList = findViewById(R.id.simulationList);
-        closeSimulation = findViewById(R.id.closeSimulation);
-        startSimulation = findViewById(R.id.startSimulation);
+        classInformationOfMatching = findViewById(R.id.classInformationOfMatching);
+        resultContainer = findViewById(R.id.resultContainer);
+        student1 = findViewById(R.id.student1);
+        student2 = findViewById(R.id.student2);
 
-        /*LogMatchingAdapter resultAdapter = new LogMatchingAdapter(this, studentsPairList);
-        simulationList.setAdapter(resultAdapter);
+        init(classInformation);
 
-        classInformationOfSimulation.setText(classInformation);
+        matchingPartner(matchingModeId, overlap);
 
-        closeSimulation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
+        /*for(int i = 0; i < students.size(); i++) {
+            Student student = students.get(i);
+
+            for(int j = 0; j < student.getPartners().size(); j++) {
+                Student partner = student.getPartners().get(j);
+                Log.d("wtf", student.getName() + "    " + partner.getName() + "    " + student.getScore());
             }
-        });
+        }*/
 
-        startSimulation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                matchingPartner(overlap);
-                resultAdapter.notifyDataSetChanged();
-            }
-        });
+      /*  LogMatchingAdapter resultAdapter = new LogMatchingAdapter(this, studentsPairList);
+        resultList.setAdapter(resultAdapter);*/
+
+        TimerThread timer = new TimerThread(couples);
+        timer.start();
     }
 
-    private boolean matchingPartner(boolean overlap) {
+    private void init(String classInformation) {
+        classInformationOfMatching.setText(classInformation);
+    }
+
+    private boolean matchingPartner(int matchingModeId, boolean overlap) {
         students.sort(new Comparator<Student>() {
             @Override
             public int compare(Student o1, Student o2) {
@@ -184,7 +191,7 @@ public class SimulationActivity extends AppCompatActivity {
         student.setHasPartner(true);
         partner.setHasPartner(true);
 
-        studentsPairList.add(new StudentsPair(student, partner));
+        couples.add(new Couple(student, partner));
     }
 
     private void makePartner(Student student) {
@@ -192,7 +199,7 @@ public class SimulationActivity extends AppCompatActivity {
 
         student.setHasPartner(true);
 
-        studentsPairList.add(new StudentsPair(student, student));
+        couples.add(new Couple(student, student));
     }
 
     private void updateScore(Student student, Student partner) {
@@ -216,6 +223,15 @@ public class SimulationActivity extends AppCompatActivity {
         }
 
         return true;
-    }*/
+    }
+
+    public boolean animation(Couple couple) {
+        CoupleView coupleView = new CoupleView(this, couple.getStudent1(), couple.getStudent2());
+
+        student1.addView(new StudentView(this, couple.getStudent1()));
+        student2.addView(new StudentView(this, couple.getStudent2()));
+        resultContainer.addView(coupleView);
+
+        return true;
     }
 }

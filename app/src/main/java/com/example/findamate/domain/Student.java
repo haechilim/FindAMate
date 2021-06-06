@@ -1,17 +1,18 @@
 package com.example.findamate.domain;
 
-import com.example.findamate.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Student {
+    private final static int MAX_FAVORITE_SCORE = 3; // 최대 몇지망까지 입력받을지의 값
+
     private String id;
     private String name;
     private boolean male;
     private String snsId;
-    private int avatarId = R.drawable.avatar01;
+    private int avatarId;
     private int score = 0;
+    private double happiness = 0.0;
     private String statusMessage;
     private boolean hasPartner;
     private List<Student> favoritePartners = new ArrayList<>();
@@ -77,6 +78,12 @@ public class Student {
         return favoritePartners.size();
     }
 
+    private void calculateHappiness() {
+        int maxRound = Classroom.getMaxRound();
+        double average = maxRound == 0 ? 0 : (double)score / maxRound;
+        happiness = average / MAX_FAVORITE_SCORE;
+    }
+
     public String getId() {
         return id;
     }
@@ -131,6 +138,16 @@ public class Student {
 
     public void setScore(int score) {
         this.score = score;
+
+        calculateHappiness();
+    }
+
+    public double getHappiness() {
+        return happiness;
+    }
+
+    public void setHappiness(double happiness) {
+        this.happiness = happiness;
     }
 
     public String getSnsId() {
@@ -155,5 +172,22 @@ public class Student {
 
     public void setStatusMessage(String statusMessage) {
         this.statusMessage = statusMessage;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", male=" + male +
+                ", snsId='" + snsId + '\'' +
+                ", avatarId=" + avatarId +
+                ", score=" + score +
+                ", happiness=" + happiness +
+                ", statusMessage='" + statusMessage + '\'' +
+                ", hasPartner=" + hasPartner +
+                ", favoritePartners=" + favoritePartners +
+                ", partners=" + partners +
+                '}';
     }
 }

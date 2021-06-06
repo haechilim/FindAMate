@@ -1,4 +1,4 @@
-package com.example.findamate.main;
+package com.example.findamate.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 

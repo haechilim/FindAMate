@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="350dp"
-    tools:context=".main.PopupClassSettingActivity">
+    tools:context=".activity.PopupClassSettingActivity">
 
     <ImageView
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                 android:inputType="textPersonName"
                 android:gravity="center"
                 android:textSize="13sp"
-                android:maxLength="20"/>
+                android:maxLength="10"/>
         </LinearLayout>
 
         <LinearLayout

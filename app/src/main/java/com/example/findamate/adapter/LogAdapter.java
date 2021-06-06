@@ -13,12 +13,10 @@ import com.example.findamate.R;
 import com.example.findamate.domain.Couple;
 import com.example.findamate.domain.History;
 import com.example.findamate.domain.Student;
-import com.example.findamate.helper.CoupleView;
-import com.example.findamate.helper.StudentView;
+import com.example.findamate.view.CoupleView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class LogAdapter extends BaseAdapter {

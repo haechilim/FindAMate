@@ -1,6 +1,4 @@
-package com.example.findamate.main;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.findamate.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.findamate.R;

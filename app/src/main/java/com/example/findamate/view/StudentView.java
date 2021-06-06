@@ -1,10 +1,8 @@
-package com.example.findamate.helper;
+package com.example.findamate.view;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,15 +11,15 @@ import androidx.annotation.Nullable;
 
 import com.example.findamate.R;
 import com.example.findamate.domain.Student;
-import com.example.findamate.main.MainActivity;
-import com.example.findamate.main.PopupStudentSettingActivity;
 
 public class StudentView extends LinearLayout {
     private Student student;
+    private Context context;
 
     public StudentView(Context context, Student student) {
         super(context);
 
+        this.context = context;
         this.student = student;
         init(context);
     }
@@ -50,9 +48,13 @@ public class StudentView extends LinearLayout {
         TextView statusMessage = findViewById(R.id.statusMessage);
         TextView score = findViewById(R.id.score);
 
-        avatar.setImageResource(student.getAvatarId());
+        avatar.setImageResource(toAvatarResourceId(student.getAvatarId()));
         nameView.setText(student.getName());
         statusMessage.setText(student.getStatusMessage());
-        score.setText(student.getScore() + "%");
+        score.setText(Math.round(student.getHappiness()) + "%");
+    }
+
+    private int toAvatarResourceId(int id) {
+        return context.getResources().getIdentifier(String.format("avatar%02d", id), "drawable", context.getPackageName());
     }
 }

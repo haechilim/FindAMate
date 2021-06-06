@@ -1,4 +1,4 @@
-package com.example.findamate.main;
+package com.example.findamate.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,7 +15,7 @@ import com.example.findamate.R;
 import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.School;
 import com.example.findamate.domain.Student;
-import com.example.findamate.helper.StudentView;
+import com.example.findamate.manager.StudentViewManager;
 
 // 배경색: #323232
 // 전체만족도 : #c7c7c7
@@ -53,11 +53,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadStudents() {
         //임시 데이터
-        Classroom.students.add(new Student("20519", "임준형", true, "haechilim", R.drawable.avatar04, "카무이!"));
-        Classroom.students.add(new Student("2400", "랄로", false, "haechilim", R.drawable.avatar51, "카무이!"));
-        Classroom.students.add(new Student("2401", "파카", true, "haechilim", R.drawable.avatar30, "카무이!"));
-        Classroom.students.add(new Student("9999", "도파", false, "haechilim", R.drawable.avatar22, "카무이!"));
-        Classroom.students.add(new Student("2222", "괴물쥐", false, "haechilim", R.drawable.avatar27, "카무이!"));
+        Classroom.students.add(new Student("20519", "임준형", true, "haechilim", 44, "카무이!"));
+        Classroom.students.add(new Student("2400", "랄로", false, "haechilim", 51, "카무이!"));
+        Classroom.students.add(new Student("2401", "파카", true, "haechilim", 30, "카무이!"));
+        Classroom.students.add(new Student("9999", "도파", false, "haechilim", 22, "카무이!"));
+        Classroom.students.add(new Student("2222", "괴물쥐", false, "haechilim", 27, "카무이!"));
     }
 
     private void updateUi() {
@@ -105,11 +105,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
             else if(resultCode == 400) {
-                String a = data.getStringExtra("male");
                 targetStudent.setName(data.getStringExtra("name"));
                 targetStudent.setMale(data.getStringExtra("male").equals("남"));
                 targetStudent.setSnsId(data.getStringExtra("talkId"));
                 updateUi();
+            }
+            else if(resultCode == 500) {
+                for(int i = 0; i < Classroom.students.size(); i++) {
+                    if(Classroom.students.get(i) == targetStudent) {
+                        Classroom.students.remove(i);
+                        updateUi();
+                        break;
+                    }
+                }
             }
         }
         else if(requestCode == 3 && resultCode == 300) {
@@ -169,10 +177,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addStudentView(Student student) {
-        StudentView studentView = new StudentView(this, student);
-
-        //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(300, 400);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(200, 250);
+        View studentView = StudentViewManager.getView(this, student, false);
 
         studentView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -189,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        studentContainer.addView(studentView, layoutParams);
+        studentContainer.addView(studentView);
     }
 
     private void removeStudentView() {

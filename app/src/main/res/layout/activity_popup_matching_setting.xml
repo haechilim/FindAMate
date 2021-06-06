@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="350dp"
-    tools:context=".main.PopupMatchingSettingActivity">
+    tools:context=".activity.PopupMatchingSettingActivity">
 
     <ImageView
         android:layout_width="match_parent"

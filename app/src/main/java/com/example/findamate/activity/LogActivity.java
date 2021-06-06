@@ -1,4 +1,4 @@
-package com.example.findamate.main;
+package com.example.findamate.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,7 +16,6 @@ import com.example.findamate.domain.Student;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class LogActivity extends AppCompatActivity {
