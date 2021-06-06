@@ -17,7 +17,7 @@
         android:padding="30dp"/>
 
     <LinearLayout
-        android:id="@+id/studentContainerOfWaiting"
+        android:id="@+id/workspace"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -47,7 +47,7 @@
             android:layout_weight="1"/>
 
         <TextView
-            android:id="@+id/classInformationOfWaiting"
+            android:id="@+id/classInfo"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="길음중학교 2학년 3반"

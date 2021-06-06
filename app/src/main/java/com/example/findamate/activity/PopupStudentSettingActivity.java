@@ -6,75 +6,78 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.example.findamate.R;
+import com.example.findamate.domain.Classroom;
+import com.example.findamate.domain.Student;
 
 public class PopupStudentSettingActivity extends Activity {
-    private EditText studentName;
-    private RadioGroup gender;
-    private EditText studentTalkId;
-    private TextView deleteStudent;
+    public static final int RESULT_ADD = 100;
+    public static final int RESULT_MODIFY = 200;
+    public static final int RESULT_REMOVE = 300;
+
+    private Student student;
+    private int resultCode;
+    private EditText editTextName;
+    private EditText editTextPhone;
+    private RadioGroup radioGroupGender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_popup_student_setting);
 
-        studentName = findViewById(R.id.studentName);
-        gender = findViewById(R.id.gender);
-        studentTalkId = findViewById(R.id.studentTalkId);
-        deleteStudent = findViewById(R.id.deleteStudent);
+        editTextName = findViewById(R.id.name);
+        editTextPhone = findViewById(R.id.phone);
+        radioGroupGender = findViewById(R.id.gender);
 
-        Intent data = getIntent();
-        String name = data.getStringExtra("name");
-        boolean male = data.getBooleanExtra("male", true);
-        String talkId = data.getStringExtra("talkId");
+        Intent intent = getIntent();
+        student = Classroom.findStudentById(intent.getIntExtra("id", -1));
 
-        if(name == null) {
-            bindEvents(200);
-            showDelete(false);
-        }
+        if(student == null) resultCode = RESULT_ADD;
         else {
-            studentName.setText(name);
-            //gender.setText(male ? "남" : "여");
-            studentTalkId.setText(talkId);
-            bindEvents(400);
-            showDelete(true);
+            resultCode = RESULT_MODIFY;
+
+            editTextName.setText(student.getName());
+            editTextPhone.setText(student.getPhone());
+            radioGroupGender.check(student.isMale() ? R.id.male : R.id.female);
         }
+
+        showDeleteButton(resultCode == RESULT_MODIFY);
+        bindEvents(resultCode);
     }
 
     private void bindEvents(int resultCode) {
-        findViewById(R.id.deleteStudent).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(500);
+                setResult(RESULT_REMOVE);
                 finish();
             }
         });
 
-        findViewById(R.id.addStudent).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = studentName.getText().toString().trim();
-                //String male = gender.getText().toString().trim();
-                String talkId = studentTalkId.getText().toString().trim();
+                String name = editTextName.getText().toString().trim();
+                String phoneNumber = editTextPhone.getText().toString().trim();
+                int genderId = radioGroupGender.getCheckedRadioButtonId();
 
-                //if(name.equals("") || male.equals("") || talkId.equals("")) return;
+                if(name.isEmpty() || phoneNumber.isEmpty() || genderId < 0) return;
 
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                Intent intent = new Intent();
                 intent.putExtra("name", name);
-                //intent.putExtra("male", male);
-                intent.putExtra("talkId", talkId);
+                intent.putExtra("male", genderId == R.id.male);
+                intent.putExtra("phone", phoneNumber);
                 setResult(resultCode, intent);
                 finish();
             }
         });
 
-        findViewById(R.id.cancelStudent).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -82,7 +85,7 @@ public class PopupStudentSettingActivity extends Activity {
         });
     }
 
-    private void showDelete(boolean visibility) {
-        deleteStudent.setVisibility(visibility ? View.VISIBLE : View.INVISIBLE);
+    private void showDeleteButton(boolean visibility) {
+        findViewById(R.id.delete).setVisibility(visibility ? View.VISIBLE : View.INVISIBLE);
     }
 }

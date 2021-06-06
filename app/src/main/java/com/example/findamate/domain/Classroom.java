@@ -8,8 +8,24 @@ public class Classroom {
     public static List<Student> students = new ArrayList<>();
     public static List<History> histories = new ArrayList<>();
 
+    public static String getClassInfo() {
+        return String.format("%s %s학년 %s반", school.getName(), school.getYear(), school.getNumber());
+    }
+
+    public static Student findStudentById(int id) {
+        if(id == -1) return null;
+
+        for(int i = 0; i < students.size(); i++) {
+            Student student = students.get(i);
+
+            if(student.getId() == id) return student;
+        }
+
+        return null;
+    }
+
     public static int getMaxRound() {
-        return histories.size();
+        return histories.size() + 1;
     }
 
     @Override

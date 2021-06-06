@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Student {
-    private final static int MAX_FAVORITE_SCORE = 3; // 최대 몇지망까지 입력받을지의 값
+    public final static int MAX_FAVORITE_SCORE = 3; // 최대 몇지망까지 입력받을지의 값
 
-    private String id;
+    private int id;
     private String name;
     private boolean male;
-    private String snsId;
+    private String phone;
     private int avatarId;
     private int score = 0;
     private double happiness = 0.0;
@@ -17,23 +17,13 @@ public class Student {
     private boolean hasPartner;
     private List<Student> favoritePartners = new ArrayList<>();
     private List<Student> partners = new ArrayList<>();
+    private static int sequence = 0;
 
-    public Student(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Student(String id, String name, boolean male) {
-        this.id = id;
+    public Student(String name, boolean male, String phone, int avatarId, String statusMessage) {
+        this.id = sequence++;
         this.name = name;
         this.male = male;
-    }
-
-    public Student(String id, String name, boolean male, String snsId, int avatarId, String statusMessage) {
-        this.id = id;
-        this.name = name;
-        this.male = male;
-        this.snsId = snsId;
+        this.phone = phone;
         this.avatarId = avatarId;
         this.statusMessage = statusMessage;
     }
@@ -72,6 +62,8 @@ public class Student {
 
     public void addScore(int number) {
         score += number;
+
+        calculateHappiness();
     }
 
     public int favoritePartnersSize() {
@@ -80,15 +72,16 @@ public class Student {
 
     private void calculateHappiness() {
         int maxRound = Classroom.getMaxRound();
-        double average = maxRound == 0 ? 0 : (double)score / maxRound;
-        happiness = average / MAX_FAVORITE_SCORE;
+
+        if(score == -1) happiness = 0;
+        else happiness = 100 - (MAX_FAVORITE_SCORE - (double)score / maxRound) * 20;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -138,8 +131,6 @@ public class Student {
 
     public void setScore(int score) {
         this.score = score;
-
-        calculateHappiness();
     }
 
     public double getHappiness() {
@@ -150,12 +141,12 @@ public class Student {
         this.happiness = happiness;
     }
 
-    public String getSnsId() {
-        return snsId;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setSnsId(String snsId) {
-        this.snsId = snsId;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public int getAvatarId() {
@@ -180,7 +171,7 @@ public class Student {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", male=" + male +
-                ", snsId='" + snsId + '\'' +
+                ", phone='" + phone + '\'' +
                 ", avatarId=" + avatarId +
                 ", score=" + score +
                 ", happiness=" + happiness +

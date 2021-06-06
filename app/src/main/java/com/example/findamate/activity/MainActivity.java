@@ -13,17 +13,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.findamate.R;
 import com.example.findamate.domain.Classroom;
-import com.example.findamate.domain.School;
 import com.example.findamate.domain.Student;
 import com.example.findamate.manager.StudentViewManager;
 
-// 배경색: #323232
-// 전체만족도 : #c7c7c7
-// 전체만족도(값) : #42d2c4
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
+    private static final int POPUP_CLASS = 0;
+    private static final int POPUP_STUDENT = 1;
+    private static final int POPUP_MATCHING = 2;
+    private static final int POPUP_SIMULATION = 3;
+
     private LinearLayout studentContainer;
     private TextView schoolView;
-    private School school = Classroom.school;
     private String schoolInformation;
     private Student targetStudent;
 
@@ -52,12 +54,73 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadStudents() {
-        //임시 데이터
-        Classroom.students.add(new Student("20519", "임준형", true, "haechilim", 44, "카무이!"));
-        Classroom.students.add(new Student("2400", "랄로", false, "haechilim", 51, "카무이!"));
-        Classroom.students.add(new Student("2401", "파카", true, "haechilim", 30, "카무이!"));
-        Classroom.students.add(new Student("9999", "도파", false, "haechilim", 22, "카무이!"));
-        Classroom.students.add(new Student("2222", "괴물쥐", false, "haechilim", 27, "카무이!"));
+        List<Student> students = Classroom.students;
+
+        students.add(new Student("임준형",true,"haechilim", 10, "카무이!"));
+        students.add(new Student("랄로",true,"haechilim", 22, "카무이!"));
+        students.add(new Student("파카",true,"haechilim", 49, "카무이!"));
+        students.add(new Student("괴물쥐",false,"haechilim", 27, "카무이!"));
+        students.add(new Student("로지컬",true,"haechilim", 44, "카무이!"));
+        students.add(new Student("도파",false,"haechilim", 30, "카무이!"));
+        students.add(new Student("감스트",true,"haechilim", 29, "카무이!"));
+        students.add(new Student("진용진",true,"haechilim", 19, "카무이!"));
+        students.add(new Student("전국진",false,"haechilim", 11, "카무이!"));
+        students.add(new Student("논리왕 전기",false,"haechilim", 33, "카무이!"));
+        students.add(new Student("미야",false,"haechilim", 32, "카무이!"));
+        students.add(new Student("구루루",true,"haechilim", 23, "카무이!"));
+        students.add(new Student("우주하마",true,"haechilim", 43, "카무이!"));
+
+        students.get(0).addFavoritePartner(students.get(1));
+        students.get(0).addFavoritePartner(students.get(8));
+        students.get(0).addFavoritePartner(students.get(3));
+
+        students.get(1).addFavoritePartner(students.get(10));
+        students.get(1).addFavoritePartner(students.get(11));
+        students.get(1).addFavoritePartner(students.get(9));
+
+        students.get(2).addFavoritePartner(students.get(9));
+        students.get(2).addFavoritePartner(students.get(6));
+        students.get(2).addFavoritePartner(students.get(10));
+
+        students.get(3).addFavoritePartner(students.get(1));
+        students.get(3).addFavoritePartner(students.get(0));
+        students.get(3).addFavoritePartner(students.get(10));
+
+        students.get(4).addFavoritePartner(students.get(7));
+        students.get(4).addFavoritePartner(students.get(8));
+        students.get(4).addFavoritePartner(students.get(9));
+
+        students.get(5).addFavoritePartner(students.get(1));
+        students.get(5).addFavoritePartner(students.get(2));
+        students.get(5).addFavoritePartner(students.get(0));
+
+        students.get(6).addFavoritePartner(students.get(4));
+        students.get(6).addFavoritePartner(students.get(0));
+        students.get(6).addFavoritePartner(students.get(5));
+
+        students.get(7).addFavoritePartner(students.get(8));
+        students.get(7).addFavoritePartner(students.get(6));
+        students.get(7).addFavoritePartner(students.get(10));
+
+        students.get(8).addFavoritePartner(students.get(3));
+        students.get(8).addFavoritePartner(students.get(11));
+        students.get(8).addFavoritePartner(students.get(5));
+
+        students.get(9).addFavoritePartner(students.get(4));
+        students.get(9).addFavoritePartner(students.get(10));
+        students.get(9).addFavoritePartner(students.get(6));
+
+        students.get(10).addFavoritePartner(students.get(1));
+        students.get(10).addFavoritePartner(students.get(5));
+        students.get(10).addFavoritePartner(students.get(4));
+
+        students.get(11).addFavoritePartner(students.get(9));
+        students.get(11).addFavoritePartner(students.get(4));
+        students.get(11).addFavoritePartner(students.get(7));
+
+        students.get(12).addFavoritePartner(students.get(9));
+        students.get(12).addFavoritePartner(students.get(4));
+        students.get(12).addFavoritePartner(students.get(7));
     }
 
     private void updateUi() {
@@ -67,8 +130,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateSchool() {
-        schoolInformation = String.format("%s %s학년 %s반", school.getName(), school.getYear(), school.getNumber());
-        schoolView.setText(schoolInformation);
+        schoolView.setText(Classroom.getClassInfo());
     }
 
     private void addStudentViews() {
@@ -81,53 +143,58 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 0 && resultCode == 100) {
-            school.setName(data.getStringExtra("name"));
-            school.setYear(data.getStringExtra("year"));
-            school.setNumber(data.getStringExtra("number"));
-            updateSchool();
-        }
-        else if(requestCode == 1 && resultCode == 200) {
-            data.getStringExtra("name");
-            data.getStringExtra("male");
-            data.getStringExtra("talkId");
-            updateSchool();
-        }
-        else if(requestCode == 2) {
-            Intent intent;
+        switch (requestCode) {
+            case POPUP_CLASS:
+                onResultSchool(resultCode, data);
+                break;
 
-            if( resultCode == 300) {
-                intent = new Intent(this, WaitingActivity.class);
-                intent.putExtra("classInformation", school.getName() + " " + school.getYear() + "학년 " + school.getNumber() + "반");
-                intent.putExtra("isSimulation", false);
-                intent.putExtra("matchingModeId", data.getIntExtra("matchingModeId", 0));
-                intent.putExtra("overlap", data.getBooleanExtra("overlap", false));
-                startActivity(intent);
-            }
-            else if(resultCode == 400) {
-                targetStudent.setName(data.getStringExtra("name"));
-                targetStudent.setMale(data.getStringExtra("male").equals("남"));
-                targetStudent.setSnsId(data.getStringExtra("talkId"));
-                updateUi();
-            }
-            else if(resultCode == 500) {
-                for(int i = 0; i < Classroom.students.size(); i++) {
-                    if(Classroom.students.get(i) == targetStudent) {
-                        Classroom.students.remove(i);
-                        updateUi();
-                        break;
-                    }
+            case POPUP_STUDENT:
+                onResultStudent(resultCode, data);
+                break;
+
+            case POPUP_MATCHING:
+                onResultRun(resultCode, data);
+                break;
+        }
+    }
+
+    private void onResultSchool(int resultCode, Intent data) {
+        if(resultCode == RESULT_OK) updateSchool();
+    }
+
+    private void onResultStudent(int resultCode, Intent data) {
+        if(resultCode == PopupStudentSettingActivity.RESULT_ADD) {
+            String name = data.getStringExtra("name");
+            String phone = data.getStringExtra("phone");
+            boolean male = data.getBooleanExtra("male", true);
+
+            Classroom.students.add(new Student(name, male, phone, 16, "캍!"));
+            updateUi();
+        }
+        else if(resultCode == PopupStudentSettingActivity.RESULT_MODIFY) {
+            targetStudent.setName(data.getStringExtra("name"));
+            targetStudent.setMale(data.getBooleanExtra("male", true));
+            targetStudent.setPhone(data.getStringExtra("phone"));
+            updateUi();
+        }
+        else if(resultCode == PopupStudentSettingActivity.RESULT_REMOVE) {
+            for(int i = 0; i < Classroom.students.size(); i++) {
+                if(Classroom.students.get(i) == targetStudent) {
+                    Classroom.students.remove(i);
+                    updateUi();
+                    break;
                 }
             }
         }
-        else if(requestCode == 3 && resultCode == 300) {
-            Intent intent = new Intent(this, MatchingActivity.class);
-            intent.putExtra("classInformation", school.getName() + " " + school.getYear() + "학년 " + school.getNumber() + "반");
-            intent.putExtra("isSimulation", true);
-            intent.putExtra("matchingModeId", data.getIntExtra("matchingModeId", 0));
-            intent.putExtra("overlap", data.getBooleanExtra("overlap", false));
-            startActivity(intent);
-        }
+    }
+
+    private void onResultRun(int resultCode, Intent data) {
+        if(resultCode != RESULT_OK) return;
+
+        Intent intent = new Intent(this, WaitingActivity.class);
+        intent.putExtra("mode", data.getIntExtra("mode", 0));
+        intent.putExtra("duplicate", data.getBooleanExtra("duplicate", false));
+        startActivity(intent);
     }
 
     private void bindEvents() {
@@ -135,10 +202,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, PopupClassSettingActivity.class);
-                intent.putExtra("name", school.getName());
-                intent.putExtra("year", school.getYear());
-                intent.putExtra("number", school.getNumber());
-                startActivityForResult(intent, 0);
+                startActivityForResult(intent, POPUP_CLASS);
             }
         });
 
@@ -146,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, PopupStudentSettingActivity.class);
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent, POPUP_STUDENT);
             }
         });
 
@@ -163,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, PopupMatchingSettingActivity.class);
-                startActivityForResult(intent, 2);
+                startActivityForResult(intent, POPUP_MATCHING);
             }
         });
 
@@ -171,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, PopupMatchingSettingActivity.class);
-                startActivityForResult(intent, 3);
+                startActivityForResult(intent, POPUP_SIMULATION);
             }
         });
     }
@@ -185,10 +249,8 @@ public class MainActivity extends AppCompatActivity {
                 targetStudent = student;
 
                 Intent intent = new Intent(MainActivity.this, PopupStudentSettingActivity.class);
-                intent.putExtra("name", student.getName());
-                intent.putExtra("male", student.isMale());
-                intent.putExtra("talkId", student.getSnsId());
-                startActivityForResult(intent, 2);
+                intent.putExtra("id", student.getId());
+                startActivityForResult(intent, POPUP_STUDENT);
 
                 return true;
             }
