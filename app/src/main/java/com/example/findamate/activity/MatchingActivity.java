@@ -2,10 +2,8 @@ package com.example.findamate.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -19,25 +17,23 @@ import com.example.findamate.domain.History;
 import com.example.findamate.domain.Student;
 import com.example.findamate.view.CoupleView;
 import com.example.findamate.view.StudentView;
-import com.example.findamate.thread.TimerThread;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MatchingActivity extends AppCompatActivity {
-    public static boolean stopThread;
-
-    private static Context context;
-    private static TimerThread timer;
-    private static List<Couple> knownCouples = new ArrayList<>();
-    private static LinearLayout student1;
-    private static LinearLayout student2;
-    private static HorizontalScrollView resultContainer;
-    private static LinearLayout container;
-    private static TextView happiness;
-    private static CoupleView exCoupleView;
+    private Timer timer;
+    private int index = 0;
+    private List<Couple> knownCouples = new ArrayList<>();
+    private LinearLayout student1;
+    private LinearLayout student2;
+    private HorizontalScrollView resultContainer;
+    private LinearLayout container;
+    private CoupleView exCoupleView;
     private TextView classInformation;
     private List<Couple> couples = new ArrayList<>();
     private List<Student> students = Classroom.students;
@@ -51,12 +47,10 @@ public class MatchingActivity extends AppCompatActivity {
         int mode = intent.getIntExtra("mode", 1);
         boolean duplicated = intent.getBooleanExtra("duplicated", false);
 
-        stopThread = false;
-        context = this;
+        timer = new Timer();
         container = new LinearLayout(this);
         container.setOrientation(LinearLayout.HORIZONTAL);
 
-        happiness = findViewById(R.id.happiness);
         classInformation = findViewById(R.id.classInformation);
         resultContainer = findViewById(R.id.resultContainer);
         student1 = findViewById(R.id.student1);
@@ -65,8 +59,7 @@ public class MatchingActivity extends AppCompatActivity {
         findViewById(R.id.skip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stopThread = true;
-                endAnimation();
+                toLog();
             }
         });
 
@@ -74,13 +67,30 @@ public class MatchingActivity extends AppCompatActivity {
         matchingPartner(mode, duplicated);
         updateHistory();
 
-        timer = new TimerThread(this, couples);
-        timer.start();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(index >= couples.size()) toLog();
+                        else animation(couples.get(index++));
+                    }
+                });
+            }
+        };
+
+        timer.schedule(timerTask, 0, 2000);
     }
 
     private void init(String classInformation) {
         this.classInformation.setText(classInformation);
         knownCouples = new ArrayList<>();
+    }
+
+    private void toLog() {
+        timer.cancel();
+        endAnimation();
     }
 
     private void updateHistory() {
@@ -205,21 +215,21 @@ public class MatchingActivity extends AppCompatActivity {
         knownCouples.add(couple);
         updateHappiness();
 
-        student1.addView(new StudentView(context, couple.getStudent1()));
-        student2.addView(new StudentView(context, couple.getStudent2()));
+        student1.addView(new StudentView(this, couple.getStudent1()));
+        student2.addView(new StudentView(this, couple.getStudent2()));
 
         if(knownCouples.size() > 1) {
             container.addView(exCoupleView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             resultContainer.addView(container);
         }
 
-        exCoupleView = new CoupleView(context, couple.getStudent1(), couple.getStudent2());
+        exCoupleView = new CoupleView(this, couple.getStudent1(), couple.getStudent2());
     }
 
-    public static void endAnimation() {
-        Intent intent = new Intent(context, LogActivity.class);
+    public void endAnimation() {
+        Intent intent = new Intent(this, LogActivity.class);
         intent.putExtra("type", LogActivity.TYPE_RESULT);
-        context.startActivity(intent);
+        this.startActivity(intent);
     }
 
     private void resetViews() {
@@ -238,6 +248,6 @@ public class MatchingActivity extends AppCompatActivity {
             totalHappiness += couple.getStudent1().getHappiness() + couple.getStudent2().getHappiness();
         }
 
-        happiness.setText(Math.round(totalHappiness / (count * 2)) + "%");
+        ((TextView)findViewById(R.id.happiness)).setText(Math.round(totalHappiness / (count * 2)) + "%");
     }
 }
