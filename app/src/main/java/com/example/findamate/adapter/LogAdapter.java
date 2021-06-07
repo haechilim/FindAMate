@@ -1,5 +1,6 @@
 package com.example.findamate.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,18 +14,22 @@ import com.example.findamate.R;
 import com.example.findamate.domain.Couple;
 import com.example.findamate.domain.History;
 import com.example.findamate.domain.Student;
+import com.example.findamate.helper.Util;
 import com.example.findamate.view.CoupleView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LogAdapter extends BaseAdapter {
-    private Context context;
+    private final int COUNT = 5; //기록 화면 한줄에 보이는 커플 수
+
+    private Activity activity;
     private List<History> histories;
 
-    public LogAdapter(Context context, List<History> histories) {
-        this.context = context;
+    public LogAdapter(Activity activity, List<History> histories) {
+        this.activity = activity;
+        Collections.reverse(histories);
         this.histories = histories;
     }
 
@@ -45,32 +50,34 @@ public class LogAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        List<Couple> couples = histories.get(position).getCouples();
+
+        LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.layout_list_history, parent, false);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
-
         ((TextView) view.findViewById(R.id.date)).setText(simpleDateFormat.format(histories.get(position).getCalendar().getTimeInMillis()));
-
         LinearLayout container = view.findViewById(R.id.couplesContainer);
-        LinearLayout couplesContainer = new LinearLayout(context);
-        LinearLayout.LayoutParams couplesContainerParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        History history = histories.get(position);
+        LinearLayout couplesContainer = null;
+        LinearLayout.LayoutParams couplesParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        couplesParams.setMargins(0,0,0, Util.dpToPx(activity.getWindowManager(), 30));
 
-        container.setOrientation(LinearLayout.VERTICAL);
-        couplesContainer.setOrientation(LinearLayout.HORIZONTAL);
-        couplesContainer.setGravity(Gravity.CENTER);
+        for(int index = 0; index < couples.size(); index++) {
+            if(index % COUNT == 0) {
+                couplesContainer = new LinearLayout(activity);
+                couplesContainer.setOrientation(LinearLayout.HORIZONTAL);
+                couplesContainer.setGravity(Gravity.LEFT);
+            }
 
-        for(int i = 0; i < history.getCouples().size(); i++) {
-            Couple couple = history.getCouples().get(i);
+            Couple couple = couples.get(index);
             Student student1 = couple.getStudent1();
             Student student2 = couple.getStudent2();
 
-            CoupleView coupleView = new CoupleView(context, student1, student2);
+            CoupleView coupleView = new CoupleView(activity, student1, student2);
             couplesContainer.addView(coupleView);
-        }
 
-        container.addView(couplesContainer, couplesContainerParams);
+            if(index % COUNT == COUNT - 1 || index >= couples.size() - 1) container.addView(couplesContainer, couplesParams);
+        }
 
         return view;
     }
