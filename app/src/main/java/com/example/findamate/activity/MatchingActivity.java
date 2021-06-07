@@ -28,6 +28,7 @@ import java.util.TimerTask;
 public class MatchingActivity extends AppCompatActivity {
     private Timer timer;
     private int index = 0;
+    private boolean isSimulation;
     private List<Couple> knownCouples = new ArrayList<>();
     private LinearLayout student1;
     private LinearLayout student2;
@@ -35,8 +36,9 @@ public class MatchingActivity extends AppCompatActivity {
     private LinearLayout container;
     private CoupleView exCoupleView;
     private TextView classInformation;
+    private List<Student> students;
+    private List<History> histories;
     private List<Couple> couples = new ArrayList<>();
-    private List<Student> students = Classroom.students;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +46,19 @@ public class MatchingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_matching);
 
         Intent intent = getIntent();
+        int type = intent.getIntExtra("type", -1);
+        isSimulation = intent.getBooleanExtra("isSimulation", true);
         int mode = intent.getIntExtra("mode", 1);
         boolean duplicated = intent.getBooleanExtra("duplicated", false);
+
+        if (type == LogActivity.TYPE_SIMULATION) {
+            students = Classroom.getClonedStudents();
+            histories = Classroom.getClonedHistories();
+        }
+        else {
+            students = isSimulation ? Classroom.ClonedStudents() : Classroom.students;
+            histories = isSimulation ? Classroom.ClonedHistories() : Classroom.histories;
+        }
 
         timer = new Timer();
         container = new LinearLayout(this);
@@ -80,7 +93,7 @@ public class MatchingActivity extends AppCompatActivity {
             }
         };
 
-        timer.schedule(timerTask, 0, 2000);
+        timer.schedule(timerTask, 0, 1500);
     }
 
     private void init(String classInformation) {
@@ -94,7 +107,7 @@ public class MatchingActivity extends AppCompatActivity {
     }
 
     private void updateHistory() {
-        Classroom.histories.add(new History(Calendar.getInstance(), couples));
+        histories.add(new History(Calendar.getInstance(), couples));
     }
 
     private boolean matchingPartner(int mode, boolean duplicated) {
@@ -128,11 +141,11 @@ public class MatchingActivity extends AppCompatActivity {
         for (int choice = 0; choice < Student.MAX_FAVORITE_SCORE; choice++) {
             for (int i = 0; i < students.size(); i++) {
                 Student student = students.get(i);
-                Student partner = student.getFavoritePartner(choice);
+                Student partner = Classroom.findStudentById(student.getFavoritePartnerId(choice), isSimulation);
 
                 if(!isSuitablePartner(student, partner, mode, duplicated)) continue;
 
-                if (partner.getFavoritePartner(0).getId() == student.getId()) {
+                if (partner.getFavoritePartnerId(0) == student.getId()) {
                     makePartner(student, partner);
                     updateScore(student, partner);
                 }
@@ -228,7 +241,7 @@ public class MatchingActivity extends AppCompatActivity {
 
     public void endAnimation() {
         Intent intent = new Intent(this, LogActivity.class);
-        intent.putExtra("type", LogActivity.TYPE_RESULT);
+        intent.putExtra("type", isSimulation ? LogActivity.TYPE_SIMULATION : LogActivity.TYPE_RESULT);
         this.startActivity(intent);
     }
 

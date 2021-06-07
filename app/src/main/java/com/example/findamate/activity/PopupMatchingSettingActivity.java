@@ -15,12 +15,17 @@ public class PopupMatchingSettingActivity extends Activity {
     public static final int MATCHING_MODE_SAME = 2;
     public static final int MATCHING_MODE_NONE = 3;
 
+    private int type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_popup_matching_setting);
+
+        Intent intent = getIntent();
+        type = intent.getIntExtra("type", -1);
 
         findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,11 +38,20 @@ public class PopupMatchingSettingActivity extends Activity {
                 else if(modeId == R.id.mode2)  mode = MATCHING_MODE_SAME;
                 else if(modeId == R.id.mode3)  mode = MATCHING_MODE_NONE;
 
-                Intent intent = new Intent();
-                intent.putExtra("mode", mode);
-                intent.putExtra("duplicated", duplicated);
-                setResult(RESULT_OK, intent);
-                finish();
+                if (type == LogActivity.TYPE_SIMULATION) {
+                    Intent intent = new Intent(PopupMatchingSettingActivity.this, MatchingActivity.class);
+                    intent.putExtra("type", type);
+                    intent.putExtra("mode", mode);
+                    intent.putExtra("duplicated", duplicated);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent();
+                    intent.putExtra("mode", mode);
+                    intent.putExtra("duplicated", duplicated);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
             }
         });
 

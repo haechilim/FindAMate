@@ -9,6 +9,10 @@ public class Couple {
         this.student2 = student2;
     }
 
+    public Couple clone() {
+        return new Couple(student1, student2);
+    }
+
     public Student getStudent1() {
         return student1;
     }

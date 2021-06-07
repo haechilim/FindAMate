@@ -41,6 +41,7 @@ public class WaitingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), MatchingActivity.class);
+                intent.putExtra("isSimulation", false);
                 intent.putExtra("mode", mode);
                 intent.putExtra("duplicated", duplicated);
                 startActivity(intent);

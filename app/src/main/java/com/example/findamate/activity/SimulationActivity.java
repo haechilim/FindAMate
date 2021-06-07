@@ -1,19 +1,15 @@
 package com.example.findamate.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.findamate.R;
 import com.example.findamate.domain.Classroom;
-import com.example.findamate.domain.Student;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SimulationActivity extends AppCompatActivity {
     TextView classInformationOfSimulation;
@@ -27,62 +23,9 @@ public class SimulationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simulation);
 
-        Classroom.students.get(0).addFavoritePartner(Classroom.students.get(1));
-        Classroom.students.get(0).addFavoritePartner(Classroom.students.get(8));
-        Classroom.students.get(0).addFavoritePartner(Classroom.students.get(3));
-
-        Classroom.students.get(1).addFavoritePartner(Classroom.students.get(10));
-        Classroom.students.get(1).addFavoritePartner(Classroom.students.get(11));
-        Classroom.students.get(1).addFavoritePartner(Classroom.students.get(9));
-
-        Classroom.students.get(2).addFavoritePartner(Classroom.students.get(9));
-        Classroom.students.get(2).addFavoritePartner(Classroom.students.get(6));
-        Classroom.students.get(2).addFavoritePartner(Classroom.students.get(10));
-
-        Classroom.students.get(3).addFavoritePartner(Classroom.students.get(1));
-        Classroom.students.get(3).addFavoritePartner(Classroom.students.get(0));
-        Classroom.students.get(3).addFavoritePartner(Classroom.students.get(10));
-
-        Classroom.students.get(4).addFavoritePartner(Classroom.students.get(7));
-        Classroom.students.get(4).addFavoritePartner(Classroom.students.get(8));
-        Classroom.students.get(4).addFavoritePartner(Classroom.students.get(9));
-
-        Classroom.students.get(5).addFavoritePartner(Classroom.students.get(1));
-        Classroom.students.get(5).addFavoritePartner(Classroom.students.get(2));
-        Classroom.students.get(5).addFavoritePartner(Classroom.students.get(0));
-
-        Classroom.students.get(6).addFavoritePartner(Classroom.students.get(4));
-        Classroom.students.get(6).addFavoritePartner(Classroom.students.get(0));
-        Classroom.students.get(6).addFavoritePartner(Classroom.students.get(5));
-
-        Classroom.students.get(7).addFavoritePartner(Classroom.students.get(8));
-        Classroom.students.get(7).addFavoritePartner(Classroom.students.get(6));
-        Classroom.students.get(7).addFavoritePartner(Classroom.students.get(10));
-
-        Classroom.students.get(8).addFavoritePartner(Classroom.students.get(3));
-        Classroom.students.get(8).addFavoritePartner(Classroom.students.get(11));
-        Classroom.students.get(8).addFavoritePartner(Classroom.students.get(5));
-
-        Classroom.students.get(9).addFavoritePartner(Classroom.students.get(4));
-        Classroom.students.get(9).addFavoritePartner(Classroom.students.get(10));
-        Classroom.students.get(9).addFavoritePartner(Classroom.students.get(6));
-
-        Classroom.students.get(10).addFavoritePartner(Classroom.students.get(1));
-        Classroom.students.get(10).addFavoritePartner(Classroom.students.get(5));
-        Classroom.students.get(10).addFavoritePartner(Classroom.students.get(4));
-
-        Classroom.students.get(11).addFavoritePartner(Classroom.students.get(9));
-        Classroom.students.get(11).addFavoritePartner(Classroom.students.get(4));
-        Classroom.students.get(11).addFavoritePartner(Classroom.students.get(7));
-
-        Classroom.students.get(12).addFavoritePartner(Classroom.students.get(9));
-        Classroom.students.get(12).addFavoritePartner(Classroom.students.get(4));
-        Classroom.students.get(12).addFavoritePartner(Classroom.students.get(7));
-
         Intent intent = getIntent();
-        String classInformation = intent.getStringExtra("classInformation");
-        int matchingModeId = intent.getIntExtra("matchingModeId", -1);
-        boolean overlap = intent.getBooleanExtra("overlap", false);
+        int matchingModeId = intent.getIntExtra("mode", -1);
+        boolean overlap = intent.getBooleanExtra("duplicated", false);
 
         classInformationOfSimulation = findViewById(R.id.classInformationOfSimulation);
         simulationList = findViewById(R.id.simulationList);

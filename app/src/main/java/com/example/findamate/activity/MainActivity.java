@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
     private LinearLayout studentContainer;
     private TextView schoolView;
-    private String schoolInformation;
     private Student targetStudent;
 
     @Override
@@ -147,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (requestCode) {
             case POPUP_CLASS:
-                onResultSchool(resultCode, data);
+                onResultSchool(resultCode);
                 break;
 
             case POPUP_STUDENT:
@@ -155,12 +154,16 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case POPUP_MATCHING:
-                onResultRun(resultCode, data);
+                onResultRun(resultCode, data, false);
+                break;
+
+            case POPUP_SIMULATION:
+                onResultRun(resultCode, data, true);
                 break;
         }
     }
 
-    private void onResultSchool(int resultCode, Intent data) {
+    private void onResultSchool(int resultCode) {
         if(resultCode == RESULT_OK) updateSchool();
     }
 
@@ -170,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
             String phone = data.getStringExtra("phone");
             boolean male = data.getBooleanExtra("male", true);
 
-            Classroom.students.add(new Student(name, male, phone, 16, "캍!"));
+            Classroom.students.add(new Student(name, male, phone, (int)(Math.random() * 54 + 1), ""));
             updateUi();
         }
         else if(resultCode == PopupStudentSettingActivity.RESULT_MODIFY) {
@@ -190,10 +193,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void onResultRun(int resultCode, Intent data) {
+    private void onResultRun(int resultCode, Intent data, boolean isSimulation) {
         if(resultCode != RESULT_OK) return;
 
-        Intent intent = new Intent(this, WaitingActivity.class);
+        Intent intent = new Intent(this, isSimulation ? MatchingActivity.class : WaitingActivity.class);
+        intent.putExtra("isSimulation", isSimulation);
         intent.putExtra("mode", data.getIntExtra("mode", 0));
         intent.putExtra("duplicate", data.getBooleanExtra("duplicate", false));
         startActivity(intent);

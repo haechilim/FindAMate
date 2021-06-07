@@ -35,7 +35,7 @@ public class PopupStudentSettingActivity extends Activity {
         radioGroupGender = findViewById(R.id.gender);
 
         Intent intent = getIntent();
-        student = Classroom.findStudentById(intent.getIntExtra("id", -1));
+        student = Classroom.findStudentById(intent.getIntExtra("id", -1), false);
 
         if(student == null) resultCode = RESULT_ADD;
         else {
