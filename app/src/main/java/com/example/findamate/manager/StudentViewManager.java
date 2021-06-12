@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Random;
 
 public class StudentViewManager {
-    private static final int NORMAL_WIDTH = 70;
-    private static final int NORMAL_HEIGHT = 120;
+    private static final int NORMAL_WIDTH = 56;
+    private static final int NORMAL_HEIGHT = 96;
     private static final int MINI_WIDTH = 30;
     private static final int MINI_HEIGHT = 30;
 

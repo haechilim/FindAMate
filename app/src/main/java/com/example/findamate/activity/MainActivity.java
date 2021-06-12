@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -15,10 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.findamate.R;
 import com.example.findamate.domain.Classroom;
+import com.example.findamate.domain.School;
 import com.example.findamate.domain.Student;
+import com.example.findamate.helper.Logger;
+import com.example.findamate.manager.ApiManager;
 import com.example.findamate.manager.StudentViewManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,6 +48,15 @@ public class MainActivity extends AppCompatActivity {
 
         studentViewPositions = StudentViewManager.randomPositions(this, studentContainer);
         StudentViewManager.startWaveAnimation(this, studentContainer);
+
+        ApiManager.setMemberId(0);
+        ApiManager.school(new ApiManager.SchoolCallback() {
+            @Override
+            public void success(School school) {
+                Classroom.school = school;
+                updateSchool();
+            }
+        });
     }
 
     private void load() {
