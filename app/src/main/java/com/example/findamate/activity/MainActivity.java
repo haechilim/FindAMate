@@ -2,9 +2,11 @@ package com.example.findamate.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.Student;
 import com.example.findamate.manager.StudentViewManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,9 +27,11 @@ public class MainActivity extends AppCompatActivity {
     private static final int POPUP_MATCHING = 2;
     private static final int POPUP_SIMULATION = 3;
 
-    private LinearLayout studentContainer;
+    private FrameLayout studentContainer;
     private TextView schoolView;
     private Student targetStudent;
+
+    private List<Rect> studentViewPositions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         load();
         updateUi();
         bindEvents();
+
+        studentViewPositions = StudentViewManager.randomPositions(this, studentContainer);
     }
 
     private void load() {
