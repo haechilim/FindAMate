@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.findamate.R;
@@ -30,7 +29,7 @@ public class WaitingActivity extends AppCompatActivity {
         students = Classroom.students;
 
         for(int i = 0; i < students.size(); i++) {
-            studentContainer.addView(StudentViewManager.getView(this, students.get(i), false));
+            studentContainer.addView(StudentViewManager.newView(this, students.get(i), false));
         }
 
         StudentViewManager.randomPositions(this, studentContainer);

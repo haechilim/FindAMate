@@ -59,9 +59,24 @@ public class ApiManager {
         });
     }
 
-    public static void addStudent(Student student, AddStudentCallback callback) {
+    public static void addStudent(Student student, AMDStudentCallback callback) {
         request(String.format("%s/%s?memberId=%d&name=%s&male=%s&phone=%s&avatarId=%d&score=%d&happiness=%d&message=%s",
                 HOST, "student/add", memberId, student.getName(), (student.isMale() ? "true" : "false"), student.getPhone(),
+                student.getAvatarId(), student.getScore(), ((int)student.getHappiness()), student.getStatusMessage()), new JsonCallback() {
+            @Override
+            public void success(String json) {
+                try {
+                    callback.success(objectMapper.readValue(json, new TypeReference<Student>() {}));
+                } catch (JsonProcessingException e) {
+                    Logger.debug(e.getMessage());
+                }
+            }
+        });
+    }
+
+    public static void modifyStudent(Student student, AMDStudentCallback callback) {
+        request(String.format("%s/%s?id=%d&name=%s&male=%s&phone=%s&avatarId=%d&score=%d&happiness=%d&statusMessage=%s",
+                HOST, "student/modify", student.getId(), student.getName(), (student.isMale() ? "true" : "false"), student.getPhone(),
                 student.getAvatarId(), student.getScore(), ((int)student.getHappiness()), student.getStatusMessage()), new JsonCallback() {
             @Override
             public void success(String json) {
@@ -134,7 +149,7 @@ public class ApiManager {
         void success(List<Student> students);
     }
 
-    public interface AddStudentCallback {
+    public interface AMDStudentCallback {
         void success(Student student);
     }
 }

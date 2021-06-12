@@ -2,9 +2,11 @@ package com.example.findamate.manager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -13,6 +15,7 @@ import android.widget.LinearLayout;
 
 import com.example.findamate.R;
 import com.example.findamate.domain.Student;
+import com.example.findamate.helper.Logger;
 import com.example.findamate.helper.Util;
 import com.example.findamate.view.StudentView;
 
@@ -26,20 +29,21 @@ public class StudentViewManager {
     private static final int MINI_WIDTH = 30;
     private static final int MINI_HEIGHT = 30;
 
-    public static View getView(Activity activity, Student student, boolean mini) {
+    public static View newView(Activity activity, Student student, boolean mini) {
         int width = mini ? MINI_WIDTH : NORMAL_WIDTH;
         int height = mini ? MINI_HEIGHT : NORMAL_HEIGHT;
 
-        return getView(activity, student, width, height);
+        return newView(activity, student, width, height);
     }
 
-    private static View getView(Activity activity, Student student, int width, int height) {
+    private static View newView(Activity activity, Student student, int width, int height) {
         LinearLayout linearLayout = new LinearLayout(activity);
-        StudentView studentProfile = new StudentView(activity, student);
+        StudentView studentView = new StudentView(activity, student);
         WindowManager windowManager = activity.getWindowManager();
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Util.dpToPx(windowManager, width), Util.dpToPx(windowManager, height));
-        linearLayout.addView(studentProfile, layoutParams);
-        return linearLayout;
+        linearLayout.addView(studentView, layoutParams);
+        studentView.setTag(student.getId());
+        return studentView;
     }
 
     public static void startBounceAnimation(Context context, FrameLayout container) {

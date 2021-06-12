@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
@@ -17,6 +16,7 @@ import com.example.findamate.R;
 import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.School;
 import com.example.findamate.domain.Student;
+import com.example.findamate.helper.Logger;
 import com.example.findamate.manager.ApiManager;
 import com.example.findamate.manager.StudentViewManager;
 
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout studentContainer;
     private TextView schoolView;
     private Student targetStudent;
+    private View selectedView;
 
     private List<Rect> studentViewPositions;
 
@@ -196,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
 
             Student student = new Student(name, male, phone, (int) (Math.random() * 54 + 1));
 
-            ApiManager.addStudent(student, new ApiManager.AddStudentCallback() {
+            ApiManager.addStudent(student, new ApiManager.AMDStudentCallback() {
                 @Override
                 public void success(Student student) {
                     student.setAvatarId(new Random().nextInt(AVATAR_COUNT) + 1);
@@ -209,10 +210,27 @@ public class MainActivity extends AppCompatActivity {
             });
         }
         else if(resultCode == PopupStudentSettingActivity.RESULT_MODIFY) {
-            targetStudent.setName(data.getStringExtra("name"));
-            targetStudent.setMale(data.getBooleanExtra("male", true));
-            targetStudent.setPhone(data.getStringExtra("phone"));
-            updateUi();
+            Student student = targetStudent;
+
+            student.setName(data.getStringExtra("name"));
+            student.setMale(data.getBooleanExtra("male", true));
+            student.setPhone(data.getStringExtra("phone"));
+
+            ApiManager.modifyStudent(targetStudent, new ApiManager.AMDStudentCallback() {
+                @Override
+                public void success(Student student) {
+                    for(int i = 0; i < Classroom.students.size(); i++) {
+                        if(Classroom.students.get(i).getId() != student.getId()) continue;
+
+                        Classroom.students.set(i, student);
+                    }
+
+                    ((TextView) selectedView.findViewById(R.id.name)).setText(student.getName());
+                    ((TextView) selectedView.findViewById(R.id.statusMessage)).setText(student.getStatusMessage());
+
+                    Logger.debug(Classroom.students.toString());
+                }
+            });
         }
         else if(resultCode == PopupStudentSettingActivity.RESULT_REMOVE) {
             for(int i = 0; i < Classroom.students.size(); i++) {
@@ -279,12 +297,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private View addStudentView(Student student) {
-        View view = StudentViewManager.getView(this, student, false);
+        View view = StudentViewManager.newView(this, student, false);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Logger.debug("클릭된 학생:" + view.getTag());
                 targetStudent = student;
+                selectedView = v;
 
                 Intent intent = new Intent(MainActivity.this, PopupStudentSettingActivity.class);
                 intent.putExtra("id", student.getId());
@@ -292,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        studentContainer.addView(view);
+        studentContainer.addView((View)view.getParent());
 
         return view;
     }
