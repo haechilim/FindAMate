@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.Couple;
 import com.example.findamate.domain.History;
 import com.example.findamate.domain.Student;
+import com.example.findamate.manager.StudentViewManager;
 import com.example.findamate.view.CoupleView;
 import com.example.findamate.view.StudentView;
 
@@ -32,6 +34,7 @@ public class MatchingActivity extends AppCompatActivity {
     private List<Couple> knownCouples = new ArrayList<>();
     private LinearLayout student1;
     private LinearLayout student2;
+    private ImageView versus;
     private HorizontalScrollView resultContainer;
     private LinearLayout container;
     private CoupleView exCoupleView;
@@ -60,7 +63,6 @@ public class MatchingActivity extends AppCompatActivity {
             histories = isSimulation ? Classroom.ClonedHistories() : Classroom.histories;
         }
 
-        timer = new Timer();
         container = new LinearLayout(this);
         container.setOrientation(LinearLayout.HORIZONTAL);
 
@@ -68,17 +70,17 @@ public class MatchingActivity extends AppCompatActivity {
         resultContainer = findViewById(R.id.resultContainer);
         student1 = findViewById(R.id.student1);
         student2 = findViewById(R.id.student2);
-
-        findViewById(R.id.skip).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toLog();
-            }
-        });
+        versus = findViewById(R.id.versus);
 
         init(Classroom.getClassInfo());
+        bindEvents();
         matchingPartner(mode, duplicated);
         updateHistory();
+        setTimer();
+    }
+
+    private void setTimer() {
+        timer = new Timer();
 
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -93,7 +95,16 @@ public class MatchingActivity extends AppCompatActivity {
             }
         };
 
-        timer.schedule(timerTask, 0, 1500);
+        timer.schedule(timerTask, 0, 5000);
+    }
+
+    private void bindEvents() {
+        findViewById(R.id.skip).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toLog();
+            }
+        });
     }
 
     private void init(String classInformation) {
@@ -230,6 +241,8 @@ public class MatchingActivity extends AppCompatActivity {
 
         student1.addView(new StudentView(this, couple.getStudent1()));
         student2.addView(new StudentView(this, couple.getStudent2()));
+
+        StudentViewManager.startMatchingAnimation(this, student1, student2, versus);
 
         if(knownCouples.size() > 1) {
             container.addView(exCoupleView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));

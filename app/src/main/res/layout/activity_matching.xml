@@ -41,12 +41,13 @@
             android:orientation="vertical"/>
 
         <ImageView
+            android:id="@+id/versus"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            android:src="@drawable/vs2"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"/>
+            android:src="@drawable/vs2" />
 
         <LinearLayout
             android:id="@+id/student2"

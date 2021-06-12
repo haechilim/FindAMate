@@ -16,8 +16,8 @@
         android:src="@drawable/back"
         android:padding="30dp"/>
 
-    <LinearLayout
-        android:id="@+id/workspace"
+    <FrameLayout
+        android:id="@+id/studentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,11 +14,10 @@ import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.Student;
 import com.example.findamate.manager.StudentViewManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class WaitingActivity extends AppCompatActivity {
-    LinearLayout workspace;
+    FrameLayout studentContainer;
     List<Student> students;
 
     @Override
@@ -25,17 +25,24 @@ public class WaitingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_waiting);
 
-        Intent intent = getIntent();
-        int mode = intent.getIntExtra("mode", 0);
-        boolean duplicated = intent.getBooleanExtra("duplicated", false);
-
         ((TextView)findViewById(R.id.classInfo)).setText(Classroom.getClassInfo());
-        workspace = findViewById(R.id.workspace);
+        studentContainer = findViewById(R.id.studentContainer);
         students = Classroom.students;
 
         for(int i = 0; i < students.size(); i++) {
-            workspace.addView(StudentViewManager.getView(this, students.get(i), false));
+            studentContainer.addView(StudentViewManager.getView(this, students.get(i), false));
         }
+
+        StudentViewManager.randomPositions(this, studentContainer);
+        StudentViewManager.startBounceAnimation(this, studentContainer);
+
+        bindEvents();
+    }
+
+    private void bindEvents() {
+        Intent intent = getIntent();
+        int mode = intent.getIntExtra("mode", 0);
+        boolean duplicated = intent.getBooleanExtra("duplicated", false);
 
         findViewById(R.id.startMatching).setOnClickListener(new View.OnClickListener() {
             @Override

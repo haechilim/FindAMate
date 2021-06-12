@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         bindEvents();
 
         studentViewPositions = StudentViewManager.randomPositions(this, studentContainer);
+        StudentViewManager.startWaveAnimation(this, studentContainer);
     }
 
     private void load() {
