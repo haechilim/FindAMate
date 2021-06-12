@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
@@ -227,16 +228,17 @@ public class MainActivity extends AppCompatActivity {
 
                     ((TextView) selectedView.findViewById(R.id.name)).setText(student.getName());
                     ((TextView) selectedView.findViewById(R.id.statusMessage)).setText(student.getStatusMessage());
-
-                    Logger.debug(Classroom.students.toString());
                 }
             });
         }
         else if(resultCode == PopupStudentSettingActivity.RESULT_REMOVE) {
             for(int i = 0; i < Classroom.students.size(); i++) {
-                if(Classroom.students.get(i) == targetStudent) {
+                Student student = Classroom.students.get(i);
+
+                if(student == targetStudent) {
+                    ApiManager.deleteStudent(student);
                     Classroom.students.remove(i);
-                    updateUi();
+                    selectedView.setVisibility(View.GONE);
                     break;
                 }
             }
@@ -304,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Logger.debug("클릭된 학생:" + view.getTag());
                 targetStudent = student;
-                selectedView = v;
+                selectedView = view;
 
                 Intent intent = new Intent(MainActivity.this, PopupStudentSettingActivity.class);
                 intent.putExtra("id", student.getId());

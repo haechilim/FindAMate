@@ -89,6 +89,15 @@ public class ApiManager {
         });
     }
 
+    public static void deleteStudent(Student student) {
+        request(String.format("%s/%s?id=%d", HOST, "student/delete", student.getId()), new JsonCallback() {
+            @Override
+            public void success(String json) {
+                Logger.debug(json);
+            }
+        });
+    }
+
     private static void request(String url, JsonCallback callback) {
         new AsyncTask<String, Void, String>() {
             @Override
