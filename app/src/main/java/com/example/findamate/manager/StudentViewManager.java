@@ -51,13 +51,17 @@ public class StudentViewManager {
     }
 
     public static void startWaveAnimation(Context context, FrameLayout container) {
+        for(int index = 0; index < container.getChildCount(); index++) {
+            startWaveAnimation(context, container, container.getChildAt(index));
+        }
+    }
+
+    public static void startWaveAnimation(Context context, FrameLayout container, View view) {
         Random random = new Random();
 
-        for(int index = 0; index < container.getChildCount(); index++) {
-            startAnimation(context, container.getChildAt(index),
-                    random.nextBoolean() ? R.anim.wave_horizontal : R.anim.wave_vertical,
-                    random.nextInt(1000), true);
-        }
+        startAnimation(context, view,
+                random.nextBoolean() ? R.anim.wave_horizontal : R.anim.wave_vertical,
+                random.nextInt(1000), true);
     }
 
     public static void startMatchingAnimation(Context context, View view1, View view2, View versus) {
@@ -123,7 +127,7 @@ public class StudentViewManager {
         int containerWidth = metrics.widthPixels - width;
         int containerHeight = metrics.heightPixels - layoutParams.topMargin - layoutParams.bottomMargin - height;
 
-        for(int count = 0; count < 100; count++) {
+        for(int count = 0; count < 1000; count++) {
             left = random.nextInt(containerWidth);
             top = random.nextInt(containerHeight);
 

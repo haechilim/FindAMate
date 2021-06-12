@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
@@ -16,18 +17,18 @@ import com.example.findamate.R;
 import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.School;
 import com.example.findamate.domain.Student;
-import com.example.findamate.helper.Logger;
 import com.example.findamate.manager.ApiManager;
 import com.example.findamate.manager.StudentViewManager;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private static final int POPUP_CLASS = 0;
     private static final int POPUP_STUDENT = 1;
     private static final int POPUP_MATCHING = 2;
     private static final int POPUP_SIMULATION = 3;
+    private static final int AVATAR_COUNT = 54;
 
     private FrameLayout studentContainer;
     private TextView schoolView;
@@ -144,7 +145,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUi() {
         updateSchool();
-        removeStudentView();
         addStudentViews();
     }
 
@@ -194,8 +194,19 @@ public class MainActivity extends AppCompatActivity {
             String phone = data.getStringExtra("phone");
             boolean male = data.getBooleanExtra("male", true);
 
-            Classroom.students.add(new Student(name, male, phone, (int)(Math.random() * 54 + 1), ""));
-            updateUi();
+            Student student = new Student(name, male, phone, (int) (Math.random() * 54 + 1));
+
+            ApiManager.addStudent(student, new ApiManager.AddStudentCallback() {
+                @Override
+                public void success(Student student) {
+                    student.setAvatarId(new Random().nextInt(AVATAR_COUNT) + 1);
+                    View view = addStudentView(student);
+                    StudentViewManager.randomPosition(MainActivity.this, studentContainer, view, studentViewPositions);
+                    StudentViewManager.startWaveAnimation(MainActivity.this, studentContainer, view);
+
+                    Classroom.students.add(student);
+                }
+            });
         }
         else if(resultCode == PopupStudentSettingActivity.RESULT_MODIFY) {
             targetStudent.setName(data.getStringExtra("name"));
@@ -267,27 +278,23 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void addStudentView(Student student) {
-        View studentView = StudentViewManager.getView(this, student, false);
+    private View addStudentView(Student student) {
+        View view = StudentViewManager.getView(this, student, false);
 
-        studentView.setOnLongClickListener(new View.OnLongClickListener() {
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public void onClick(View v) {
                 targetStudent = student;
 
                 Intent intent = new Intent(MainActivity.this, PopupStudentSettingActivity.class);
                 intent.putExtra("id", student.getId());
                 startActivityForResult(intent, POPUP_STUDENT);
-
-                return true;
             }
         });
 
-        studentContainer.addView(studentView);
-    }
+        studentContainer.addView(view);
 
-    private void removeStudentView() {
-        studentContainer.removeAllViews();
+        return view;
     }
 
     private void hideKeyboard() {

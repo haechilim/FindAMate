@@ -16,7 +16,7 @@ public class Student {
     private int avatarId;
     private int score = 0;
     private double happiness = 0.0;
-    private String statusMessage;
+    private String statusMessage = "";
     private List<Integer> favoritePartnerIds = new ArrayList<>();
     private List<Integer> partnerIds = new ArrayList<>();
     private boolean hasPartner;
@@ -24,6 +24,13 @@ public class Student {
 
     public Student() {
 
+    }
+
+    public Student(String name, boolean male, String phone, int avatarId) {
+        this.name = name;
+        this.male = male;
+        this.phone = phone;
+        this.avatarId = avatarId;
     }
 
     public Student(String name, boolean male, String phone, int avatarId, String statusMessage) {
