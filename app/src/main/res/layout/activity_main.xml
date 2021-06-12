@@ -40,11 +40,10 @@
                 android:id="@+id/classInformation"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="10"
-                android:text="길음중학교 2학년 3반"
                 android:layout_marginRight="5dp"
-                android:textColor="#ffffff"
-                android:gravity="center_vertical|right"/>
+                android:layout_weight="10"
+                android:gravity="center_vertical|right"
+                android:textColor="#ffffff" />
 
 
             <ImageView

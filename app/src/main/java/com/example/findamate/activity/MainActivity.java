@@ -16,7 +16,6 @@ import com.example.findamate.R;
 import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.School;
 import com.example.findamate.domain.Student;
-import com.example.findamate.helper.Logger;
 import com.example.findamate.manager.ApiManager;
 import com.example.findamate.manager.StudentViewManager;
 
@@ -50,13 +49,6 @@ public class MainActivity extends AppCompatActivity {
         StudentViewManager.startWaveAnimation(this, studentContainer);
 
         ApiManager.setMemberId(0);
-        ApiManager.school(new ApiManager.SchoolCallback() {
-            @Override
-            public void success(School school) {
-                Classroom.school = school;
-                updateSchool();
-            }
-        });
     }
 
     private void load() {
@@ -65,9 +57,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadSchool() {
-        Classroom.school.setName("선린고");
-        Classroom.school.setYear("2");
-        Classroom.school.setNumber("5");
+        ApiManager.getSchool(new ApiManager.SchoolCallback() {
+            @Override
+            public void success(School school) {
+                Classroom.school = school;
+                updateSchool();
+            }
+        });
     }
 
     private void loadStudents() {
@@ -182,7 +178,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onResultSchool(int resultCode) {
-        if(resultCode == RESULT_OK) updateSchool();
+        if(resultCode == RESULT_OK) {
+            ApiManager.updateSchool(Classroom.school);
+            updateSchool();
+        }
     }
 
     private void onResultStudent(int resultCode, Intent data) {

@@ -22,7 +22,7 @@ public class ApiManager {
     private static int memberId;
     private static ObjectMapper objectMapper = new ObjectMapper();
 
-    public static void school(SchoolCallback callback) {
+    public static void getSchool(SchoolCallback callback) {
         request(String.format("%s/%s?memberId=%d", HOST, "school", memberId), new JsonCallback() {
             @Override
             public void success(String json) {
@@ -31,6 +31,16 @@ public class ApiManager {
                 } catch (JsonProcessingException e) {
                     Logger.debug(e.getMessage());
                 }
+            }
+        });
+    }
+
+    public static void updateSchool(School school) {
+        request(String.format("%s/%s?memberId=%d&name=%s&year=%s&number=%s", HOST, "school/update", memberId,
+                school.getName(), school.getYear(), school.getNumber()), new JsonCallback() {
+            @Override
+            public void success(String json) {
+                Logger.debug(json);
             }
         });
     }
