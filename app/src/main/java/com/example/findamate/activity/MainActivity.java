@@ -16,9 +16,11 @@ import com.example.findamate.R;
 import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.School;
 import com.example.findamate.domain.Student;
+import com.example.findamate.helper.Logger;
 import com.example.findamate.manager.ApiManager;
 import com.example.findamate.manager.StudentViewManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,11 +44,7 @@ public class MainActivity extends AppCompatActivity {
         schoolView = findViewById(R.id.classInformation);
 
         load();
-        updateUi();
         bindEvents();
-
-        studentViewPositions = StudentViewManager.randomPositions(this, studentContainer);
-        StudentViewManager.startWaveAnimation(this, studentContainer);
 
         ApiManager.setMemberId(0);
     }
@@ -67,25 +65,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadStudents() {
-        List<Student> students = Classroom.students;
+        ApiManager.getStudents(new ApiManager.StudentCallback() {
+            @Override
+            public void success(List<Student> students) {
+                Classroom.students = students;
+                addStudentViews();
+                studentViewPositions = StudentViewManager.randomPositions(MainActivity.this, studentContainer);
+                StudentViewManager.startWaveAnimation(MainActivity.this, studentContainer);
+            }
+        });
 
-        if(!students.isEmpty()) return;
+        /*students.add(new Student("임준형",true,"haechilim",10,"카무이!"));
+        students.add(new Student("랄로",true,"haechilim",22,"카무이!"));
+        students.add(new Student("파카",true,"haechilim",49,"카무이!"));
+        students.add(new Student("괴물쥐",false,"haechilim",27,"카무이!"));
+        students.add(new Student("로지컬",true,"haechilim",44,"카무이!"));
+        students.add(new Student("도파",false,"haechilim",30,"카무이!"));
+        students.add(new Student("감스트",true,"haechilim",29,"카무이!"));
+        students.add(new Student("진용진",true,"haechilim",19,"카무이!"));
+        students.add(new Student("전국진",false,"haechilim",11,"카무이!"));
+        students.add(new Student("논리왕 전기",false,"haechilim",33,"카무이!"));
+        students.add(new Student("미야",false,"haechilim",32,"카무이!"));
+        students.add(new Student("구루루",true,"haechilim",23,"카무이!"));
+        students.add(new Student("우주하마",true,"haechilim",43,"카무이!"));*/
 
-        students.add(new Student("임준형",true,"haechilim", 10, "카무이!"));
-        students.add(new Student("랄로",true,"haechilim", 22, "카무이!"));
-        students.add(new Student("파카",true,"haechilim", 49, "카무이!"));
-        students.add(new Student("괴물쥐",false,"haechilim", 27, "카무이!"));
-        students.add(new Student("로지컬",true,"haechilim", 44, "카무이!"));
-        students.add(new Student("도파",false,"haechilim", 30, "카무이!"));
-        students.add(new Student("감스트",true,"haechilim", 29, "카무이!"));
-        students.add(new Student("진용진",true,"haechilim", 19, "카무이!"));
-        students.add(new Student("전국진",false,"haechilim", 11, "카무이!"));
-        students.add(new Student("논리왕 전기",false,"haechilim", 33, "카무이!"));
-        students.add(new Student("미야",false,"haechilim", 32, "카무이!"));
-        students.add(new Student("구루루",true,"haechilim", 23, "카무이!"));
-        students.add(new Student("우주하마",true,"haechilim", 43, "카무이!"));
-
-        students.get(0).addFavoritePartner(students.get(1));
+        /*students.get(0).addFavoritePartner(students.get(1));
         students.get(0).addFavoritePartner(students.get(8));
         students.get(0).addFavoritePartner(students.get(3));
 
@@ -135,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
         students.get(12).addFavoritePartner(students.get(9));
         students.get(12).addFavoritePartner(students.get(4));
-        students.get(12).addFavoritePartner(students.get(7));
+        students.get(12).addFavoritePartner(students.get(7));*/
     }
 
     private void updateUi() {

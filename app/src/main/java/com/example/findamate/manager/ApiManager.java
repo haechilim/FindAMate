@@ -16,6 +16,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 public class ApiManager {
     private static final String HOST = "http://35.247.50.32:8000";
@@ -41,6 +42,19 @@ public class ApiManager {
             @Override
             public void success(String json) {
                 Logger.debug(json);
+            }
+        });
+    }
+
+    public static void getStudents(StudentCallback callback) {
+        request(String.format("%s/%s?memberId=%d", HOST, "student", memberId), new JsonCallback() {
+            @Override
+            public void success(String json) {
+                try {
+                    callback.success(objectMapper.readValue(json, new TypeReference<List<Student>>() {}));
+                } catch (JsonProcessingException e) {
+                    Logger.debug(e.getMessage());
+                }
             }
         });
     }
@@ -102,6 +116,6 @@ public class ApiManager {
     }
 
     public interface StudentCallback {
-        void success(Student student);
+        void success(List<Student> students);
     }
 }
