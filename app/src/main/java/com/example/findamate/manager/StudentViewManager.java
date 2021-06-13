@@ -24,10 +24,10 @@ import java.util.List;
 import java.util.Random;
 
 public class StudentViewManager {
-    private static final int NORMAL_WIDTH = 56;
-    private static final int NORMAL_HEIGHT = 96;
-    private static final int MINI_WIDTH = 45;
-    private static final int MINI_HEIGHT = 77;
+    public static final int NORMAL_WIDTH = 56;
+    public static final int NORMAL_HEIGHT = 96;
+    public static final int MINI_WIDTH = 45;
+    public static final int MINI_HEIGHT = 77;
 
     public static View newView(Activity activity, Student student, boolean mini) {
         int width = mini ? MINI_WIDTH : NORMAL_WIDTH;

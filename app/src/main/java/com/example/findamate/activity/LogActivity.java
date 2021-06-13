@@ -41,22 +41,14 @@ public class LogActivity extends AppCompatActivity {
 
         switch (type) {
             case TYPE_HISTORY:
-                //histories = Classroom.histories;
                 showOkButton(false);
                 break;
 
             case TYPE_RESULT:
-                //List<History> historyList = Classroom.histories;
-
-                //if (historyList.size() == 0) break;
-
-                //histories.add(historyList.get(historyList.size() - 1));
-
                 showOkButton(false);
                 break;
 
             case TYPE_SIMULATION:
-                //histories = Classroom.getClonedHistories();
                 showOkButton(true);
 
                 okButton.setOnClickListener(new View.OnClickListener() {

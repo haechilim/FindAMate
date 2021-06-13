@@ -2,10 +2,12 @@ package com.example.findamate.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,23 +18,27 @@ import com.example.findamate.domain.History;
 import com.example.findamate.domain.Student;
 import com.example.findamate.helper.Logger;
 import com.example.findamate.helper.Util;
+import com.example.findamate.manager.StudentViewManager;
 import com.example.findamate.view.CoupleView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 public class LogAdapter extends BaseAdapter {
-    private final int COUNT = 5; //기록 화면 한줄에 보이는 커플 수
-
     private Activity activity;
     private List<History> histories;
+    private int itemsPerRow;
 
     public LogAdapter(Activity activity, List<History> histories) {
         this.activity = activity;
         this.histories = histories;
+
+        WindowManager windowManager = activity.getWindowManager();
+        DisplayMetrics metrics = activity.getResources().getDisplayMetrics();
+        int width = StudentViewManager.MINI_WIDTH + 15;
+        itemsPerRow = (int)Math.floor(metrics.widthPixels / Util.dpToPx(windowManager, width));
     }
 
     @Override
@@ -64,7 +70,7 @@ public class LogAdapter extends BaseAdapter {
         couplesParams.setMargins(0,0,0, Util.dpToPx(activity.getWindowManager(), 30));
 
         for(int index = 0; index < couples.size(); index++) {
-            if(index % COUNT == 0) {
+            if(index % itemsPerRow == 0) {
                 couplesContainer = new LinearLayout(activity);
                 couplesContainer.setOrientation(LinearLayout.HORIZONTAL);
                 couplesContainer.setGravity(Gravity.LEFT);
@@ -77,7 +83,7 @@ public class LogAdapter extends BaseAdapter {
             CoupleView coupleView = new CoupleView(activity, student1, student2);
             couplesContainer.addView(coupleView);
 
-            if(index % COUNT == COUNT - 1 || index >= couples.size() - 1) container.addView(couplesContainer, couplesParams);
+            if(index % itemsPerRow == itemsPerRow - 1 || index >= couples.size() - 1) container.addView(couplesContainer, couplesParams);
         }
 
         return view;
