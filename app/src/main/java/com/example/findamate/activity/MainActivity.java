@@ -204,12 +204,11 @@ public class MainActivity extends AppCompatActivity {
             String phone = data.getStringExtra("phone");
             boolean male = data.getBooleanExtra("male", true);
 
-            Student student = new Student(name, male, phone, (int) (Math.random() * 54 + 1));
+            Student student = new Student(name, male, phone, new Random().nextInt(AVATAR_COUNT) + 1);
 
             ApiManager.addStudent(student, new ApiManager.AMDStudentCallback() {
                 @Override
                 public void success(Student student) {
-                    student.setAvatarId(new Random().nextInt(AVATAR_COUNT) + 1);
                     View view = addStudentView(student);
                     StudentViewManager.randomPosition(MainActivity.this, studentContainer, view, studentViewPositions);
                     StudentViewManager.startWaveAnimation(MainActivity.this, studentContainer, view);
@@ -312,7 +311,6 @@ public class MainActivity extends AppCompatActivity {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.debug("클릭된 학생:" + view.getTag());
                 targetStudent = student;
                 selectedView = view;
 

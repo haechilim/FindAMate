@@ -68,11 +68,12 @@ public class StudentViewManager {
                 random.nextInt(1000), true);
     }
 
-    public static void startMatchingAnimation(Context context, View view1, View view2, View versus) {
+    public static void startMatchingAnimation(Context context, View view1, View view2, View versus, View happiness) {
         startAnimation(context, view1, R.anim.move_left, 500, false);
         startAnimation(context, view2, R.anim.move_right, 500, false);
         startAnimation(context, versus, R.anim.fade_in, 900, false);
         startAnimation(context, (View)versus.getParent(), R.anim.move_up, 1500, false);
+        startAnimation(context, happiness, R.anim.move_up, 1500, false);
     }
 
     private static void startAnimation(Context context, View view, int animationId, long startOffset, boolean infinite) {

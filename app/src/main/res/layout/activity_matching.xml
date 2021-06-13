@@ -57,30 +57,33 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/happinessContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_gravity="center"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="30dp"
         android:gravity="bottom"
-        android:layout_marginTop="80dp">
+        android:orientation="horizontal"
+        android:paddingTop="90dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="전체 만족도"
-            android:textStyle="bold"
-            android:textSize="12sp"
             android:layout_marginRight="5dp"
-            android:textColor="#c7c7c7" />
+            android:text="전체 만족도"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/happiness"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0%"
-            android:textStyle="bold"
+            android:textColor="#42d2c4"
             android:textSize="18sp"
-            android:textColor="#42d2c4" />
+            android:textStyle="bold" />
     </LinearLayout>
 
     <ImageView
@@ -108,10 +111,16 @@
             android:layout_marginBottom="5dp"/>
 
         <HorizontalScrollView
-            android:id="@+id/resultContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="5dp"
-            android:paddingBottom="5dp"/>
+            android:paddingBottom="5dp">
+
+            <LinearLayout
+                android:id="@+id/resultContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"></LinearLayout>
+        </HorizontalScrollView>
     </LinearLayout>
 </FrameLayout>

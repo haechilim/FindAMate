@@ -16,7 +16,7 @@
             android:layout_weight="5"
             android:adjustViewBounds="true"
             android:scaleType="fitStart"
-            android:src="@drawable/avatar01" />
+             />
 
         <TextView
             android:id="@+id/name"
@@ -28,9 +28,8 @@
             android:gravity="center"
             android:lines="1"
             android:maxLines="1"
-            android:text="임준형"
             android:textColor="#ffffff"
-            android:textSize="10sp"/>
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/statusMessage"
@@ -40,11 +39,10 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:gravity="center"
+            android:lines="1"
             android:maxLines="1"
-            android:text="카무이!"
-            android:textSize="7sp"
             android:textColor="#ffffff"
-            android:lines="1"/>
+            android:textSize="7sp" />
     </LinearLayout>
 
     <TextView
@@ -54,7 +52,6 @@
         android:layout_gravity="end"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="78%"
         android:textColor="#ffffff"
         android:textSize="10sp" />
 </FrameLayout>

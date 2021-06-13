@@ -28,4 +28,13 @@ public class Couple {
     public void setStudent2(Student student2) {
         this.student2 = student2;
     }
+
+    private String toString(Student student) {
+        return student != null ? String.format("%s/%s(%d)", student.getName(), student.isMale() ? "남" : "여", student.getScore()) : "";
+    }
+
+    @Override
+    public String toString() {
+        return String.format("{%s, %s}", toString(student1), toString(student2));
+    }
 }

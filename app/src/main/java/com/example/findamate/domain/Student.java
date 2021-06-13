@@ -1,14 +1,11 @@
 package com.example.findamate.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Student {
     public final static int MAX_FAVORITE_SCORE = 3; // 최대 몇지망까지 입력받을지의 값
 
-    //@JsonProperty("이름")
     private int id;
     private String name;
     private boolean male;
@@ -111,23 +108,21 @@ public class Student {
     }
 
     public void addPartner(Student student) {
-        partnerIds.add(student.getId());
+        partnerIds.add(student != null ? student.getId() : -1);
     }
 
     public void addScore(int number) {
         score += number;
-
-        calculateHappiness();
     }
 
     public int favoritePartnersSize() {
         return favoritePartnerIds.size();
     }
 
-    private void calculateHappiness() {
-        int maxRound = Classroom.getMaxRound();
-        if(score < 0) happiness = 0;
-        else happiness = 100 - (MAX_FAVORITE_SCORE - (double)score / maxRound) * 20;
+    public void calculateHappiness() {
+        int round = getPartnerIds().size();
+        if(score < 0 || round <= 0) happiness = 0;
+        else happiness = (double)score / MAX_FAVORITE_SCORE / round * 100;
     }
 
     public int getId() {
@@ -146,7 +141,7 @@ public class Student {
         this.name = name;
     }
 
-    public boolean isHasPartner() {
+    public boolean hasPartner() {
         return hasPartner;
     }
 

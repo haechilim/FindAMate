@@ -1,15 +1,14 @@
 package com.example.findamate.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.findamate.R;
 import com.example.findamate.domain.Classroom;
@@ -17,33 +16,31 @@ import com.example.findamate.domain.Couple;
 import com.example.findamate.domain.History;
 import com.example.findamate.domain.Student;
 import com.example.findamate.manager.ApiManager;
+import com.example.findamate.manager.MatchingManager;
 import com.example.findamate.manager.StudentViewManager;
 import com.example.findamate.view.CoupleView;
 import com.example.findamate.view.StudentView;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MatchingActivity extends AppCompatActivity {
     private Timer timer;
-    private int index = 0;
+    private int coupleIndex;
     private boolean isSimulation;
-    private List<Couple> knownCouples = new ArrayList<>();
+    private int mode;
+    private boolean duplicated;
     private LinearLayout student1;
     private LinearLayout student2;
     private ImageView versus;
-    private HorizontalScrollView resultContainer;
-    private LinearLayout container;
-    private CoupleView exCoupleView;
+    private LinearLayout happinessContainer;
+    private LinearLayout resultContainer;
+    private CoupleView coupleView;
     private TextView classInformation;
     private List<Student> students;
+    private List<Couple> couples;
     private List<History> histories;
-    private History history;
-    private List<Couple> couples = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +50,8 @@ public class MatchingActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int type = intent.getIntExtra("type", -1);
         isSimulation = intent.getBooleanExtra("isSimulation", true);
-        int mode = intent.getIntExtra("mode", 1);
-        boolean duplicated = intent.getBooleanExtra("duplicated", false);
+        mode = intent.getIntExtra("mode", 1);
+        duplicated = intent.getBooleanExtra("duplicated", false);
 
         if (type == LogActivity.TYPE_SIMULATION) {
             students = Classroom.getClonedStudents();
@@ -65,30 +62,43 @@ public class MatchingActivity extends AppCompatActivity {
             histories = isSimulation ? Classroom.ClonedHistories() : Classroom.histories;
         }
 
-        container = new LinearLayout(this);
-        container.setOrientation(LinearLayout.HORIZONTAL);
-
         classInformation = findViewById(R.id.classInformation);
+        happinessContainer = findViewById(R.id.happinessContainer);
         resultContainer = findViewById(R.id.resultContainer);
         student1 = findViewById(R.id.student1);
         student2 = findViewById(R.id.student2);
         versus = findViewById(R.id.versus);
 
-        ApiManager.addRound(new ApiManager.AddRoundCallback() {
-            @Override
-            public void success(History his) {
-                history = new History(his.getId());
-            }
-        });
-
         init(Classroom.getClassInfo());
         bindEvents();
-        matchingPartner(mode, duplicated);
-        updateHistory();
-        setTimer();
+        startMatching();
     }
 
-    private void setTimer() {
+    private void startMatching() {
+        if(isSimulation) {
+            match();
+            startAnimation();
+            return;
+        }
+
+        ApiManager.addRound(new ApiManager.AddRoundCallback() {
+            @Override
+            public void success(History history) {
+                match();
+                startAnimation();
+                //addMatch();
+            }
+        });
+    }
+
+    private void match() {
+        MatchingManager matchingManager = new MatchingManager(isSimulation, mode, duplicated, students);
+        matchingManager.match();
+        couples = matchingManager.getCouples();
+    }
+
+    private void startAnimation() {
+        coupleIndex = 0;
         timer = new Timer();
 
         TimerTask timerTask = new TimerTask() {
@@ -97,8 +107,12 @@ public class MatchingActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(index >= couples.size()) toLog();
-                        else animation(couples.get(index++));
+                        updateResultView();
+                        if(coupleIndex >= couples.size()) startLogActivity();
+                        else {
+                            startMatchingAnimation(couples.get(coupleIndex));
+                            coupleIndex++;
+                        }
                     }
                 });
             }
@@ -111,182 +125,85 @@ public class MatchingActivity extends AppCompatActivity {
         findViewById(R.id.skip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toLog();
+                startLogActivity();
             }
         });
     }
 
     private void init(String classInformation) {
         this.classInformation.setText(classInformation);
-        knownCouples = new ArrayList<>();
     }
 
-    private void toLog() {
-        timer.cancel();
-        endAnimation();
-    }
-
-    private void updateHistory() {
+    /*private void updateHistory() {
         history.setCalendar(Calendar.getInstance());
         history.setCouples(couples);
 
         histories.add(history);
-    }
+    }*/
 
-    private boolean matchingPartner(int mode, boolean duplicated) {
-        if(students.size() <= 0) return false;
-
-        sort();
-        clearPartner();
-        bestMatching(mode, duplicated);
-        secondBestMatching(mode, duplicated, true);
-        secondBestMatching(mode, duplicated, false);
-
-        return everyoneHasPartner();
-    }
-
-    private void sort() {
-        students.sort(new Comparator<Student>() {
-            @Override
-            public int compare(Student o1, Student o2) {
-                return o1.getScore() - o2.getScore();
-            }
-        });
-    }
-
-    private void clearPartner() {
-        for (int i = 0; i < students.size(); i++) {
-            students.get(i).clearHasPartner();
-        }
-    }
-
-    private void bestMatching(int mode, boolean duplicated) {
-        for (int choice = 0; choice < Student.MAX_FAVORITE_SCORE; choice++) {
-            for (int i = 0; i < students.size(); i++) {
-                Student student = students.get(i);
-                Student partner = Classroom.findStudentById(student.getFavoritePartnerId(choice), isSimulation);
-
-                if(!isSuitablePartner(student, partner, mode, duplicated)) continue;
-
-                if (partner.getFavoritePartnerId(0) == student.getId()) {
-                    makePartner(student, partner);
-                    updateScore(student, partner);
-                }
-            }
-        }
-    }
-
-    private void secondBestMatching(int mode, boolean duplicated, boolean checkSuitable) {
-        for (int i = 0; i < students.size(); i++) {
-            Student student = students.get(i);
-
-            if(student.isHasPartner()) continue;
-
-            for (int choice = i + 1; choice < students.size(); choice++) {
-                Student partner = students.get(choice);
-
-                if ((student.isHasPartner() || partner.isHasPartner())) continue;
-                if(checkSuitable && !isSuitablePartner(student, partner, mode, duplicated)) continue;
-
-                makePartner(student, partner);
-                updateScore(student, partner);
-                break;
-            }
-        }
-    }
-
-    private boolean isSuitablePartner(Student student, Student partner, int mode, boolean duplicated) {
-        if ((student.isHasPartner() || partner.isHasPartner())) return false;
-        if (!duplicated && student.isExpartner(partner)) return false;
-        if (mode == PopupMatchingSettingActivity.MATCHING_MODE_DIFF && student.isMale() == partner.isMale()) return false;
-        else if (mode == PopupMatchingSettingActivity.MATCHING_MODE_SAME && student.isMale() != partner.isMale()) return false;
-
-        return true;
-    }
-
-    private void makePartner(Student student, Student partner) {
-        ApiManager.addMate(student, partner, history.getId());
-
-        student.addPartner(partner);
-        partner.addPartner(student);
-
-        student.setHasPartner(true);
-        partner.setHasPartner(true);
-
-        couples.add(new Couple(student, partner));
-    }
-
-    private void makePartner(Student student) {
-        student.addPartner(student);
-        student.setHasPartner(true);
-
-        couples.add(new Couple(student, student));
-    }
-
-    private void updateScore(Student student, Student partner) {
-        student.addScore(student.getFavoritePartnerIndex(partner));
-        partner.addScore(partner.getFavoritePartnerIndex(student));
-    }
-
-    private void updateScore(Student student) {
-        student.addScore(-1);
-    }
-
-    private boolean everyoneHasPartner() {
-        for(int i = 0; i < students.size(); i++) {
-            Student student = students.get(i);
-
-            if(!student.isHasPartner()) {
-                makePartner(student);
-                updateScore(student);
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public void animation(Couple couple) {
+    private void startMatchingAnimation(Couple couple) {
         resetViews();
-
-        knownCouples.add(couple);
         updateHappiness();
 
         student1.addView(new StudentView(this, couple.getStudent1()));
         student2.addView(new StudentView(this, couple.getStudent2()));
+        coupleView = new CoupleView(this, couple.getStudent1(), couple.getStudent2());
 
-        StudentViewManager.startMatchingAnimation(this, student1, student2, versus);
-
-        if(knownCouples.size() > 1) {
-            container.addView(exCoupleView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            resultContainer.addView(container);
-        }
-
-        exCoupleView = new CoupleView(this, couple.getStudent1(), couple.getStudent2());
+        StudentViewManager.startMatchingAnimation(this, student1, student2, versus, happinessContainer);
     }
 
-    public void endAnimation() {
+    private void updateResultView() {
+        if(coupleView == null) return;
+        resultContainer.addView(coupleView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+    }
+
+    private void startLogActivity() {
+        timer.cancel();
+
         Intent intent = new Intent(this, LogActivity.class);
         intent.putExtra("type", isSimulation ? LogActivity.TYPE_SIMULATION : LogActivity.TYPE_RESULT);
-        this.startActivity(intent);
+        startActivity(intent);
     }
 
     private void resetViews() {
         student1.removeAllViews();
         student2.removeAllViews();
-        resultContainer.removeAllViews();
     }
 
     private void updateHappiness() {
-        int count = knownCouples.size();
-        double totalHappiness = 0.0;
+        int count = 0;
+        double total = 0;
+        int round = 0;
+        String result = "-";
 
-        for(int i = 0; i < count; i++) {
-            Couple couple = knownCouples.get(i);
+        for(int i = 0; i <= coupleIndex; i++) {
+            if(i >= couples.size()) break;
 
-            totalHappiness += couple.getStudent1().getHappiness() + couple.getStudent2().getHappiness();
+            Couple couple = couples.get(i);
+            Student student1 = couple.getStudent1();
+            Student student2 = couple.getStudent2();
+
+            if(student1 != null) {
+                //total += student1.getScore();
+                total += student1.getHappiness();
+                count++;
+                if(round == 0) round = student1.getPartnerIds().size();
+            }
+
+            if(student2 != null) {
+                //total += student2.getScore();
+                total += student2.getHappiness();
+                count++;
+            }
         }
 
-        ((TextView)findViewById(R.id.happiness)).setText(Math.round(totalHappiness / (count * 2)) + "%");
+        if(count > 0 && round > 0) {
+//            double average = (double)total / count / round;
+//            double happiness = average / Student.MAX_FAVORITE_SCORE * 100;
+//            result = String.format("%d%%", Math.round(happiness));
+            result = String.format("%d%%", Math.round(total / count));
+        }
+
+        ((TextView)findViewById(R.id.happiness)).setText(result);
     }
 }

@@ -48,6 +48,8 @@ public class StudentView extends LinearLayout {
         TextView statusMessage = findViewById(R.id.statusMessage);
         TextView score = findViewById(R.id.score);
 
+        if(student == null) return;
+
         avatar.setImageResource(toAvatarResourceId(student.getAvatarId()));
         nameView.setText(student.getName());
         statusMessage.setText(student.getStatusMessage());

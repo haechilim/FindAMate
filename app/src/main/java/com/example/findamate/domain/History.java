@@ -10,10 +10,6 @@ public class History {
     private List<Couple> couples;
     private List<Couple> clonedCouples = new ArrayList<>();
 
-    public History(int id) {
-        this.id = id;
-    }
-
     public History(Calendar calendar, List<Couple> couples) {
         this.calendar = calendar;
         this.couples = couples;

@@ -9,12 +9,9 @@ import android.widget.CheckBox;
 import android.widget.RadioGroup;
 
 import com.example.findamate.R;
+import com.example.findamate.manager.MatchingManager;
 
 public class PopupMatchingSettingActivity extends Activity {
-    public static final int MATCHING_MODE_DIFF = 1;
-    public static final int MATCHING_MODE_SAME = 2;
-    public static final int MATCHING_MODE_NONE = 3;
-
     private int type;
 
     @Override
@@ -30,13 +27,13 @@ public class PopupMatchingSettingActivity extends Activity {
         findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int mode = MATCHING_MODE_DIFF;
+                int mode = MatchingManager.MATCHING_MODE_DIFF;
                 int modeId = ((RadioGroup)findViewById(R.id.matchingMode)).getCheckedRadioButtonId();
                 boolean duplicated = ((CheckBox) findViewById(R.id.duplicated)).isChecked();
 
-                if(modeId == R.id.mode1)  mode = MATCHING_MODE_DIFF;
-                else if(modeId == R.id.mode2)  mode = MATCHING_MODE_SAME;
-                else if(modeId == R.id.mode3)  mode = MATCHING_MODE_NONE;
+                if(modeId == R.id.mode1)  mode = MatchingManager.MATCHING_MODE_DIFF;
+                else if(modeId == R.id.mode2)  mode = MatchingManager.MATCHING_MODE_SAME;
+                else if(modeId == R.id.mode3)  mode = MatchingManager.MATCHING_MODE_NONE;
 
                 if (type == LogActivity.TYPE_SIMULATION) {
                     Intent intent = new Intent(PopupMatchingSettingActivity.this, MatchingActivity.class);
