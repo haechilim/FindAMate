@@ -96,7 +96,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="230dp"
         android:layout_gravity="bottom"
         android:orientation="vertical">
 
@@ -104,11 +104,11 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/seperator"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"/>
+            android:src="@drawable/seperator" />
 
         <HorizontalScrollView
             android:layout_width="match_parent"

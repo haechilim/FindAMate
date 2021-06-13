@@ -14,11 +14,14 @@ import com.example.findamate.R;
 import com.example.findamate.domain.Couple;
 import com.example.findamate.domain.History;
 import com.example.findamate.domain.Student;
+import com.example.findamate.helper.Logger;
 import com.example.findamate.helper.Util;
 import com.example.findamate.view.CoupleView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class LogAdapter extends BaseAdapter {
@@ -29,7 +32,6 @@ public class LogAdapter extends BaseAdapter {
 
     public LogAdapter(Activity activity, List<History> histories) {
         this.activity = activity;
-        Collections.reverse(histories);
         this.histories = histories;
     }
 
@@ -50,13 +52,12 @@ public class LogAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        List<Couple> couples = histories.get(position).getCouples();
+        History history = histories.get(position);
+        List<Couple> couples = history.getCouples();
 
         LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.layout_list_history, parent, false);
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
-        ((TextView) view.findViewById(R.id.date)).setText(simpleDateFormat.format(histories.get(position).getCalendar().getTimeInMillis()));
+        ((TextView) view.findViewById(R.id.date)).setText(formatDate(history));
         LinearLayout container = view.findViewById(R.id.couplesContainer);
         LinearLayout couplesContainer = null;
         LinearLayout.LayoutParams couplesParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -80,5 +81,18 @@ public class LogAdapter extends BaseAdapter {
         }
 
         return view;
+    }
+
+    private String formatDate(History history) {
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(History.DATE_FORMAT);
+            Date date = simpleDateFormat.parse(history.getDate());
+            simpleDateFormat = new SimpleDateFormat("yyyy년 M월 d일 H시 m분");
+            return simpleDateFormat.format(date);
+        } catch (ParseException e) {
+            Logger.debug(e.getMessage());
+        }
+
+        return "";
     }
 }

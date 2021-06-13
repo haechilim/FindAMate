@@ -32,7 +32,7 @@ public class Classroom {
         return histories.size() + 1;
     }
 
-    public static List<Student> ClonedStudents() {
+    public static List<Student> clonedStudents() {
         clonedStudents.clear();
 
         for(int i = 0; i < students.size(); i++) {
@@ -42,14 +42,17 @@ public class Classroom {
         return clonedStudents;
     }
 
-    public static List<History> ClonedHistories() {
+    public static List<History> clonedHistories() {
         clonedHistories.clear();
+        return clonedHistories;
+
+        /*clonedHistories.clear();
 
         for(int i = 0; i < histories.size(); i++) {
             clonedHistories.add(histories.get(i).clone());
         }
 
-        return clonedHistories;
+        return clonedHistories;*/
     }
 
     public static List<Student> getClonedStudents() {

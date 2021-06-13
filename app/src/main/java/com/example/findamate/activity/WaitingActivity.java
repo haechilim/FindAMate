@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.findamate.R;
 import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.Student;
+import com.example.findamate.helper.Logger;
 import com.example.findamate.manager.StudentViewManager;
 
 import java.util.List;
@@ -29,7 +30,8 @@ public class WaitingActivity extends AppCompatActivity {
         students = Classroom.students;
 
         for(int i = 0; i < students.size(); i++) {
-            studentContainer.addView(StudentViewManager.newView(this, students.get(i), false));
+            View view = (View)StudentViewManager.newView(this, students.get(i), false).getParent();
+            studentContainer.addView(view);
         }
 
         StudentViewManager.randomPositions(this, studentContainer);

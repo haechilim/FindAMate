@@ -15,12 +15,15 @@ import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.Couple;
 import com.example.findamate.domain.History;
 import com.example.findamate.domain.Student;
+import com.example.findamate.helper.Logger;
 import com.example.findamate.manager.ApiManager;
 import com.example.findamate.manager.MatchingManager;
 import com.example.findamate.manager.StudentViewManager;
 import com.example.findamate.view.CoupleView;
 import com.example.findamate.view.StudentView;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -58,8 +61,8 @@ public class MatchingActivity extends AppCompatActivity {
             histories = Classroom.getClonedHistories();
         }
         else {
-            students = isSimulation ? Classroom.ClonedStudents() : Classroom.students;
-            histories = isSimulation ? Classroom.ClonedHistories() : Classroom.histories;
+            students = isSimulation ? Classroom.clonedStudents() : Classroom.students;
+            histories = isSimulation ? Classroom.clonedHistories() : Classroom.histories;
         }
 
         classInformation = findViewById(R.id.classInformation);
@@ -78,6 +81,7 @@ public class MatchingActivity extends AppCompatActivity {
         if(isSimulation) {
             match();
             startAnimation();
+            addHistory();
             return;
         }
 
@@ -86,7 +90,7 @@ public class MatchingActivity extends AppCompatActivity {
             public void success(History history) {
                 match();
                 startAnimation();
-                //addMatch();
+                updateDb(history.getId());
             }
         });
     }
@@ -134,12 +138,23 @@ public class MatchingActivity extends AppCompatActivity {
         this.classInformation.setText(classInformation);
     }
 
-    /*private void updateHistory() {
-        history.setCalendar(Calendar.getInstance());
-        history.setCouples(couples);
+    private void updateDb(int roundId) {
+        for(int i = 0; i < couples.size(); i++) {
+            Couple couple = couples.get(i);
+            ApiManager.addMate(couple.getStudent1(), couple.getStudent2(), roundId);
+        }
 
+        for(int i = 0; i < students.size(); i++) {
+            ApiManager.modifyStudent(students.get(i), null);
+        }
+    }
+
+    private void addHistory() {
+        History history = new History();
+        history.setDate(new Date());
+        history.setCouples(couples);
         histories.add(history);
-    }*/
+    }
 
     private void startMatchingAnimation(Couple couple) {
         resetViews();

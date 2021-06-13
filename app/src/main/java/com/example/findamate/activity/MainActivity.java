@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
@@ -17,7 +16,6 @@ import com.example.findamate.R;
 import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.School;
 import com.example.findamate.domain.Student;
-import com.example.findamate.helper.Logger;
 import com.example.findamate.manager.ApiManager;
 import com.example.findamate.manager.StudentViewManager;
 
@@ -68,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadStudents() {
-        ApiManager.getStudents(new ApiManager.StudentCallback() {
+        ApiManager.getStudents(new ApiManager.StudentListCallback() {
             @Override
             public void success(List<Student> students) {
                 Classroom.students = students;
@@ -206,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
 
             Student student = new Student(name, male, phone, new Random().nextInt(AVATAR_COUNT) + 1);
 
-            ApiManager.addStudent(student, new ApiManager.AMDStudentCallback() {
+            ApiManager.addStudent(student, new ApiManager.StudentCallback() {
                 @Override
                 public void success(Student student) {
                     View view = addStudentView(student);
@@ -224,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
             student.setMale(data.getBooleanExtra("male", true));
             student.setPhone(data.getStringExtra("phone"));
 
-            ApiManager.modifyStudent(targetStudent, new ApiManager.AMDStudentCallback() {
+            ApiManager.modifyStudent(targetStudent, new ApiManager.StudentCallback() {
                 @Override
                 public void success(Student student) {
                     for(int i = 0; i < Classroom.students.size(); i++) {

@@ -1,16 +1,43 @@
 package com.example.findamate.domain;
 
 public class Couple {
+    private int studentId1;
+    private int studentId2;
     private Student student1;
     private Student student2;
+
+    public Couple() {}
 
     public Couple(Student student1, Student student2) {
         this.student1 = student1;
         this.student2 = student2;
     }
 
+    public Couple(int studentId1, int studentId2, Student student1, Student student2) {
+        this.studentId1 = studentId1;
+        this.studentId2 = studentId2;
+        this.student1 = student1;
+        this.student2 = student2;
+    }
+
     public Couple clone() {
-        return new Couple(student1, student2);
+        return new Couple(studentId1, studentId2, student1, student2);
+    }
+
+    public int getStudentId1() {
+        return studentId1;
+    }
+
+    public void setStudentId1(int studentId1) {
+        this.studentId1 = studentId1;
+    }
+
+    public int getStudentId2() {
+        return studentId2;
+    }
+
+    public void setStudentId2(int studentId2) {
+        this.studentId2 = studentId2;
     }
 
     public Student getStudent1() {

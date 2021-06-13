@@ -15,6 +15,8 @@ import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.Couple;
 import com.example.findamate.domain.History;
 import com.example.findamate.domain.Student;
+import com.example.findamate.helper.Logger;
+import com.example.findamate.manager.ApiManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,7 +26,8 @@ public class LogActivity extends AppCompatActivity {
     public final static int TYPE_HISTORY = 0;
     public final static int TYPE_RESULT = 1;
     public final static int TYPE_SIMULATION = 2;
-    private List<History> histories = new ArrayList<>();
+
+    private int type;
     private ImageView okButton;
 
     @Override
@@ -32,29 +35,28 @@ public class LogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);
 
-        okButton = findViewById(R.id.ok);
+        type = getIntent().getIntExtra("type", TYPE_HISTORY);
 
-        Intent intent = getIntent();
-        int type = intent.getIntExtra("type", TYPE_HISTORY);
+        okButton = findViewById(R.id.ok);
 
         switch (type) {
             case TYPE_HISTORY:
-                histories = Classroom.histories;
+                //histories = Classroom.histories;
                 showOkButton(false);
                 break;
 
             case TYPE_RESULT:
-                List<History> historyList = Classroom.histories;
+                //List<History> historyList = Classroom.histories;
 
-                if (historyList.size() == 0) break;
+                //if (historyList.size() == 0) break;
 
-                histories.add(historyList.get(historyList.size() - 1));
+                //histories.add(historyList.get(historyList.size() - 1));
 
                 showOkButton(false);
                 break;
 
             case TYPE_SIMULATION:
-                histories = Classroom.getClonedHistories();
+                //histories = Classroom.getClonedHistories();
                 showOkButton(true);
 
                 okButton.setOnClickListener(new View.OnClickListener() {
@@ -68,9 +70,48 @@ public class LogActivity extends AppCompatActivity {
                 break;
         }
 
+        load();
+        bindEvents();
+    }
+
+    private void load() {
+        ApiManager.getRounds(new ApiManager.RoundListCallback() {
+            @Override
+            public void success(List<History> histories) {
+                refineHistories(histories);
+
+                if(type == TYPE_SIMULATION) {
+                    List<History> simulationHistories = Classroom.getClonedHistories();
+
+                    for(int i = 0; i < simulationHistories.size(); i++) {
+                        histories.add(0, simulationHistories.get(i));
+                    }
+                }
+
+                setAdapter(histories);
+            }
+        });
+    }
+
+    private void refineHistories(List<History> histories) {
+        for(int i = 0; i < histories.size(); i++) {
+            History history = histories.get(i);
+            List<Couple> couples = history.getCouples();
+
+            for(int j = 0; j < couples.size(); j++) {
+                Couple couple = couples.get(j);
+                couple.setStudent1(Classroom.findStudentById(couple.getStudentId1(), false));
+                couple.setStudent2(Classroom.findStudentById(couple.getStudentId2(), false));
+            }
+        }
+    }
+
+    private void setAdapter(List<History> histories) {
         LogAdapter logAdapter = new LogAdapter(this, histories);
         ((ListView)findViewById(R.id.logList)).setAdapter(logAdapter);
+    }
 
+    private void bindEvents() {
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

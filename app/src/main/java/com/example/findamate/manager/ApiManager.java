@@ -11,7 +11,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -48,7 +47,7 @@ public class ApiManager {
         });
     }
 
-    public static void getStudents(StudentCallback callback) {
+    public static void getStudents(StudentListCallback callback) {
         request(String.format("%s/%s?memberId=%d", HOST, "student", memberId), new JsonCallback() {
             @Override
             public void success(String json) {
@@ -61,7 +60,7 @@ public class ApiManager {
         });
     }
 
-    public static void addStudent(Student student, AMDStudentCallback callback) {
+    public static void addStudent(Student student, StudentCallback callback) {
         request(String.format("%s/%s?memberId=%d&name=%s&male=%s&phone=%s&avatarId=%d&score=%d&happiness=%d&message=%s",
                 HOST, "student/add", memberId, student.getName(), (student.isMale() ? "true" : "false"), student.getPhone(),
                 student.getAvatarId(), student.getScore(), ((int)student.getHappiness()), student.getStatusMessage()), new JsonCallback() {
@@ -76,14 +75,14 @@ public class ApiManager {
         });
     }
 
-    public static void modifyStudent(Student student, AMDStudentCallback callback) {
+    public static void modifyStudent(Student student, StudentCallback callback) {
         request(String.format("%s/%s?id=%d&name=%s&male=%s&phone=%s&avatarId=%d&score=%d&happiness=%d&statusMessage=%s",
                 HOST, "student/modify", student.getId(), student.getName(), (student.isMale() ? "true" : "false"), student.getPhone(),
                 student.getAvatarId(), student.getScore(), ((int)student.getHappiness()), student.getStatusMessage()), new JsonCallback() {
             @Override
             public void success(String json) {
                 try {
-                    callback.success(objectMapper.readValue(json, new TypeReference<Student>() {}));
+                    if(callback != null) callback.success(objectMapper.readValue(json, new TypeReference<Student>() {}));
                 } catch (JsonProcessingException e) {
                     Logger.debug(e.getMessage());
                 }
@@ -116,6 +115,20 @@ public class ApiManager {
             @Override
             public void success(String json) {
                 Logger.debug(json);
+            }
+        });
+    }
+
+    public static void getRounds(RoundListCallback callback) {
+        request(String.format("%s/%s?memberId=%d", HOST, "round", memberId), new JsonCallback() {
+            @Override
+            public void success(String json) {
+                Logger.debug(json);
+                try {
+                    callback.success(objectMapper.readValue(json, new TypeReference<List<History>>() {}));
+                } catch (JsonProcessingException e) {
+                    Logger.debug(e.getMessage());
+                }
             }
         });
     }
@@ -189,12 +202,16 @@ public class ApiManager {
         void success(School school);
     }
 
-    public interface StudentCallback {
+    public interface StudentListCallback {
         void success(List<Student> students);
     }
 
-    public interface AMDStudentCallback {
+    public interface StudentCallback {
         void success(Student student);
+    }
+
+    public interface RoundListCallback {
+        void success(List<History> histories);
     }
 
     public interface AddRoundCallback {
