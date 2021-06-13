@@ -5,9 +5,14 @@ import java.util.Calendar;
 import java.util.List;
 
 public class History {
+    private int id;
     private Calendar calendar;
     private List<Couple> couples;
     private List<Couple> clonedCouples = new ArrayList<>();
+
+    public History(int id) {
+        this.id = id;
+    }
 
     public History(Calendar calendar, List<Couple> couples) {
         this.calendar = calendar;
@@ -20,6 +25,22 @@ public class History {
         }
 
         return new History(calendar, clonedCouples);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public List<Couple> getClonedCouples() {
+        return clonedCouples;
+    }
+
+    public void setClonedCouples(List<Couple> clonedCouples) {
+        this.clonedCouples = clonedCouples;
     }
 
     public Calendar getCalendar() {

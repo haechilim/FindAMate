@@ -78,6 +78,59 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        /*addFavoritePartner(Classroom.students.get(0), Classroom.students.get(1), 1);
+        addFavoritePartner(Classroom.students.get(0), Classroom.students.get(8), 2);
+        addFavoritePartner(Classroom.students.get(0), Classroom.students.get(3), 3);
+
+        addFavoritePartner(Classroom.students.get(1), Classroom.students.get(10), 1);
+        addFavoritePartner(Classroom.students.get(1), Classroom.students.get(11), 2);
+        addFavoritePartner(Classroom.students.get(1), Classroom.students.get(9), 3);
+
+        addFavoritePartner(Classroom.students.get(2), Classroom.students.get(9), 1);
+        addFavoritePartner(Classroom.students.get(2), Classroom.students.get(6), 2);
+        addFavoritePartner(Classroom.students.get(2), Classroom.students.get(10), 3);
+
+        addFavoritePartner(Classroom.students.get(3), Classroom.students.get(1), 1);
+        addFavoritePartner(Classroom.students.get(3), Classroom.students.get(0), 2);
+        addFavoritePartner(Classroom.students.get(3), Classroom.students.get(10), 3);
+
+        addFavoritePartner(Classroom.students.get(4), Classroom.students.get(7), 1);
+        addFavoritePartner(Classroom.students.get(4), Classroom.students.get(8), 2);
+        addFavoritePartner(Classroom.students.get(4), Classroom.students.get(9), 3);
+
+        addFavoritePartner(Classroom.students.get(5), Classroom.students.get(1), 1);
+        addFavoritePartner(Classroom.students.get(5), Classroom.students.get(2), 2);
+        addFavoritePartner(Classroom.students.get(5), Classroom.students.get(0), 3);
+
+        addFavoritePartner(Classroom.students.get(6), Classroom.students.get(4), 1);
+        addFavoritePartner(Classroom.students.get(6), Classroom.students.get(0), 2);
+        addFavoritePartner(Classroom.students.get(6), Classroom.students.get(5), 3);
+
+        addFavoritePartner(Classroom.students.get(7), Classroom.students.get(8), 1);
+        addFavoritePartner(Classroom.students.get(7), Classroom.students.get(6), 2);
+        addFavoritePartner(Classroom.students.get(7), Classroom.students.get(10), 3);
+
+        addFavoritePartner(Classroom.students.get(8), Classroom.students.get(3), 1);
+        addFavoritePartner(Classroom.students.get(8), Classroom.students.get(11), 2);
+        addFavoritePartner(Classroom.students.get(8), Classroom.students.get(5), 3);
+
+        addFavoritePartner(Classroom.students.get(9), Classroom.students.get(4), 1);
+        addFavoritePartner(Classroom.students.get(9), Classroom.students.get(10), 2);
+        addFavoritePartner(Classroom.students.get(9), Classroom.students.get(6), 3);
+
+        addFavoritePartner(Classroom.students.get(10), Classroom.students.get(1), 1);
+        addFavoritePartner(Classroom.students.get(10), Classroom.students.get(5), 2);
+        addFavoritePartner(Classroom.students.get(10), Classroom.students.get(4), 3);
+
+        addFavoritePartner(Classroom.students.get(11), Classroom.students.get(9), 1);
+        addFavoritePartner(Classroom.students.get(11), Classroom.students.get(4), 2);
+        addFavoritePartner(Classroom.students.get(11), Classroom.students.get(7), 3);
+
+        addFavoritePartner(Classroom.students.get(12), Classroom.students.get(9), 1);
+        addFavoritePartner(Classroom.students.get(12), Classroom.students.get(4), 2);
+        addFavoritePartner(Classroom.students.get(12), Classroom.students.get(7), 3);*/
+
         /*students.add(new Student("임준형",true,"haechilim",10,"카무이!"));
         students.add(new Student("랄로",true,"haechilim",22,"카무이!"));
         students.add(new Student("파카",true,"haechilim",49,"카무이!"));
@@ -92,57 +145,12 @@ public class MainActivity extends AppCompatActivity {
         students.add(new Student("구루루",true,"haechilim",23,"카무이!"));
         students.add(new Student("우주하마",true,"haechilim",43,"카무이!"));*/
 
-        /*students.get(0).addFavoritePartner(students.get(1));
-        students.get(0).addFavoritePartner(students.get(8));
-        students.get(0).addFavoritePartner(students.get(3));
 
-        students.get(1).addFavoritePartner(students.get(10));
-        students.get(1).addFavoritePartner(students.get(11));
-        students.get(1).addFavoritePartner(students.get(9));
+    }
 
-        students.get(2).addFavoritePartner(students.get(9));
-        students.get(2).addFavoritePartner(students.get(6));
-        students.get(2).addFavoritePartner(students.get(10));
-
-        students.get(3).addFavoritePartner(students.get(1));
-        students.get(3).addFavoritePartner(students.get(0));
-        students.get(3).addFavoritePartner(students.get(10));
-
-        students.get(4).addFavoritePartner(students.get(7));
-        students.get(4).addFavoritePartner(students.get(8));
-        students.get(4).addFavoritePartner(students.get(9));
-
-        students.get(5).addFavoritePartner(students.get(1));
-        students.get(5).addFavoritePartner(students.get(2));
-        students.get(5).addFavoritePartner(students.get(0));
-
-        students.get(6).addFavoritePartner(students.get(4));
-        students.get(6).addFavoritePartner(students.get(0));
-        students.get(6).addFavoritePartner(students.get(5));
-
-        students.get(7).addFavoritePartner(students.get(8));
-        students.get(7).addFavoritePartner(students.get(6));
-        students.get(7).addFavoritePartner(students.get(10));
-
-        students.get(8).addFavoritePartner(students.get(3));
-        students.get(8).addFavoritePartner(students.get(11));
-        students.get(8).addFavoritePartner(students.get(5));
-
-        students.get(9).addFavoritePartner(students.get(4));
-        students.get(9).addFavoritePartner(students.get(10));
-        students.get(9).addFavoritePartner(students.get(6));
-
-        students.get(10).addFavoritePartner(students.get(1));
-        students.get(10).addFavoritePartner(students.get(5));
-        students.get(10).addFavoritePartner(students.get(4));
-
-        students.get(11).addFavoritePartner(students.get(9));
-        students.get(11).addFavoritePartner(students.get(4));
-        students.get(11).addFavoritePartner(students.get(7));
-
-        students.get(12).addFavoritePartner(students.get(9));
-        students.get(12).addFavoritePartner(students.get(4));
-        students.get(12).addFavoritePartner(students.get(7));*/
+    private void addFavoritePartner(Student student, Student mate, int rank) {
+        ApiManager.addFavoritePartner(student, mate, rank);
+        student.addFavoritePartner(mate, rank);
     }
 
     private void updateUi() {

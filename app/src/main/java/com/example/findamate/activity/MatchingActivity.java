@@ -16,6 +16,7 @@ import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.Couple;
 import com.example.findamate.domain.History;
 import com.example.findamate.domain.Student;
+import com.example.findamate.manager.ApiManager;
 import com.example.findamate.manager.StudentViewManager;
 import com.example.findamate.view.CoupleView;
 import com.example.findamate.view.StudentView;
@@ -41,6 +42,7 @@ public class MatchingActivity extends AppCompatActivity {
     private TextView classInformation;
     private List<Student> students;
     private List<History> histories;
+    private History history;
     private List<Couple> couples = new ArrayList<>();
 
     @Override
@@ -71,6 +73,13 @@ public class MatchingActivity extends AppCompatActivity {
         student1 = findViewById(R.id.student1);
         student2 = findViewById(R.id.student2);
         versus = findViewById(R.id.versus);
+
+        ApiManager.addRound(new ApiManager.AddRoundCallback() {
+            @Override
+            public void success(History his) {
+                history = new History(his.getId());
+            }
+        });
 
         init(Classroom.getClassInfo());
         bindEvents();
@@ -118,7 +127,10 @@ public class MatchingActivity extends AppCompatActivity {
     }
 
     private void updateHistory() {
-        histories.add(new History(Calendar.getInstance(), couples));
+        history.setCalendar(Calendar.getInstance());
+        history.setCouples(couples);
+
+        histories.add(history);
     }
 
     private boolean matchingPartner(int mode, boolean duplicated) {
@@ -193,6 +205,8 @@ public class MatchingActivity extends AppCompatActivity {
     }
 
     private void makePartner(Student student, Student partner) {
+        ApiManager.addMate(student, partner, history.getId());
+
         student.addPartner(partner);
         partner.addPartner(student);
 
@@ -204,7 +218,6 @@ public class MatchingActivity extends AppCompatActivity {
 
     private void makePartner(Student student) {
         student.addPartner(student);
-
         student.setHasPartner(true);
 
         couples.add(new Couple(student, student));

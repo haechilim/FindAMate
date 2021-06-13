@@ -2,6 +2,7 @@ package com.example.findamate.manager;
 
 import android.os.AsyncTask;
 
+import com.example.findamate.domain.History;
 import com.example.findamate.domain.School;
 import com.example.findamate.domain.Student;
 import com.example.findamate.helper.Logger;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -98,6 +100,39 @@ public class ApiManager {
         });
     }
 
+    public static void addMate(Student student, Student mate, int roundId) {
+        request(String.format("%s/%s?memberId=%d&studentId=%d&mateId=%d&roundId=%d", HOST, "mate/add",
+                memberId, student.getId(), mate.getId(), roundId), new JsonCallback() {
+            @Override
+            public void success(String json) {
+                Logger.debug(json);
+            }
+        });
+    }
+
+    public static void addFavoritePartner(Student student, Student mate, int rank) {
+        request(String.format("%s/%s?memberId=&studentId=&mateId=&rank=", HOST, "favorite/add",
+                memberId, student.getId(), mate.getId(), rank), new JsonCallback() {
+            @Override
+            public void success(String json) {
+                Logger.debug(json);
+            }
+        });
+    }
+
+    public static void addRound(AddRoundCallback callback) {
+        request(String.format("%s/%s?memberId=%d", HOST, "round/add", memberId), new JsonCallback() {
+            @Override
+            public void success(String json) {
+                try {
+                    callback.success(objectMapper.readValue(json, new TypeReference<History>() {}));
+                } catch (JsonProcessingException e) {
+                    Logger.debug(e.getMessage());
+                }
+            }
+        });
+    }
+
     private static void request(String url, JsonCallback callback) {
         new AsyncTask<String, Void, String>() {
             @Override
@@ -160,5 +195,9 @@ public class ApiManager {
 
     public interface AMDStudentCallback {
         void success(Student student);
+    }
+
+    public interface AddRoundCallback {
+        void success(History history);
     }
 }

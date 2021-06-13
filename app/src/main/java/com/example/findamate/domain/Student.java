@@ -17,7 +17,7 @@ public class Student {
     private int score = 0;
     private double happiness = 0.0;
     private String statusMessage = "";
-    private List<Integer> favoritePartnerIds = new ArrayList<>();
+    private List<FavoritePartner> favoritePartnerIds = new ArrayList<>();
     private List<Integer> partnerIds = new ArrayList<>();
     private boolean hasPartner;
     private static int sequence = 0;
@@ -71,8 +71,8 @@ public class Student {
         return clonedPartnerIds;
     }
 
-    private List<Integer> cloneFavoritePartnerIds() {
-        List<Integer> cloneFavoritePartnerIds = new ArrayList<>();
+    private List<FavoritePartner> cloneFavoritePartnerIds() {
+        List<FavoritePartner> cloneFavoritePartnerIds = new ArrayList<>();
 
         for(int i = 0; i < favoritePartnerIds.size(); i++) {
             cloneFavoritePartnerIds.add(favoritePartnerIds.get(i));
@@ -82,7 +82,7 @@ public class Student {
     }
 
     public int getFavoritePartnerId(int choice) {
-        return choice >= 0 && choice < favoritePartnerIds.size() ? favoritePartnerIds.get(choice) : -1;
+        return choice >= 0 && choice < favoritePartnerIds.size() ? favoritePartnerIds.get(choice).getStudentId() : -1;
     }
 
     public boolean isExpartner(Student partner) {
@@ -97,13 +97,14 @@ public class Student {
         hasPartner = false;
     }
 
-    public void addFavoritePartner(Student partner) {
-        favoritePartnerIds.add(partner.getId());
+    public void addFavoritePartner(Student partner, int rank) {
+        favoritePartnerIds.add(new FavoritePartner(partner.getId(), rank));
     }
 
     public int getFavoritePartnerIndex(Student student) {
         for(int index = 0; index < favoritePartnersSize(); index++) {
-            if(favoritePartnerIds.get(index) == student.getId()) return favoritePartnersSize() - index;
+            FavoritePartner favoritePartner = favoritePartnerIds.get(index);
+            if(favoritePartner.getStudentId() == student.getId()) return MAX_FAVORITE_SCORE - (favoritePartner.getRank() + 1);
         }
 
         return 0;
@@ -161,11 +162,11 @@ public class Student {
         this.male = male;
     }
 
-    public List<Integer> getFavoritePartnerIds() {
+    public List<FavoritePartner> getFavoritePartnerIds() {
         return favoritePartnerIds;
     }
 
-    public void setFavoritePartnerIds(List<Integer> favoritePartnerIds) {
+    public void setFavoritePartnerIds(List<FavoritePartner> favoritePartnerIds) {
         this.favoritePartnerIds = favoritePartnerIds;
     }
 
