@@ -38,6 +38,19 @@ public class ApiManager {
         });
     }
 
+    public static void login(String loginId, String password, LoginCallback callback) {
+        request(String.format("%s/%s?loginId=%s&password=%s", HOST, "login", loginId, password), new JsonCallback() {
+            @Override
+            public void success(String json) {
+                try {
+                    callback.success(objectMapper.readValue(json, new TypeReference<ResponseCode>() {}).isSeccess());
+                } catch (JsonProcessingException e) {
+                    Logger.debug(e.getMessage());
+                }
+            }
+        });
+    }
+
     public static void getSchool(SchoolCallback callback) {
         request(String.format("%s/%s?memberId=%d", HOST, "school", memberId), new JsonCallback() {
             @Override
@@ -161,7 +174,7 @@ public class ApiManager {
     }
 
     private static void request(String url, JsonCallback callback) {
-        new AsyncTask<String, Void, String>() {
+        new AsyncJob<String, Void, String>() {
             @Override
             protected String doInBackground(String... strings) {
                 return request(strings[0]);
@@ -213,6 +226,10 @@ public class ApiManager {
     }
 
     public interface SignupCallback {
+        void success(boolean success);
+    }
+
+    public interface LoginCallback {
         void success(boolean success);
     }
 

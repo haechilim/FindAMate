@@ -35,14 +35,16 @@ public class SignupActivity extends AppCompatActivity {
 
         init();
         bindEvents();
-
-
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         Util.hideKeyBoard(ev, this, getCurrentFocus());
         return super.dispatchTouchEvent(ev);
+    }
+
+    @Override public void onBackPressed() {
+
     }
 
     private void init() {
@@ -66,14 +68,14 @@ public class SignupActivity extends AppCompatActivity {
         findViewById(R.id.singup).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(SignupActivity.this, "토스트", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignupActivity.this, "토스트", Toast.LENGTH_SHORT).show(); //디버그 로그
 
                 if(!checkValidation()) return;
 
                 ApiManager.signup(name.getText().toString().trim(), loginId.getText().toString().trim(), password.getText().toString().trim(), new ApiManager.SignupCallback() {
                     @Override
                     public void success(boolean success) {
-                        Logger.debug(success ? "true" : "false");
+                        Logger.debug(success ? "true" : "false"); //디버그 로그
                         String message = success ? "회원가입이 정상적으로 완료 되었습니다." : "사용할 수 없는 아이디 입니다.";
                         Toast.makeText(SignupActivity.this, message, Toast.LENGTH_SHORT).show();
 

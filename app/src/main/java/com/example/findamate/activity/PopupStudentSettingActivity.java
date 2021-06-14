@@ -23,6 +23,10 @@ public class PopupStudentSettingActivity extends Activity {
     private EditText editTextPhone;
     private RadioGroup radioGroupGender;
 
+    @Override public void onBackPressed() {
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

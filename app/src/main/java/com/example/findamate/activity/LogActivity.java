@@ -30,6 +30,8 @@ public class LogActivity extends AppCompatActivity {
     private int type;
     private ImageView okButton;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

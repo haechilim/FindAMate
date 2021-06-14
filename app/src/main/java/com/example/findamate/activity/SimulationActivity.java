@@ -18,6 +18,10 @@ public class SimulationActivity extends AppCompatActivity {
     Button startSimulation;
     //List<StudentsPair> studentsPairList = new ArrayList<>();
 
+    @Override public void onBackPressed() {
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

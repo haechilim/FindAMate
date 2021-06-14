@@ -33,21 +33,35 @@ public class MainActivity extends AppCompatActivity {
     private TextView schoolView;
     private Student targetStudent;
     private View selectedView;
-
     private List<Rect> studentViewPositions;
+
+    @Override public void onBackPressed() {
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        studentContainer = findViewById(R.id.studentContainer);
-        schoolView = findViewById(R.id.classInformation);
-
+        init();
         load();
         bindEvents();
 
         ApiManager.setMemberId(0);
+    }
+
+    private void init() {
+        studentContainer = findViewById(R.id.studentContainer);
+        schoolView = findViewById(R.id.classInformation);
+
+        updateButton();
+    }
+
+    private void updateButton() {
+        showLogButton(!Classroom.histories.isEmpty());
+        showStartButton(!Classroom.students.isEmpty());
+        showSimulationButton(!Classroom.students.isEmpty());
     }
 
     private void load() {
@@ -61,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
             public void success(School school) {
                 Classroom.school = school;
                 updateSchool();
+                updateButton();
             }
         });
     }
@@ -73,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 addStudentViews();
                 studentViewPositions = StudentViewManager.randomPositions(MainActivity.this, studentContainer);
                 StudentViewManager.startWaveAnimation(MainActivity.this, studentContainer);
+                updateButton();
             }
         });
 
@@ -129,31 +145,21 @@ public class MainActivity extends AppCompatActivity {
         addFavoritePartner(Classroom.students.get(12), Classroom.students.get(4), 2);
         addFavoritePartner(Classroom.students.get(12), Classroom.students.get(7), 3);*/
 
-        /*students.add(new Student("임준형",true,"haechilim",10,"카무이!"));
-        students.add(new Student("랄로",true,"haechilim",22,"카무이!"));
-        students.add(new Student("파카",true,"haechilim",49,"카무이!"));
-        students.add(new Student("괴물쥐",false,"haechilim",27,"카무이!"));
-        students.add(new Student("로지컬",true,"haechilim",44,"카무이!"));
-        students.add(new Student("도파",false,"haechilim",30,"카무이!"));
-        students.add(new Student("감스트",true,"haechilim",29,"카무이!"));
-        students.add(new Student("진용진",true,"haechilim",19,"카무이!"));
-        students.add(new Student("전국진",false,"haechilim",11,"카무이!"));
-        students.add(new Student("논리왕 전기",false,"haechilim",33,"카무이!"));
-        students.add(new Student("미야",false,"haechilim",32,"카무이!"));
-        students.add(new Student("구루루",true,"haechilim",23,"카무이!"));
-        students.add(new Student("우주하마",true,"haechilim",43,"카무이!"));*/
+        /*Classroom.students.add(new Student("임준형",true,"haechilim",10,"카무이!"));
+        Classroom.students.add(new Student("랄로",true,"haechilim",22,"카무이!"));
+        Classroom.students.add(new Student("파카",true,"haechilim",49,"카무이!"));
+        Classroom.students.add(new Student("괴물쥐",false,"haechilim",27,"카무이!"));
+        Classroom.students.add(new Student("로지컬",true,"haechilim",44,"카무이!"));
+        Classroom.students.add(new Student("도파",false,"haechilim",30,"카무이!"));
+        Classroom.students.add(new Student("감스트",true,"haechilim",29,"카무이!"));
+        Classroom.students.add(new Student("진용진",true,"haechilim",19,"카무이!"));
+        Classroom.students.add(new Student("전국진",false,"haechilim",11,"카무이!"));
+        Classroom.students.add(new Student("논리왕 전기",false,"haechilim",33,"카무이!"));
+        Classroom.students.add(new Student("미야",false,"haechilim",32,"카무이!"));
+        Classroom.students.add(new Student("구루루",true,"haechilim",23,"카무이!"));
+        Classroom.students.add(new Student("우주하마",true,"haechilim",43,"카무이!"));*/
 
 
-    }
-
-    private void addFavoritePartner(Student student, Student mate, int rank) {
-        ApiManager.addFavoritePartner(student, mate, rank);
-        student.addFavoritePartner(mate, rank);
-    }
-
-    private void updateUi() {
-        updateSchool();
-        addStudentViews();
     }
 
     private void updateSchool() {
@@ -323,12 +329,15 @@ public class MainActivity extends AppCompatActivity {
         return view;
     }
 
-    private void hideKeyboard() {
-        View view = getCurrentFocus();
+    private void showLogButton(boolean visibility) {
+        findViewById(R.id.logButton).setVisibility(visibility ? View.VISIBLE : View.GONE);
+    }
 
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
+    private void showStartButton(boolean visibility) {
+        findViewById(R.id.startButton).setVisibility(visibility ? View.VISIBLE : View.GONE);
+    }
+
+    private void showSimulationButton(boolean visibility) {
+        findViewById(R.id.simulationButton).setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 }

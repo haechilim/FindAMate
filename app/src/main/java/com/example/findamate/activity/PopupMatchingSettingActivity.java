@@ -14,6 +14,10 @@ import com.example.findamate.manager.MatchingManager;
 public class PopupMatchingSettingActivity extends Activity {
     private int type;
 
+    @Override public void onBackPressed() {
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

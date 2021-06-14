@@ -20,6 +20,10 @@ public class WaitingActivity extends AppCompatActivity {
     FrameLayout studentContainer;
     List<Student> students;
 
+    @Override public void onBackPressed() {
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
