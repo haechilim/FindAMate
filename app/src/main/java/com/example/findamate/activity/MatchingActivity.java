@@ -45,10 +45,6 @@ public class MatchingActivity extends AppCompatActivity {
     private List<Couple> couples;
     private List<History> histories;
 
-    @Override public void onBackPressed() {
-
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +76,9 @@ public class MatchingActivity extends AppCompatActivity {
         bindEvents();
         startMatching();
     }
+
+    @Override
+    public void onBackPressed() {}
 
     private void startMatching() {
         if(isSimulation) {

@@ -15,10 +15,6 @@ public class PopupClassSettingActivity extends Activity {
     private EditText editTextYear;
     private EditText editTextNumber;
 
-    @Override public void onBackPressed() {
-
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

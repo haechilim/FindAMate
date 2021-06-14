@@ -1,24 +1,17 @@
 package com.example.findamate.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.findamate.R;
 import com.example.findamate.helper.Logger;
 import com.example.findamate.helper.Util;
 import com.example.findamate.manager.ApiManager;
-
-import java.net.ResponseCache;
-
-import javax.xml.namespace.QName;
 
 public class SignupActivity extends AppCompatActivity {
     private String name;
@@ -41,10 +34,6 @@ public class SignupActivity extends AppCompatActivity {
     public boolean dispatchTouchEvent(MotionEvent ev) {
         Util.hideKeyBoard(ev, this, getCurrentFocus());
         return super.dispatchTouchEvent(ev);
-    }
-
-    @Override public void onBackPressed() {
-
     }
 
     private void getEditTexts() {

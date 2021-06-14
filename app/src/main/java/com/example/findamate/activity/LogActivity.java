@@ -30,8 +30,6 @@ public class LogActivity extends AppCompatActivity {
     private int type;
     private ImageView okButton;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +64,11 @@ public class LogActivity extends AppCompatActivity {
 
         load();
         bindEvents();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(type == TYPE_HISTORY) super.onBackPressed();
     }
 
     private void load() {

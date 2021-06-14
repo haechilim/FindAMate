@@ -1,11 +1,9 @@
 package com.example.findamate.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -35,10 +33,6 @@ public class MainActivity extends AppCompatActivity {
     private Student targetStudent;
     private View selectedView;
     private List<Rect> studentViewPositions;
-
-    @Override public void onBackPressed() {
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {}
 
     private void loadStudents() {
         ApiManager.getStudents(new ApiManager.StudentListCallback() {
