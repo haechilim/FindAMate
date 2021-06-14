@@ -3,6 +3,7 @@ package com.example.findamate.manager;
 import android.os.AsyncTask;
 
 import com.example.findamate.domain.History;
+import com.example.findamate.domain.ResponseCode;
 import com.example.findamate.domain.School;
 import com.example.findamate.domain.Student;
 import com.example.findamate.helper.AsyncJob;
@@ -29,8 +30,10 @@ public class ApiManager {
         request(String.format("%s/%s?name=%s&loginId=%s&password=%s", HOST, "signup", name, id, password), new JsonCallback() {
             @Override
             public void success(String json) {
+                Logger.debug(json);
+
                 try {
-                    callback.success(objectMapper.readValue(json, new TypeReference<ResponseCode>() {}).isSeccess());
+                    callback.success(objectMapper.readValue(json, new TypeReference<ResponseCode>() {}).isSuccess());
                 } catch (JsonProcessingException e) {
                     Logger.debug(e.getMessage());
                 }
@@ -43,7 +46,7 @@ public class ApiManager {
             @Override
             public void success(String json) {
                 try {
-                    callback.success(objectMapper.readValue(json, new TypeReference<ResponseCode>() {}).isSeccess());
+                    callback.success(objectMapper.readValue(json, new TypeReference<ResponseCode>() {}).isSuccess());
                 } catch (JsonProcessingException e) {
                     Logger.debug(e.getMessage());
                 }
@@ -253,7 +256,7 @@ public class ApiManager {
         void success(History history);
     }
 
-    class ResponseCode {
+    /*class ResponseCode {
         private boolean seccess;
 
         public ResponseCode() {
@@ -266,5 +269,5 @@ public class ApiManager {
         public void setSeccess(boolean seccess) {
             this.seccess = seccess;
         }
-    }
+    }*/
 }

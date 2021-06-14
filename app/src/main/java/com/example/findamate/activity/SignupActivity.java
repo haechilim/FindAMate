@@ -68,8 +68,6 @@ public class SignupActivity extends AppCompatActivity {
         findViewById(R.id.singup).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(SignupActivity.this, "토스트", Toast.LENGTH_SHORT).show(); //디버그 로그
-
                 if(!checkValidation()) return;
 
                 ApiManager.signup(name.getText().toString().trim(), loginId.getText().toString().trim(), password.getText().toString().trim(), new ApiManager.SignupCallback() {
