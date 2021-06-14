@@ -29,6 +29,8 @@ public class LogActivity extends AppCompatActivity {
 
     private int type;
     private ImageView okButton;
+    private ImageView restart;
+    private TextView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +40,20 @@ public class LogActivity extends AppCompatActivity {
         type = getIntent().getIntExtra("type", TYPE_HISTORY);
 
         okButton = findViewById(R.id.ok);
+        restart = findViewById(R.id.restart);
+        back = findViewById(R.id.back);
 
         switch (type) {
             case TYPE_HISTORY:
-                showOkButton(false);
+                showButtonm(false);
                 break;
 
             case TYPE_RESULT:
-                showOkButton(false);
+                showButtonm(false);
                 break;
 
             case TYPE_SIMULATION:
-                showOkButton(true);
+                showButtonm(true);
 
                 okButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -109,12 +113,26 @@ public class LogActivity extends AppCompatActivity {
     }
 
     private void bindEvents() {
-        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LogActivity.this, MainActivity.class));
             }
         });
+    }
+
+    private void showButtonm(boolean visibility) {
+        showBackButton(!visibility);
+        showRestartButton(visibility);
+        showOkButton(visibility);
+    }
+
+    private void showBackButton(boolean visibility) {
+        back.setVisibility(visibility ? View.VISIBLE : View.GONE);
+    }
+
+    private void showRestartButton(boolean visibility) {
+        restart.setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 
     private void showOkButton(boolean visibility) {

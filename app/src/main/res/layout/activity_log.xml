@@ -12,8 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="5dp">
+        android:layout_marginTop="10dp">
 
         <TextView
             android:id="@+id/back"
@@ -22,7 +21,8 @@
             android:text="〈"
             android:textColor="#ffffff"
             android:gravity="center_vertical"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:padding="10dp"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -45,7 +45,9 @@
         <ListView
             android:id="@+id/logList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:dividerHeight="0px"
+            android:divider="#FFFFFF"/>
 
         <ImageView
             android:id="@+id/ok"
@@ -55,5 +57,15 @@
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:src="@drawable/run" />
+
+        <ImageView
+            android:id="@+id/restart"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/simulation"
+            android:layout_marginRight="65dp"/>
     </FrameLayout>
 </LinearLayout>
