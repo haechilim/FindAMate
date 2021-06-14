@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.findamate.R;
@@ -20,20 +21,19 @@ import java.net.ResponseCache;
 import javax.xml.namespace.QName;
 
 public class SignupActivity extends AppCompatActivity {
-    private EditText name;
-    private EditText loginId;
-    private EditText password;
-    private EditText checkPassword;
-    private EditText schoolName;
-    private EditText year;
-    private EditText number;
+    private String name;
+    private String loginId;
+    private String password;
+    private String checkPassword;
+    private String schoolName;
+    private String year;
+    private String number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        init();
         bindEvents();
     }
 
@@ -47,14 +47,14 @@ public class SignupActivity extends AppCompatActivity {
 
     }
 
-    private void init() {
-        name = findViewById(R.id.name);
-        loginId = findViewById(R.id.loginId);
-        password = findViewById(R.id.password);
-        checkPassword = findViewById(R.id.checkPassword);
-        schoolName = findViewById(R.id.schoolName);
-        year = findViewById(R.id.year);
-        number = findViewById(R.id.number);
+    private void getEditTexts() {
+        name = ((TextView)findViewById(R.id.name)).getText().toString().trim();
+        loginId = ((TextView)findViewById(R.id.loginId)).getText().toString().trim();
+        password = ((TextView)findViewById(R.id.password)).getText().toString().trim();
+        checkPassword = ((TextView)findViewById(R.id.checkPassword)).getText().toString().trim();
+        schoolName = ((TextView)findViewById(R.id.schoolName)).getText().toString().trim();
+        year = ((TextView)findViewById(R.id.year)).getText().toString().trim();
+        number = ((TextView)findViewById(R.id.number)).getText().toString().trim();
     }
 
     private void bindEvents() {
@@ -68,9 +68,10 @@ public class SignupActivity extends AppCompatActivity {
         findViewById(R.id.singup).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getEditTexts();
                 if(!checkValidation()) return;
 
-                ApiManager.signup(name.getText().toString().trim(), loginId.getText().toString().trim(), password.getText().toString().trim(), new ApiManager.SignupCallback() {
+                ApiManager.signup(name, loginId, password, schoolName, Integer.parseInt(year), Integer.parseInt(number), new ApiManager.SignupCallback() {
                     @Override
                     public void success(boolean success) {
                         Logger.debug(success ? "true" : "false"); //디버그 로그
@@ -85,14 +86,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private boolean checkValidation() {
-        String name = this.name.getText().toString().trim();
-        String loginId = this.loginId.getText().toString().trim();
-        String password = this.password.getText().toString().trim();
-        String checkPassword = this.checkPassword.getText().toString().trim();
-        String schoolName = this.schoolName.getText().toString().trim();
-        String year = this.year.getText().toString().trim();
-        String number = this.number.getText().toString().trim();
-
+        if(!password.equals(checkPassword)) Toast.makeText(SignupActivity.this, "비밀번호를 다시 확인해주세요.", Toast.LENGTH_SHORT).show();
         return !name.isEmpty() && !loginId.isEmpty() && !password.isEmpty() && !checkPassword.isEmpty() && !schoolName.isEmpty() && !year.isEmpty() && !number.isEmpty() && password.equals(checkPassword);
     }
 }

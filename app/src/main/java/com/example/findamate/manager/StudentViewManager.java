@@ -42,7 +42,6 @@ public class StudentViewManager {
         WindowManager windowManager = activity.getWindowManager();
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Util.dpToPx(windowManager, width), Util.dpToPx(windowManager, height));
         linearLayout.addView(studentView, layoutParams);
-        studentView.setTag(student.getId());
         return studentView;
     }
 

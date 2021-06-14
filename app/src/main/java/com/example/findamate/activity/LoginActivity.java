@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.findamate.R;
 import com.example.findamate.helper.Util;
@@ -48,6 +49,11 @@ public class LoginActivity extends AppCompatActivity {
                         if(success) {
                             Intent intent = new Intent(getBaseContext(), MainActivity.class);
                             startActivity(intent);
+                        }
+                        else {
+                            Toast.makeText(LoginActivity.this, "일치하는 회원 정보를 찾을수 없습니다.", Toast.LENGTH_SHORT).show();
+                            loginId.setText("");
+                            password.setText("");
                         }
                     }
                 });

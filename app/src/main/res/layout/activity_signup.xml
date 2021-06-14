@@ -179,7 +179,7 @@
                 android:backgroundTint="#FFFFFF"
                 android:ems="10"
                 android:gravity="center"
-                android:inputType="textPersonName"
+                android:inputType="number"
                 android:textColor="#FFFFFF" />
         </LinearLayout>
 
@@ -206,7 +206,7 @@
                 android:backgroundTint="#FFFFFF"
                 android:ems="10"
                 android:gravity="center"
-                android:inputType="textPersonName"
+                android:inputType="number"
                 android:textColor="#FFFFFF" />
         </LinearLayout>
 

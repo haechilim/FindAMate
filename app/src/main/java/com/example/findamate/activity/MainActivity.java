@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.findamate.R;
 import com.example.findamate.domain.Classroom;
+import com.example.findamate.domain.History;
 import com.example.findamate.domain.School;
 import com.example.findamate.domain.Student;
 import com.example.findamate.manager.ApiManager;
@@ -47,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
         init();
         load();
         bindEvents();
-
-        ApiManager.setMemberId(0);
     }
 
     private void init() {
@@ -67,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private void load() {
         loadSchool();
         loadStudents();
+        loadHistories();
     }
 
     private void loadSchool() {
@@ -91,75 +91,15 @@ public class MainActivity extends AppCompatActivity {
                 updateButton();
             }
         });
+    }
 
-
-        /*addFavoritePartner(Classroom.students.get(0), Classroom.students.get(1), 1);
-        addFavoritePartner(Classroom.students.get(0), Classroom.students.get(8), 2);
-        addFavoritePartner(Classroom.students.get(0), Classroom.students.get(3), 3);
-
-        addFavoritePartner(Classroom.students.get(1), Classroom.students.get(10), 1);
-        addFavoritePartner(Classroom.students.get(1), Classroom.students.get(11), 2);
-        addFavoritePartner(Classroom.students.get(1), Classroom.students.get(9), 3);
-
-        addFavoritePartner(Classroom.students.get(2), Classroom.students.get(9), 1);
-        addFavoritePartner(Classroom.students.get(2), Classroom.students.get(6), 2);
-        addFavoritePartner(Classroom.students.get(2), Classroom.students.get(10), 3);
-
-        addFavoritePartner(Classroom.students.get(3), Classroom.students.get(1), 1);
-        addFavoritePartner(Classroom.students.get(3), Classroom.students.get(0), 2);
-        addFavoritePartner(Classroom.students.get(3), Classroom.students.get(10), 3);
-
-        addFavoritePartner(Classroom.students.get(4), Classroom.students.get(7), 1);
-        addFavoritePartner(Classroom.students.get(4), Classroom.students.get(8), 2);
-        addFavoritePartner(Classroom.students.get(4), Classroom.students.get(9), 3);
-
-        addFavoritePartner(Classroom.students.get(5), Classroom.students.get(1), 1);
-        addFavoritePartner(Classroom.students.get(5), Classroom.students.get(2), 2);
-        addFavoritePartner(Classroom.students.get(5), Classroom.students.get(0), 3);
-
-        addFavoritePartner(Classroom.students.get(6), Classroom.students.get(4), 1);
-        addFavoritePartner(Classroom.students.get(6), Classroom.students.get(0), 2);
-        addFavoritePartner(Classroom.students.get(6), Classroom.students.get(5), 3);
-
-        addFavoritePartner(Classroom.students.get(7), Classroom.students.get(8), 1);
-        addFavoritePartner(Classroom.students.get(7), Classroom.students.get(6), 2);
-        addFavoritePartner(Classroom.students.get(7), Classroom.students.get(10), 3);
-
-        addFavoritePartner(Classroom.students.get(8), Classroom.students.get(3), 1);
-        addFavoritePartner(Classroom.students.get(8), Classroom.students.get(11), 2);
-        addFavoritePartner(Classroom.students.get(8), Classroom.students.get(5), 3);
-
-        addFavoritePartner(Classroom.students.get(9), Classroom.students.get(4), 1);
-        addFavoritePartner(Classroom.students.get(9), Classroom.students.get(10), 2);
-        addFavoritePartner(Classroom.students.get(9), Classroom.students.get(6), 3);
-
-        addFavoritePartner(Classroom.students.get(10), Classroom.students.get(1), 1);
-        addFavoritePartner(Classroom.students.get(10), Classroom.students.get(5), 2);
-        addFavoritePartner(Classroom.students.get(10), Classroom.students.get(4), 3);
-
-        addFavoritePartner(Classroom.students.get(11), Classroom.students.get(9), 1);
-        addFavoritePartner(Classroom.students.get(11), Classroom.students.get(4), 2);
-        addFavoritePartner(Classroom.students.get(11), Classroom.students.get(7), 3);
-
-        addFavoritePartner(Classroom.students.get(12), Classroom.students.get(9), 1);
-        addFavoritePartner(Classroom.students.get(12), Classroom.students.get(4), 2);
-        addFavoritePartner(Classroom.students.get(12), Classroom.students.get(7), 3);*/
-
-        /*Classroom.students.add(new Student("임준형",true,"haechilim",10,"카무이!"));
-        Classroom.students.add(new Student("랄로",true,"haechilim",22,"카무이!"));
-        Classroom.students.add(new Student("파카",true,"haechilim",49,"카무이!"));
-        Classroom.students.add(new Student("괴물쥐",false,"haechilim",27,"카무이!"));
-        Classroom.students.add(new Student("로지컬",true,"haechilim",44,"카무이!"));
-        Classroom.students.add(new Student("도파",false,"haechilim",30,"카무이!"));
-        Classroom.students.add(new Student("감스트",true,"haechilim",29,"카무이!"));
-        Classroom.students.add(new Student("진용진",true,"haechilim",19,"카무이!"));
-        Classroom.students.add(new Student("전국진",false,"haechilim",11,"카무이!"));
-        Classroom.students.add(new Student("논리왕 전기",false,"haechilim",33,"카무이!"));
-        Classroom.students.add(new Student("미야",false,"haechilim",32,"카무이!"));
-        Classroom.students.add(new Student("구루루",true,"haechilim",23,"카무이!"));
-        Classroom.students.add(new Student("우주하마",true,"haechilim",43,"카무이!"));*/
-
-
+    private void loadHistories() {
+        ApiManager.getRounds(new ApiManager.RoundListCallback() {
+            @Override
+            public void success(List<History> histories) {
+                Classroom.histories = histories;
+            }
+        });
     }
 
     private void updateSchool() {
@@ -218,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
                     StudentViewManager.startWaveAnimation(MainActivity.this, studentContainer, view);
 
                     Classroom.students.add(student);
+                    updateButton();
                 }
             });
         }
@@ -239,6 +180,8 @@ public class MainActivity extends AppCompatActivity {
 
                     ((TextView) selectedView.findViewById(R.id.name)).setText(student.getName());
                     ((TextView) selectedView.findViewById(R.id.statusMessage)).setText(student.getStatusMessage());
+
+                    updateButton();
                 }
             });
         }
@@ -253,6 +196,8 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
             }
+
+            updateButton();
         }
     }
 

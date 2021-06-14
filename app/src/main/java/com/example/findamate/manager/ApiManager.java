@@ -1,9 +1,7 @@
 package com.example.findamate.manager;
 
-import android.os.AsyncTask;
-
 import com.example.findamate.domain.History;
-import com.example.findamate.domain.ResponseCode;
+import com.example.findamate.domain.Response;
 import com.example.findamate.domain.School;
 import com.example.findamate.domain.Student;
 import com.example.findamate.helper.AsyncJob;
@@ -26,14 +24,14 @@ public class ApiManager {
     private static int memberId;
     private static ObjectMapper objectMapper = new ObjectMapper();
 
-    public static void signup(String name, String id, String password, SignupCallback callback) {
-        request(String.format("%s/%s?name=%s&loginId=%s&password=%s", HOST, "signup", name, id, password), new JsonCallback() {
+    public static void signup(String name, String id, String password, String school, int year, int number, SignupCallback callback) {
+        request(String.format("%s/%s?name=%s&loginId=%s&password=%s&school=%s&year=%d&number=%d", HOST, "signup", name, id, password, school, year, number), new JsonCallback() {
             @Override
             public void success(String json) {
                 Logger.debug(json);
 
                 try {
-                    callback.success(objectMapper.readValue(json, new TypeReference<ResponseCode>() {}).isSuccess());
+                    callback.success(objectMapper.readValue(json, new TypeReference<Response>() {}).isSuccess());
                 } catch (JsonProcessingException e) {
                     Logger.debug(e.getMessage());
                 }
@@ -46,7 +44,10 @@ public class ApiManager {
             @Override
             public void success(String json) {
                 try {
-                    callback.success(objectMapper.readValue(json, new TypeReference<ResponseCode>() {}).isSuccess());
+                    Logger.debug(json);
+                    Response response = objectMapper.readValue(json, new TypeReference<Response>() {});
+                    memberId = response.getMemberId();
+                    callback.success(response.isSuccess());
                 } catch (JsonProcessingException e) {
                     Logger.debug(e.getMessage());
                 }
@@ -131,7 +132,7 @@ public class ApiManager {
 
     public static void addMate(Student student, Student mate, int roundId) {
         request(String.format("%s/%s?memberId=%d&studentId=%d&mateId=%d&roundId=%d", HOST, "mate/add",
-                memberId, student.getId(), mate.getId(), roundId), new JsonCallback() {
+                memberId, student.getId(), (mate == null ? -1 : mate.getId()), roundId), new JsonCallback() {
             @Override
             public void success(String json) {
                 Logger.debug(json);
