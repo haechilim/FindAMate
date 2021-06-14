@@ -80,7 +80,7 @@ public class LogAdapter extends BaseAdapter {
             Student student1 = couple.getStudent1();
             Student student2 = couple.getStudent2();
 
-            CoupleView coupleView = new CoupleView(activity, student1, student2);
+            CoupleView coupleView = new CoupleView(activity, student1, student2, position != 0);
             couplesContainer.addView(coupleView);
 
             if(index % itemsPerRow == itemsPerRow - 1 || index >= couples.size() - 1) container.addView(couplesContainer, couplesParams);

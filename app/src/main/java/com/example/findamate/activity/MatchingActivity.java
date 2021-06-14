@@ -165,7 +165,7 @@ public class MatchingActivity extends AppCompatActivity {
 
         student1.addView(new StudentView(this, couple.getStudent1()));
         student2.addView(new StudentView(this, couple.getStudent2()));
-        coupleView = new CoupleView(this, couple.getStudent1(), couple.getStudent2());
+        coupleView = new CoupleView(this, couple.getStudent1(), couple.getStudent2(), false);
 
         StudentViewManager.startMatchingAnimation(this, student1, student2, versus, happinessContainer);
     }

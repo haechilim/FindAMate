@@ -56,6 +56,11 @@ public class StudentView extends LinearLayout {
         score.setText(Math.round(student.getHappiness()) + "%");
     }
 
+    public void hideExtra() {
+        findViewById(R.id.statusMessage).setVisibility(INVISIBLE);
+        findViewById(R.id.score).setVisibility(INVISIBLE);
+    }
+
     private int toAvatarResourceId(int id) {
         return context.getResources().getIdentifier(String.format("avatar%02d", id), "drawable", context.getPackageName());
     }

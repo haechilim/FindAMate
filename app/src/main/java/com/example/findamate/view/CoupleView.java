@@ -17,12 +17,14 @@ public class CoupleView extends LinearLayout {
     private Activity activity;
     private Student student1;
     private Student student2;
+    private boolean hideExtra;
 
-    public CoupleView(Activity activity, Student student1, Student student2) {
+    public CoupleView(Activity activity, Student student1, Student student2, boolean hideExtra) {
         super(activity);
         this.activity = activity;
         this.student1 = student1;
         this.student2 = student2;
+        this.hideExtra = hideExtra;
         init(activity);
     }
 
@@ -48,8 +50,13 @@ public class CoupleView extends LinearLayout {
         LinearLayout container1 = findViewById(R.id.student1);
         LinearLayout container2 = findViewById(R.id.student2);
 
-        View studentView1 = StudentViewManager.newView(activity, student1, true);
-        View studentView2 = StudentViewManager.newView(activity, student2, true);
+        StudentView studentView1 = (StudentView)StudentViewManager.newView(activity, student1, true);
+        StudentView studentView2 = (StudentView)StudentViewManager.newView(activity, student2, true);
+
+        if(hideExtra) {
+            studentView1.hideExtra();
+            studentView2.hideExtra();
+        }
 
         container1.addView((View)studentView1.getParent());
         container2.addView((View)studentView2.getParent());

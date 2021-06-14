@@ -44,17 +44,12 @@ public class MainActivity extends AppCompatActivity {
         bindEvents();
     }
 
+    @Override
+    public void onBackPressed() {}
+
     private void init() {
         studentContainer = findViewById(R.id.studentContainer);
         schoolView = findViewById(R.id.classInformation);
-
-        updateButton();
-    }
-
-    private void updateButton() {
-        showLogButton(!Classroom.histories.isEmpty());
-        showStartButton(!Classroom.students.isEmpty());
-        showSimulationButton(!Classroom.students.isEmpty());
     }
 
     private void load() {
@@ -69,13 +64,10 @@ public class MainActivity extends AppCompatActivity {
             public void success(School school) {
                 Classroom.school = school;
                 updateSchool();
-                updateButton();
+                updateButtons();
             }
         });
     }
-
-    @Override
-    public void onBackPressed() {}
 
     private void loadStudents() {
         ApiManager.getStudents(new ApiManager.StudentListCallback() {
@@ -85,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 addStudentViews();
                 studentViewPositions = StudentViewManager.randomPositions(MainActivity.this, studentContainer);
                 StudentViewManager.startWaveAnimation(MainActivity.this, studentContainer);
-                updateButton();
+                updateButtons();
             }
         });
     }
@@ -95,12 +87,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void success(List<History> histories) {
                 Classroom.histories = histories;
+                updateButtons();
             }
         });
     }
 
     private void updateSchool() {
         schoolView.setText(Classroom.getClassInfo());
+    }
+
+    private void updateButtons() {
+        showLogButton(!Classroom.histories.isEmpty());
+        showStartButton(!Classroom.students.isEmpty());
+        showSimulationButton(!Classroom.students.isEmpty());
     }
 
     private void addStudentViews() {
@@ -155,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                     StudentViewManager.startWaveAnimation(MainActivity.this, studentContainer, view);
 
                     Classroom.students.add(student);
-                    updateButton();
+                    updateButtons();
                 }
             });
         }
@@ -178,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
                     ((TextView) selectedView.findViewById(R.id.name)).setText(student.getName());
                     ((TextView) selectedView.findViewById(R.id.statusMessage)).setText(student.getStatusMessage());
 
-                    updateButton();
+                    updateButtons();
                 }
             });
         }
@@ -194,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            updateButton();
+            updateButtons();
         }
     }
 
