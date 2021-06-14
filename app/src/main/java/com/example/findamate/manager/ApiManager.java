@@ -28,8 +28,6 @@ public class ApiManager {
         request(String.format("%s/%s?name=%s&loginId=%s&password=%s&school=%s&year=%d&number=%d", HOST, "signup", name, id, password, school, year, number), new JsonCallback() {
             @Override
             public void success(String json) {
-                Logger.debug(json);
-
                 try {
                     callback.success(objectMapper.readValue(json, new TypeReference<Response>() {}).isSuccess());
                 } catch (JsonProcessingException e) {
@@ -44,10 +42,10 @@ public class ApiManager {
             @Override
             public void success(String json) {
                 try {
-                    Logger.debug(json);
                     Response response = objectMapper.readValue(json, new TypeReference<Response>() {});
                     memberId = response.getMemberId();
                     callback.success(response.isSuccess());
+                    Logger.debug("memberId: " + memberId);
                 } catch (JsonProcessingException e) {
                     Logger.debug(e.getMessage());
                 }
@@ -72,9 +70,7 @@ public class ApiManager {
         request(String.format("%s/%s?memberId=%d&name=%s&year=%s&number=%s", HOST, "school/update", memberId,
                 school.getName(), school.getYear(), school.getNumber()), new JsonCallback() {
             @Override
-            public void success(String json) {
-                Logger.debug(json);
-            }
+            public void success(String json) {}
         });
     }
 
@@ -94,7 +90,7 @@ public class ApiManager {
     public static void addStudent(Student student, StudentCallback callback) {
         request(String.format("%s/%s?memberId=%d&name=%s&male=%s&phone=%s&avatarId=%d&score=%d&happiness=%d&message=%s",
                 HOST, "student/add", memberId, student.getName(), (student.isMale() ? "true" : "false"), student.getPhone(),
-                student.getAvatarId(), student.getScore(), ((int)student.getHappiness()), student.getStatusMessage()), new JsonCallback() {
+                student.getAvatarId(), student.getScore(), -1, student.getStatusMessage()), new JsonCallback() {
             @Override
             public void success(String json) {
                 try {
@@ -109,7 +105,7 @@ public class ApiManager {
     public static void modifyStudent(Student student, StudentCallback callback) {
         request(String.format("%s/%s?id=%d&name=%s&male=%s&phone=%s&avatarId=%d&score=%d&happiness=%d&statusMessage=%s",
                 HOST, "student/modify", student.getId(), student.getName(), (student.isMale() ? "true" : "false"), student.getPhone(),
-                student.getAvatarId(), student.getScore(), ((int)student.getHappiness()), student.getStatusMessage()), new JsonCallback() {
+                student.getAvatarId(), student.getScore(), -1, student.getStatusMessage()), new JsonCallback() {
             @Override
             public void success(String json) {
                 try {
@@ -124,9 +120,7 @@ public class ApiManager {
     public static void deleteStudent(Student student) {
         request(String.format("%s/%s?id=%d", HOST, "student/delete", student.getId()), new JsonCallback() {
             @Override
-            public void success(String json) {
-                Logger.debug(json);
-            }
+            public void success(String json) {}
         });
     }
 

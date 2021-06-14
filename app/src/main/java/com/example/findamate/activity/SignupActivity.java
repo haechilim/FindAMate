@@ -63,10 +63,8 @@ public class SignupActivity extends AppCompatActivity {
                 ApiManager.signup(name, loginId, password, schoolName, Integer.parseInt(year), Integer.parseInt(number), new ApiManager.SignupCallback() {
                     @Override
                     public void success(boolean success) {
-                        Logger.debug(success ? "true" : "false"); //디버그 로그
                         String message = success ? "회원가입이 정상적으로 완료 되었습니다." : "사용할 수 없는 아이디 입니다.";
                         Toast.makeText(SignupActivity.this, message, Toast.LENGTH_SHORT).show();
-
                         if(success) finish();
                     }
                 });

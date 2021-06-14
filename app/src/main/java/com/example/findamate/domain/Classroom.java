@@ -28,8 +28,15 @@ public class Classroom {
         return null;
     }
 
-    public static int getMaxRound() {
-        return histories.size() + 1;
+    public static void calculateHappiness() {
+        for(int i = 0; i < students.size(); i++) {
+            students.get(i).calculateHappiness();
+        }
+    }
+
+    public static int getLastRound(boolean isSimulation) {
+        List<History> list = isSimulation ? getClonedHistories() : histories;
+        return list.size();
     }
 
     public static List<Student> clonedStudents() {

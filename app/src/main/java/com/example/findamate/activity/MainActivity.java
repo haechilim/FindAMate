@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void success(List<Student> students) {
                 Classroom.students = students;
+                Classroom.calculateHappiness();
                 addStudentViews();
                 studentViewPositions = StudentViewManager.randomPositions(MainActivity.this, studentContainer);
                 StudentViewManager.startWaveAnimation(MainActivity.this, studentContainer);
