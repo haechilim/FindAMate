@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import com.example.findamate.domain.History;
 import com.example.findamate.domain.School;
 import com.example.findamate.domain.Student;
+import com.example.findamate.helper.AsyncJob;
 import com.example.findamate.helper.Logger;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -23,6 +24,19 @@ public class ApiManager {
     private static final String HOST = "http://35.247.50.32:8000";
     private static int memberId;
     private static ObjectMapper objectMapper = new ObjectMapper();
+
+    public static void signup(String name, String id, String password, SignupCallback callback) {
+        request(String.format("%s/%s?name=%s&loginId=%s&password=%s", HOST, "signup", name, id, password), new JsonCallback() {
+            @Override
+            public void success(String json) {
+                try {
+                    callback.success(objectMapper.readValue(json, new TypeReference<ResponseCode>() {}).isSeccess());
+                } catch (JsonProcessingException e) {
+                    Logger.debug(e.getMessage());
+                }
+            }
+        });
+    }
 
     public static void getSchool(SchoolCallback callback) {
         request(String.format("%s/%s?memberId=%d", HOST, "school", memberId), new JsonCallback() {
@@ -198,6 +212,10 @@ public class ApiManager {
         void success(String json);
     }
 
+    public interface SignupCallback {
+        void success(boolean success);
+    }
+
     public interface SchoolCallback {
         void success(School school);
     }
@@ -216,5 +234,20 @@ public class ApiManager {
 
     public interface AddRoundCallback {
         void success(History history);
+    }
+
+    class ResponseCode {
+        private boolean seccess;
+
+        public ResponseCode() {
+        }
+
+        public boolean isSeccess() {
+            return seccess;
+        }
+
+        public void setSeccess(boolean seccess) {
+            this.seccess = seccess;
+        }
     }
 }

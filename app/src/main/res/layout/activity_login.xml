@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#323232">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/back"
+        android:padding="30dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,10 +41,11 @@
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="아이디" />
+                        android:text="아이디"
+                        android:textColor="#ffffff"/>
 
                     <EditText
                         android:layout_width="0dp"
@@ -42,7 +53,9 @@
                         android:layout_weight="3"
                         android:ems="10"
                         android:inputType="textPersonName"
-                        android:gravity="center"/>
+                        android:gravity="center"
+                        android:textColor="#ffffff"
+                        android:backgroundTint="#ffffff"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -52,10 +65,11 @@
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="비밀번호"
-                        android:gravity="center"/>
+                        android:gravity="center"
+                        android:textColor="#ffffff"/>
 
                     <EditText
                         android:layout_width="0dp"
@@ -63,35 +77,44 @@
                         android:layout_weight="3"
                         android:ems="10"
                         android:inputType="textPassword"
-                        android:gravity="center"/>
+                        android:gravity="center"
+                        android:textColor="#ffffff"
+                        android:backgroundTint="#ffffff"/>
                 </LinearLayout>
             </LinearLayout>
 
-            <Button
+            <TextView
+                android:id="@+id/login"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="로그인"/>
+                android:text="로그인"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/layout_button"/>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_gravity="center">
+            android:orientation="horizontal"
+            android:gravity="right">
 
             <TextView
+                android:id="@+id/signup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="간편회원가입"
-                android:layout_gravity="center"/>
+                android:text="회원가입"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:padding="10dp"
+                android:layout_marginRight="100dp"/>
 
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="자동 로그인"
-                android:layout_gravity="center"/>
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</FrameLayout>
