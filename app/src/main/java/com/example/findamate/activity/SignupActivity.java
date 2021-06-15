@@ -75,20 +75,53 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private boolean checkValidation() {
-        if(name.isEmpty() || loginId.isEmpty() || password.isEmpty() || checkPassword.isEmpty() || schoolName.isEmpty() || year.isEmpty() || number.isEmpty()) {
-            Util.toast(SignupActivity.this, "비어있는 항목이 존재하여 정상적으로 회원가입 할 수 없습니다.", true);
+        if(loginId.isEmpty()) {
+            Util.toast(this, "아이디를 입력해주세요.", true);
             return false;
         }
-        else if(!Pattern.matches("^[a-z]+[a-z0-9]{7,19}$", loginId)) {
-            Util.toast(this, "아이디는 8~20자 사이의 소문자나 숫자이어야 합니다.", false);
+
+        if(password.isEmpty()) {
+            Util.toast(this, "비밀번호를 입력해주세요.", true);
             return false;
         }
-        else if(!Pattern.matches("^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$", password)) {
+
+        if(checkPassword.isEmpty()) {
+            Util.toast(this, "비밀번호를 한번더 입력해주세요.", true);
+            return false;
+        }
+
+        if(name.isEmpty()) {
+            Util.toast(this, "교사명을 입력해주세요.", true);
+            return false;
+        }
+
+        if(schoolName.isEmpty()) {
+            Util.toast(this, "학교명을 입력해주세요.", true);
+            return false;
+        }
+
+        if(year.isEmpty()) {
+            Util.toast(this, "학년을 입력해주세요.", true);
+            return false;
+        }
+
+        if(number.isEmpty()) {
+            Util.toast(this, "학급을 입력해주세요.", true);
+            return false;
+        }
+
+        if(!Pattern.matches("^[a-z]+[a-z0-9]{5,19}$", loginId)) {
+            Util.toast(this, "아이디는 6~20자 사이의 소문자나 숫자이어야 합니다.", false);
+            return false;
+        }
+
+        if(!password.equals(checkPassword)) {
+            Util.toast(this, "비밀번호를 다시 확인해주세요.", true);
+            return false;
+        }
+
+        if(!Pattern.matches("^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$", password)) {
             Util.toast(this, "비밀번호는 8~20자, 최소 하나의 문자와 특수문자를 포함해야 합니다.", false);
-            return false;
-        }
-        else if(!password.equals(checkPassword)) {
-            Util.toast(SignupActivity.this, "비밀번호를 다시 확인해주세요.", true);
             return false;
         }
 
