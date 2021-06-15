@@ -39,7 +39,7 @@ public class Util {
         }
     }
 
-    public static void toast(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    public static void toast(Context context, String message, boolean isShort) {
+        Toast.makeText(context, message, isShort ? Toast.LENGTH_SHORT : Toast.LENGTH_LONG).show();
     }
 }

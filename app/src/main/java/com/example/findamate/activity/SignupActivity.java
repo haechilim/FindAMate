@@ -13,6 +13,8 @@ import com.example.findamate.helper.Logger;
 import com.example.findamate.helper.Util;
 import com.example.findamate.manager.ApiManager;
 
+import java.util.regex.Pattern;
+
 public class SignupActivity extends AppCompatActivity {
     private String name;
     private String loginId;
@@ -63,8 +65,8 @@ public class SignupActivity extends AppCompatActivity {
                 ApiManager.signup(name, loginId, password, schoolName, Integer.parseInt(year), Integer.parseInt(number), new ApiManager.SignupCallback() {
                     @Override
                     public void success(boolean success) {
-                        String message = success ? "회원가입이 정상적으로 완료 되었습니다." : "사용할 수 없는 아이디 입니다.";
-                        Util.toast(SignupActivity.this, message);
+                        String message = success ? "회원가입이 정상적으로 완료되었습니다." : "사용할 수 없는 아이디 입니다.";
+                        Util.toast(SignupActivity.this, message, true);
                         if(success) finish();
                     }
                 });
@@ -73,7 +75,23 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private boolean checkValidation() {
-        if(!password.equals(checkPassword)) Util.toast(SignupActivity.this, "비밀번호를 다시 확인해주세요.");
-        return !name.isEmpty() && !loginId.isEmpty() && !password.isEmpty() && !checkPassword.isEmpty() && !schoolName.isEmpty() && !year.isEmpty() && !number.isEmpty() && password.equals(checkPassword);
+        if(name.isEmpty() || loginId.isEmpty() || password.isEmpty() || checkPassword.isEmpty() || schoolName.isEmpty() || year.isEmpty() || number.isEmpty()) {
+            Util.toast(SignupActivity.this, "비어있는 항목이 존재하여 정상적으로 회원가입 할 수 없습니다.", true);
+            return false;
+        }
+        else if(!Pattern.matches("^[a-z]+[a-z0-9]{7,19}$", loginId)) {
+            Util.toast(this, "아이디는 8~20자 사이의 소문자나 숫자이어야 합니다.", false);
+            return false;
+        }
+        else if(!Pattern.matches("^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$", password)) {
+            Util.toast(this, "비밀번호는 8~20자, 최소 하나의 문자와 특수문자를 포함해야 합니다.", false);
+            return false;
+        }
+        else if(!password.equals(checkPassword)) {
+            Util.toast(SignupActivity.this, "비밀번호를 다시 확인해주세요.", true);
+            return false;
+        }
+
+        return true;
     }
 }

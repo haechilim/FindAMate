@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                 }
-                else if(!autoLogin) Util.toast(LoginActivity.this, "아이디 또는 비밀번호가 정확하지 않습니다.");
+                else if(!autoLogin) Util.toast(LoginActivity.this, "아이디 또는 비밀번호가 정확하지 않습니다.", true);
 
                 LoginActivity.this.loginId.setText("");
                 LoginActivity.this.password.setText("");
@@ -114,19 +114,14 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean checkValidation(String loginId, String password) {
         if(loginId.isEmpty()) {
-            Util.toast(this, "아이디를 입력해주세요.");
+            Util.toast(this, "아이디를 입력해주세요.", true);
             return false;
         }
 
         if(password.isEmpty()) {
-            Util.toast(this, "비밀번호를 입력해주세요.");
+            Util.toast(this, "비밀번호를 입력해주세요.", true);
             return false;
         }
-
-        /*if(!Pattern.matches("^[a-z]+[a-z0-9]{7,19}$", loginId)) {
-            Util.toast(this, "아이디는 8~20자 사이의 소문자나 숫자이어야 합니다.");
-            return false;
-        }*/
 
         return true;
     }

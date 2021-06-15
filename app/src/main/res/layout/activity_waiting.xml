@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/back2"
+        android:src="@drawable/back"
         android:padding="30dp"/>
 
     <FrameLayout
@@ -91,4 +91,30 @@
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         android:src="@drawable/match" />
+
+    <FrameLayout
+        android:id="@+id/tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="100dp">
+
+        <ImageView
+            android:layout_width="171dp"
+            android:layout_height="124dp"
+            android:alpha="0.8"
+            app:srcCompat="@drawable/chat" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="115dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="28dp"
+            android:layout_marginTop="18dp"
+            android:text="선호 학생 지정을 위한 문자발송 기능은 다음 버전에 제공됩니다. 짝찾기 버튼을 터치해주세요!"
+            android:textSize="11sp" />
+
+    </FrameLayout>
+
 </FrameLayout>

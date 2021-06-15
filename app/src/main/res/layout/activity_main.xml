@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/back2"
+        android:src="@drawable/back"
         android:padding="30dp"/>
 
     <FrameLayout
@@ -105,5 +105,31 @@
             android:scaleType="fitCenter"
             android:src="@drawable/simulation"
             android:layout_marginRight="65dp"/>
+
+        <FrameLayout
+            android:id="@+id/tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="200dp">
+
+            <ImageView
+                android:layout_width="171dp"
+                android:layout_height="124dp"
+                android:alpha="0.8"
+                android:scaleX="-1"
+                android:scaleY="-1"
+                app:srcCompat="@drawable/chat" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="115dp"
+                android:layout_height="65dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="43dp"
+                android:text="주소록으로부터 학생을 추가하는 기능은 다음 버전에 제공됩니다. 조금만 기다려주세요!"
+                android:textSize="11sp" />
+
+        </FrameLayout>
     </FrameLayout>
 </FrameLayout>
