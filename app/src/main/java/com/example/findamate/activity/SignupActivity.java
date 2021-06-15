@@ -120,7 +120,7 @@ public class SignupActivity extends AppCompatActivity {
             return false;
         }
 
-        if(!Pattern.matches("^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$", password)) {
+        if(!Pattern.matches("^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{7,19}$", password)) {
             Util.toast(this, "비밀번호는 8~20자, 최소 하나의 문자와 특수문자를 포함해야 합니다.", false);
             return false;
         }

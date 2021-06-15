@@ -2,6 +2,8 @@ package com.example.findamate.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -11,6 +13,9 @@ import android.widget.RadioGroup;
 import com.example.findamate.R;
 import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.Student;
+import com.example.findamate.helper.Util;
+
+import java.util.regex.Pattern;
 
 public class PopupStudentSettingActivity extends Activity {
     public static final int RESULT_ADD = 100;
@@ -29,6 +34,7 @@ public class PopupStudentSettingActivity extends Activity {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_popup_student_setting);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         editTextName = findViewById(R.id.name);
         editTextPhone = findViewById(R.id.phone);
@@ -66,7 +72,7 @@ public class PopupStudentSettingActivity extends Activity {
                 String phoneNumber = editTextPhone.getText().toString().trim();
                 int genderId = radioGroupGender.getCheckedRadioButtonId();
 
-                if(name.isEmpty() || phoneNumber.isEmpty() || genderId < 0) return;
+                if(!checkValidation(name, phoneNumber)) return;
 
                 Intent intent = new Intent();
                 intent.putExtra("name", name);
@@ -83,6 +89,25 @@ public class PopupStudentSettingActivity extends Activity {
                 finish();
             }
         });
+    }
+
+    private boolean checkValidation(String name, String phoneNumber) {
+        if (name.isEmpty()) {
+            Util.toast(this, "학생명을 입력해주세요.", true);
+            return false;
+        }
+
+        if (phoneNumber.isEmpty()) {
+            Util.toast(this, "전화번호를 입력해주세요.", true);
+            return false;
+        }
+
+        if(!Pattern.matches("^\\d{3}-\\d{3,4}-\\d{4}$", phoneNumber)) {
+            Util.toast(this, "올바른 전화번호 형식이 아닙니다.", true);
+            return false;
+        }
+
+        return true;
     }
 
     private void showDeleteButton(boolean visibility) {
