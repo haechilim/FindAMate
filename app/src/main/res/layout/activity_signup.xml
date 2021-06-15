@@ -119,9 +119,11 @@
             android:layout_weight="3"
             android:backgroundTint="#FFFFFF"
             android:ems="10"
+            android:hint="나선린"
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textColorHint="#555" />
     </LinearLayout>
 
     <LinearLayout
@@ -146,9 +148,11 @@
             android:layout_weight="3"
             android:backgroundTint="#FFFFFF"
             android:ems="10"
+            android:hint="선린고등학교"
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textColorHint="#555" />
     </LinearLayout>
 
     <LinearLayout
@@ -173,9 +177,11 @@
             android:layout_weight="3"
             android:backgroundTint="#FFFFFF"
             android:ems="10"
+            android:hint="1"
             android:inputType="number"
             android:paddingLeft="10dp"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textColorHint="#555" />
     </LinearLayout>
 
     <LinearLayout
@@ -200,9 +206,11 @@
             android:layout_weight="3"
             android:backgroundTint="#FFFFFF"
             android:ems="10"
+            android:hint="4"
             android:inputType="number"
             android:paddingLeft="10dp"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textColorHint="#555" />
     </LinearLayout>
 
     <LinearLayout
