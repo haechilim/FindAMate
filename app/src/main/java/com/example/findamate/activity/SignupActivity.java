@@ -64,7 +64,7 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void success(boolean success) {
                         String message = success ? "회원가입이 정상적으로 완료 되었습니다." : "사용할 수 없는 아이디 입니다.";
-                        Toast.makeText(SignupActivity.this, message, Toast.LENGTH_SHORT).show();
+                        Util.toast(SignupActivity.this, message);
                         if(success) finish();
                     }
                 });
@@ -73,7 +73,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private boolean checkValidation() {
-        if(!password.equals(checkPassword)) Toast.makeText(SignupActivity.this, "비밀번호를 다시 확인해주세요.", Toast.LENGTH_SHORT).show();
+        if(!password.equals(checkPassword)) Util.toast(SignupActivity.this, "비밀번호를 다시 확인해주세요.");
         return !name.isEmpty() && !loginId.isEmpty() && !password.isEmpty() && !checkPassword.isEmpty() && !schoolName.isEmpty() && !year.isEmpty() && !number.isEmpty() && password.equals(checkPassword);
     }
 }

@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -105,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                 }
-                else if(!autoLogin) Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호가 정확하지 않습니다.", Toast.LENGTH_SHORT).show();
+                else if(!autoLogin) Util.toast(LoginActivity.this, "아이디 또는 비밀번호가 정확하지 않습니다.");
 
                 LoginActivity.this.loginId.setText("");
                 LoginActivity.this.password.setText("");
