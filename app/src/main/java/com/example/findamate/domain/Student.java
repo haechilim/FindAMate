@@ -2,9 +2,14 @@ package com.example.findamate.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Student {
     public final static int MAX_FAVORITE_SCORE = 3; // 최대 몇지망까지 입력받을지의 값
+    public final static String[] STATUS_MESSAGES = { "Hi!", "MESSAGE!", "LIKE!", "BYE BYE!",
+            "HELLO!", "TALK", "CHAT!", "Himmmm!", "LOL!", "SEE YO SOON!", "SEE YOU!", "miss you.",
+            "HEY!", "WOW!", "BYE!", "OH", "?!?!", "XOXO!", "OK!", "GREAT!", "YES", "OMG!", "HELLO",
+            "HAVE A NICE DAY", "HOLA!", "NICE!", "WELCOME!", "Home!", "COOL!!", "THANK YOU!" };
 
     private int id;
     private String name;
@@ -28,6 +33,7 @@ public class Student {
         this.male = male;
         this.phone = phone;
         this.avatarId = avatarId;
+        this.statusMessage = STATUS_MESSAGES[new Random().nextInt(STATUS_MESSAGES.length)];
     }
 
     public Student(String name, boolean male, String phone, int avatarId, String statusMessage) {

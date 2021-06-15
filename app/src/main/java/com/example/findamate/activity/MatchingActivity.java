@@ -125,7 +125,7 @@ public class MatchingActivity extends AppCompatActivity {
             }
         };
 
-        timer.schedule(timerTask, 0, 5100);
+        timer.schedule(timerTask, 0, 5000);
     }
 
     private void bindEvents() {
@@ -202,25 +202,18 @@ public class MatchingActivity extends AppCompatActivity {
             Student student2 = couple.getStudent2();
 
             if(student1 != null) {
-                //total += student1.getScore();
                 total += student1.getHappiness();
                 count++;
                 if(round == 0) round = student1.getPartnerIds().size();
             }
 
             if(student2 != null) {
-                //total += student2.getScore();
                 total += student2.getHappiness();
                 count++;
             }
         }
 
-        if(count > 0 && round > 0) {
-//            double average = (double)total / count / round;
-//            double happiness = average / Student.MAX_FAVORITE_SCORE * 100;
-//            result = String.format("%d%%", Math.round(happiness));
-            result = String.format("%d%%", Math.round(total / count));
-        }
+        if(count > 0 && round > 0) result = String.format("%d%%", Math.round(total / count));
 
         ((TextView)findViewById(R.id.happiness)).setText(result);
     }

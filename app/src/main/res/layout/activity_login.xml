@@ -62,6 +62,7 @@
                             android:layout_weight="2"
                             android:backgroundTint="#ffffff"
                             android:ems="10"
+                            android:gravity="center"
                             android:inputType="textPersonName"
                             android:maxLength="20"
                             android:paddingLeft="10dp"
@@ -89,6 +90,7 @@
                             android:layout_weight="2"
                             android:backgroundTint="#ffffff"
                             android:ems="10"
+                            android:gravity="center"
                             android:inputType="textPassword"
                             android:paddingLeft="10dp"
                             android:textColor="#ffffff" />
