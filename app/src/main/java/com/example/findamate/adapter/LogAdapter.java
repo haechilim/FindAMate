@@ -93,7 +93,7 @@ public class LogAdapter extends BaseAdapter {
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(History.DATE_FORMAT);
             Date date = simpleDateFormat.parse(history.getDate());
-            simpleDateFormat = new SimpleDateFormat("yyyy년 M월 d일 H시 m분");
+            simpleDateFormat = new SimpleDateFormat("yyyy년 M월 d일 H시 m분 s초");
             return simpleDateFormat.format(date);
         } catch (ParseException e) {
             Logger.debug(e.getMessage());

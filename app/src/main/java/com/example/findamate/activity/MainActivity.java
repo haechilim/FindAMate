@@ -1,6 +1,7 @@
 package com.example.findamate.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
@@ -209,6 +210,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void bindEvents() {
+        findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPreferences = getSharedPreferences("auto login", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("is auto login", false);
+                editor.commit();
+
+                finish();
+            }
+        });
+
         findViewById(R.id.classSettingButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
