@@ -61,10 +61,7 @@ public class WaitingActivity extends AppCompatActivity {
         tip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences sharedPreferences = getSharedPreferences("waitingTip", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("showTip", false);
-                editor.commit();
+                commitTip();
                 showTip(false);
             }
         });
@@ -72,6 +69,8 @@ public class WaitingActivity extends AppCompatActivity {
         findViewById(R.id.startMatching).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                commitTip();
+
                 Intent intent = new Intent(getBaseContext(), MatchingActivity.class);
                 intent.putExtra("isSimulation", false);
                 intent.putExtra("mode", mode);
@@ -83,6 +82,7 @@ public class WaitingActivity extends AppCompatActivity {
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                commitTip();
                 finish();
             }
         });
@@ -90,5 +90,12 @@ public class WaitingActivity extends AppCompatActivity {
 
     private void showTip(boolean visibility) {
         tip.setVisibility(visibility ? View.VISIBLE : View.GONE);
+    }
+
+    private void commitTip() {
+        SharedPreferences sharedPreferences = getSharedPreferences("waitingTip", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("showTip", false);
+        editor.commit();
     }
 }

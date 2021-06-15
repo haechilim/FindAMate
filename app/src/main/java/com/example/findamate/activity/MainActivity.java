@@ -218,6 +218,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                commitTip();
+
                 SharedPreferences sharedPreferences = getSharedPreferences("auto login", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("is auto login", false);
@@ -246,6 +248,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.logButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                commitTip();
+
                 Intent intent = new Intent(MainActivity.this, LogActivity.class);
                 intent.putExtra("type", LogActivity.TYPE_HISTORY);
                 startActivity(intent);
@@ -255,6 +259,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.startButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                commitTip();
+
                 Intent intent = new Intent(MainActivity.this, PopupMatchingSettingActivity.class);
                 startActivityForResult(intent, POPUP_MATCHING);
             }
@@ -263,6 +269,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.simulationButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                commitTip();
+
                 Intent intent = new Intent(MainActivity.this, PopupMatchingSettingActivity.class);
                 startActivityForResult(intent, POPUP_SIMULATION);
             }
@@ -271,10 +279,7 @@ public class MainActivity extends AppCompatActivity {
         tip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences sharedPreferences = getSharedPreferences("tip", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("showTip", false);
-                editor.commit();
+                commitTip();
                 showTip(false);
             }
         });
@@ -298,6 +303,14 @@ public class MainActivity extends AppCompatActivity {
         studentContainer.addView((View)view.getParent());
 
         return view;
+    }
+
+    private void commitTip() {
+        SharedPreferences sharedPreferences = getSharedPreferences("tip", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("showTip", false);
+        editor.commit();
+        showTip(false);
     }
 
     private void showTip(boolean visibility) {
