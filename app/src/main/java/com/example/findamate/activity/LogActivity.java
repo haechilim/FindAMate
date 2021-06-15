@@ -14,12 +14,8 @@ import com.example.findamate.adapter.LogAdapter;
 import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.Couple;
 import com.example.findamate.domain.History;
-import com.example.findamate.domain.Student;
-import com.example.findamate.helper.Logger;
 import com.example.findamate.manager.ApiManager;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class LogActivity extends AppCompatActivity {
@@ -28,7 +24,7 @@ public class LogActivity extends AppCompatActivity {
     public final static int TYPE_SIMULATION = 2;
 
     private int type;
-    private ImageView okButton;
+    private ImageView ok;
     private ImageView restart;
     private TextView back;
 
@@ -39,23 +35,24 @@ public class LogActivity extends AppCompatActivity {
 
         type = getIntent().getIntExtra("type", TYPE_HISTORY);
 
-        okButton = findViewById(R.id.ok);
+        ok = findViewById(R.id.ok);
         restart = findViewById(R.id.restart);
         back = findViewById(R.id.back);
 
         switch (type) {
             case TYPE_HISTORY:
-                showButtonm(false);
+                showButton(false);
                 break;
 
             case TYPE_RESULT:
-                showButtonm(false);
+                showButton(true);
+                showRestartButton(false);
                 break;
 
             case TYPE_SIMULATION:
-                showButtonm(true);
+                showButton(true);
 
-                okButton.setOnClickListener(new View.OnClickListener() {
+                restart.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(LogActivity.this, PopupMatchingSettingActivity.class);
@@ -116,12 +113,19 @@ public class LogActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LogActivity.this, MainActivity.class));
+                finish();
+            }
+        });
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getBaseContext(), MainActivity.class));
             }
         });
     }
 
-    private void showButtonm(boolean visibility) {
+    private void showButton(boolean visibility) {
         showBackButton(!visibility);
         showRestartButton(visibility);
         showOkButton(visibility);
@@ -136,6 +140,6 @@ public class LogActivity extends AppCompatActivity {
     }
 
     private void showOkButton(boolean visibility) {
-        okButton.setVisibility(visibility ? View.VISIBLE : View.GONE);
+        ok.setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 }

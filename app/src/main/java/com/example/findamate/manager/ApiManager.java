@@ -148,7 +148,7 @@ public class ApiManager {
         request(String.format("%s/%s?memberId=%d", HOST, "round", memberId), new JsonCallback() {
             @Override
             public void success(String json) {
-                Logger.debug(json);
+                Logger.debug("round: " + json);
                 try {
                     callback.success(objectMapper.readValue(json, new TypeReference<List<History>>() {}));
                 } catch (JsonProcessingException e) {

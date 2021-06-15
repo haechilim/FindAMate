@@ -56,7 +56,7 @@
             android:layout_gravity="right|bottom"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/run" />
+            android:src="@drawable/done" />
 
         <ImageView
             android:id="@+id/restart"
@@ -65,7 +65,7 @@
             android:layout_gravity="right|bottom"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/simulation"
+            android:src="@drawable/simulation2"
             android:layout_marginRight="65dp"/>
     </FrameLayout>
 </LinearLayout>

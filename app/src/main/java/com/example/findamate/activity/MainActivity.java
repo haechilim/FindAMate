@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.putBoolean("is auto login", false);
                 editor.commit();
 
-                finish();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
             }
         });
 

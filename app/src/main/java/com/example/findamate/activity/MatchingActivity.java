@@ -125,7 +125,7 @@ public class MatchingActivity extends AppCompatActivity {
             }
         };
 
-        timer.schedule(timerTask, 0, 5000);
+        timer.schedule(timerTask, 0, 5100);
     }
 
     private void bindEvents() {

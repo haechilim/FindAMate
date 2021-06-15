@@ -14,113 +14,127 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="80dp">
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="학교"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:textColor="#000000"/>
-
-            <EditText
-                android:id="@+id/className"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="6"
-                android:inputType="textPersonName"
-                android:gravity="center"
-                android:textSize="13sp"
-                android:maxLength="10"/>
-        </LinearLayout>
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="학년"
-                android:textStyle="bold"
-                android:textColor="#000000"/>
-
-            <EditText
-                android:id="@+id/classYear"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="6"
-                android:inputType="textPersonName"
-                android:gravity="center"
-                android:textSize="13sp"
-                android:maxLength="5"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="학급"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textColor="#000000"/>
-
-            <EditText
-                android:id="@+id/classNumber"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="6"
-                android:inputType="textPersonName"
-                android:gravity="center"
-                android:textSize="13sp"
-                android:maxLength="5"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="right"
-            android:layout_marginTop="10dp">
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp">
 
-            <TextView
-                android:id="@+id/confirmClassSetting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="확인"
-                android:textSize="15sp"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:layout_marginRight="30dp"/>
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_height="35dp"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/cancelClassSetting"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="학교"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="#000000"/>
+
+                <EditText
+                    android:id="@+id/className"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6"
+                    android:inputType="textPersonName"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:maxLength="10"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_height="35dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="학년"
+                    android:textStyle="bold"
+                    android:textColor="#000000"/>
+
+                <EditText
+                    android:id="@+id/classYear"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6"
+                    android:inputType="textPersonName"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:maxLength="5"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_height="35dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="학급"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="#000000"/>
+
+                <EditText
+                    android:id="@+id/classNumber"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6"
+                    android:inputType="textPersonName"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:maxLength="5"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:text="취소"
-                android:textSize="15sp"
-                android:textColor="#000000"
-                android:textStyle="bold"/>
+                android:orientation="horizontal"
+                android:gravity="right"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/confirmClassSetting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="확인"
+                    android:textSize="15sp"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:layout_marginRight="30dp"/>
+
+                <TextView
+                    android:id="@+id/cancelClassSetting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="취소"
+                    android:textSize="15sp"
+                    android:textColor="#000000"
+                    android:textStyle="bold"/>
+            </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
     </LinearLayout>
 </FrameLayout>
