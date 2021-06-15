@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int AVATAR_COUNT = 54;
 
     private FrameLayout studentContainer;
+    private FrameLayout tip;
     private TextView schoolView;
     private Student targetStudent;
     private View selectedView;
@@ -50,7 +51,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         studentContainer = findViewById(R.id.studentContainer);
+        tip = findViewById(R.id.tip);
         schoolView = findViewById(R.id.classInformation);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("tip", MODE_PRIVATE);
+        showTip(sharedPreferences.getBoolean("showTip", true));
     }
 
     private void load() {
@@ -262,6 +267,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, POPUP_SIMULATION);
             }
         });
+
+        tip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPreferences = getSharedPreferences("tip", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("showTip", false);
+                editor.commit();
+                showTip(false);
+            }
+        });
     }
 
     private View addStudentView(Student student) {
@@ -282,6 +298,10 @@ public class MainActivity extends AppCompatActivity {
         studentContainer.addView((View)view.getParent());
 
         return view;
+    }
+
+    private void showTip(boolean visibility) {
+        tip.setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 
     private void showLogButton(boolean visibility) {

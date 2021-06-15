@@ -78,7 +78,7 @@
                     android:gravity="center"
                     android:hint="010-1234-5678"
                     android:inputType="phone"
-                    android:maxLength="20"
+                    android:maxLength="15"
                     android:textSize="13sp" />
             </LinearLayout>
 
