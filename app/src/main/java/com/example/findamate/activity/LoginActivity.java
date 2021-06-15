@@ -36,6 +36,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {}
+
+    @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         Util.hideKeyBoard(ev, this, getCurrentFocus());
         return super.dispatchTouchEvent(ev);
