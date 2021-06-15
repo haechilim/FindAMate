@@ -56,16 +56,14 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!checkValidation()) return;
-
-                login(loginId.getText().toString().trim(), password.getText().toString().trim(), false);
+                login(false);
             }
         });
 
         ((EditText)findViewById(R.id.password)).setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                login(loginId.getText().toString().trim(), password.getText().toString().trim(), false);
+                login(false);
                 return false;
             }
         });
@@ -77,6 +75,14 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void login(boolean autoLogin) {
+        String loginId = this.loginId.getText().toString().trim();
+        String password = this.password.getText().toString().trim();
+
+        if(!checkValidation(loginId, password)) return;
+        login(loginId, password, autoLogin);
     }
 
     private void login(String loginId, String password, boolean autoLogin) {
@@ -107,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private boolean checkValidation() {
-        return !loginId.getText().toString().trim().isEmpty() && !password.getText().toString().trim().isEmpty();
+    private boolean checkValidation(String loginId, String password) {
+        return !loginId.isEmpty() && !password.isEmpty();
     }
 }
