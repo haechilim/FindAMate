@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = sharedPreferences.getString("password", "");
 
         if(isAutoLogin) login(id, password, true);
+        else findViewById(R.id.container).setVisibility(View.VISIBLE);
 
         init();
         bindEvents();
@@ -85,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     editor.commit();
 
-                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                 }
                 else if(!autoLogin) Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호가 정확하지 않습니다.", Toast.LENGTH_SHORT).show();
