@@ -1,15 +1,17 @@
 package com.example.findamate.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.findamate.R;
 import com.example.findamate.helper.Util;
@@ -57,6 +59,14 @@ public class LoginActivity extends AppCompatActivity {
                 if(!checkValidation()) return;
 
                 login(loginId.getText().toString().trim(), password.getText().toString().trim(), false);
+            }
+        });
+
+        ((EditText)findViewById(R.id.password)).setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                login(loginId.getText().toString().trim(), password.getText().toString().trim(), false);
+                return false;
             }
         });
 
