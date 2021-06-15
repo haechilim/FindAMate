@@ -63,6 +63,7 @@
                             android:backgroundTint="#ffffff"
                             android:ems="10"
                             android:inputType="textPersonName"
+                            android:maxLength="20"
                             android:paddingLeft="10dp"
                             android:textColor="#ffffff" />
                     </LinearLayout>

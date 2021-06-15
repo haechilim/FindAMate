@@ -113,6 +113,21 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean checkValidation(String loginId, String password) {
-        return !loginId.isEmpty() && !password.isEmpty();
+        if(loginId.isEmpty()) {
+            Util.toast(this, "아이디를 입력해주세요.");
+            return false;
+        }
+
+        if(password.isEmpty()) {
+            Util.toast(this, "비밀번호를 입력해주세요.");
+            return false;
+        }
+
+        /*if(!Pattern.matches("^[a-z]+[a-z0-9]{7,19}$", loginId)) {
+            Util.toast(this, "아이디는 8~20자 사이의 소문자나 숫자이어야 합니다.");
+            return false;
+        }*/
+
+        return true;
     }
 }
