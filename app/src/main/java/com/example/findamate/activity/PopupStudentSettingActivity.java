@@ -102,7 +102,7 @@ public class PopupStudentSettingActivity extends Activity {
             return false;
         }
 
-        if(!Pattern.matches("^\\d{3}-\\d{3,4}-\\d{4}$", phoneNumber)) {
+        if(!Pattern.matches("^\\d{10,11}$", phoneNumber)) {
             Util.toast(this, "올바른 전화번호 형식이 아닙니다.", true);
             return false;
         }

@@ -48,10 +48,10 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="6"
-                    android:gravity="center"
                     android:hint="선린고등학교"
                     android:inputType="textPersonName"
                     android:maxLength="10"
+                    android:paddingLeft="5dp"
                     android:textSize="13sp" />
             </LinearLayout>
 
@@ -74,10 +74,10 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="6"
-                    android:gravity="center"
                     android:hint="1"
                     android:inputType="textPersonName"
                     android:maxLength="5"
+                    android:paddingLeft="5dp"
                     android:textSize="13sp" />
             </LinearLayout>
 
@@ -100,10 +100,10 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="6"
-                    android:gravity="center"
                     android:hint="3"
                     android:inputType="textPersonName"
                     android:maxLength="5"
+                    android:paddingLeft="5dp"
                     android:textSize="13sp" />
             </LinearLayout>
 

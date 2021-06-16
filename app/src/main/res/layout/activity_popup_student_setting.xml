@@ -48,10 +48,10 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="6"
-                    android:gravity="center"
                     android:hint="나선린"
                     android:inputType="textPersonName"
                     android:maxLength="5"
+                    android:paddingLeft="5dp"
                     android:textSize="13sp" />
 
             </LinearLayout>
@@ -75,10 +75,10 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="6"
-                    android:gravity="center"
-                    android:hint="010-1234-5678"
+                    android:hint="' - ' 없이 숫자만 입력"
                     android:inputType="phone"
                     android:maxLength="15"
+                    android:paddingLeft="5dp"
                     android:textSize="13sp" />
             </LinearLayout>
 
