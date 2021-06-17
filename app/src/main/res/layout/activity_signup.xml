@@ -38,10 +38,12 @@
             android:layout_weight="3"
             android:backgroundTint="#FFFFFF"
             android:ems="10"
+            android:hint="6 자이상의 소문자나 숫자"
             android:inputType="textPersonName"
             android:maxLength="20"
             android:paddingLeft="10dp"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textColorHint="#555" />
     </LinearLayout>
 
     <LinearLayout
@@ -66,10 +68,12 @@
             android:layout_weight="3"
             android:backgroundTint="#FFFFFF"
             android:ems="10"
+            android:hint="8 자 이상의 문자, 특수문자"
             android:inputType="textPassword"
             android:maxLength="20"
             android:paddingLeft="10dp"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textColorHint="#555" />
     </LinearLayout>
 
     <LinearLayout
@@ -97,7 +101,8 @@
             android:inputType="textPassword"
             android:maxLength="20"
             android:paddingLeft="10dp"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textColorHint="#555" />
     </LinearLayout>
 
     <LinearLayout
