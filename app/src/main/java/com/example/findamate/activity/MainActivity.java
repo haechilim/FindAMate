@@ -109,6 +109,11 @@ public class MainActivity extends AppCompatActivity {
         showSimulationButton(!Classroom.students.isEmpty());
     }
 
+    private void redrawStudents() {
+        studentContainer.removeAllViews();
+        addStudentViews();
+    }
+
     private void addStudentViews() {
         for(int i = 0; i < Classroom.students.size(); i++) {
             addStudentView(Classroom.students.get(i));
@@ -195,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                 if(student == targetStudent) {
                     ApiManager.deleteStudent(student);
                     Classroom.students.remove(i);
-                    selectedView.setVisibility(View.GONE);
+                    redrawStudents();
                     break;
                 }
             }
