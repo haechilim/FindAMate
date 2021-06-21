@@ -60,31 +60,69 @@ public class LogAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         History history = histories.get(position);
         List<Couple> couples = history.getCouples();
+        View rootView = convertView;
 
-        LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.layout_list_history, parent, false);
-        ((TextView) view.findViewById(R.id.date)).setText(formatDate(history));
-        LinearLayout container = view.findViewById(R.id.couplesContainer);
-        LinearLayout couplesContainer = null;
-        LinearLayout.LayoutParams couplesParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        couplesParams.setMargins(0,0,0, Util.dpToPx(activity.getWindowManager(), 30));
-
-        for(int index = 0; index < couples.size(); index++) {
-            if(index % itemsPerRow == 0) {
-                couplesContainer = new LinearLayout(activity);
-                couplesContainer.setOrientation(LinearLayout.HORIZONTAL);
-                couplesContainer.setGravity(Gravity.LEFT);
-            }
-
-            Couple couple = couples.get(index);
-            Student student1 = couple.getStudent1();
-            Student student2 = couple.getStudent2();
-
-            CoupleView coupleView = new CoupleView(activity, student1, student2, position != 0);
-            couplesContainer.addView(coupleView);
-
-            if(index % itemsPerRow == itemsPerRow - 1 || index >= couples.size() - 1) container.addView(couplesContainer, couplesParams);
+        if(convertView == null) {
+            LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            rootView = layoutInflater.inflate(R.layout.layout_list_history, parent, false);
         }
+
+        LinearLayout couplesRow = null;
+        LinearLayout container = rootView.findViewById(R.id.couplesContainer);
+
+        initView(container);
+
+        for (int index = 0; index < couples.size(); index++) {
+            if (index % itemsPerRow == 0) couplesRow = addCouplesRow(container, index / itemsPerRow);
+            addCoupleView(couplesRow, index % itemsPerRow, couples.get(index), position != 0);
+        }
+
+        ((TextView) rootView.findViewById(R.id.date)).setText(formatDate(history));
+
+        return rootView;
+    }
+
+    private void initView(ViewGroup container) {
+        for(int i = 0; i < container.getChildCount(); i++) {
+            ViewGroup rowContainer = (ViewGroup)container.getChildAt(i);
+            rowContainer.setVisibility(View.GONE);
+
+            for(int j = 0; j < rowContainer.getChildCount(); j++) {
+                rowContainer.getChildAt(j).setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private LinearLayout addCouplesRow(ViewGroup container, int position) {
+        Logger.debug(String.format("position(%d) children(%d)", position, container.getChildCount()));
+        if(position < container.getChildCount()) {
+            LinearLayout view = (LinearLayout)container.getChildAt(position);
+            view.setVisibility(View.VISIBLE);
+            return view;
+        }
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(0, 0, 0, Util.dpToPx(activity.getWindowManager(), 30));
+
+        LinearLayout view = new LinearLayout(activity);
+        view.setOrientation(LinearLayout.HORIZONTAL);
+        view.setGravity(Gravity.LEFT);
+        container.addView(view, layoutParams);
+
+        return view;
+    }
+
+    private View addCoupleView(ViewGroup container, int position, Couple couple, boolean hideExtra) {
+        if(position < container.getChildCount()) {
+            LinearLayout view = (LinearLayout)container.getChildAt(position);
+            view.setVisibility(View.VISIBLE);
+            return view;
+        }
+
+        Student student1 = couple.getStudent1();
+        Student student2 = couple.getStudent2();
+        CoupleView view = new CoupleView(activity, student1, student2, hideExtra);
+        container.addView(view);
 
         return view;
     }
