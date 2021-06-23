@@ -11,7 +11,9 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.findamate.R;
 import com.example.findamate.domain.Student;
@@ -43,6 +45,15 @@ public class StudentViewManager {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Util.dpToPx(windowManager, width), Util.dpToPx(windowManager, height));
         linearLayout.addView(studentView, layoutParams);
         return studentView;
+    }
+
+    public static void setStudentView(Context context, View view, Student student) {
+        if(student == null) return;
+
+        ((ImageView) view.findViewById(R.id.avatarImage)).setImageResource(toAvatarResourceId(context, student.getAvatarId()));
+        ((TextView) view.findViewById(R.id.name)).setText(student.getName());
+        ((TextView) view.findViewById(R.id.statusMessage)).setText(student.getStatusMessage());
+        ((TextView) view.findViewById(R.id.score)).setText(Math.round(student.getHappiness()) + "%");
     }
 
     public static void startBounceAnimation(Context context, FrameLayout container) {
@@ -167,5 +178,9 @@ public class StudentViewManager {
 
     private static boolean isOverlapped(int left, int top, int right, int bottom, Rect position) {
         return left < position.right && right > position.left && top < position.bottom && bottom > position.top;
+    }
+
+    private static int toAvatarResourceId(Context context, int id) {
+        return context.getResources().getIdentifier(String.format("avatar%02d", id), "drawable", context.getPackageName());
     }
 }

@@ -2,6 +2,7 @@ package com.example.findamate.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.example.findamate.helper.Logger;
 import com.example.findamate.helper.Util;
 import com.example.findamate.manager.StudentViewManager;
 import com.example.findamate.view.CoupleView;
+import com.example.findamate.view.StudentView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -94,7 +96,6 @@ public class LogAdapter extends BaseAdapter {
     }
 
     private LinearLayout addCouplesRow(ViewGroup container, int position) {
-        Logger.debug(String.format("position(%d) children(%d)", position, container.getChildCount()));
         if(position < container.getChildCount()) {
             LinearLayout view = (LinearLayout)container.getChildAt(position);
             view.setVisibility(View.VISIBLE);
@@ -113,14 +114,22 @@ public class LogAdapter extends BaseAdapter {
     }
 
     private View addCoupleView(ViewGroup container, int position, Couple couple, boolean hideExtra) {
+        Student student1 = couple.getStudent1();
+        Student student2 = couple.getStudent2();
+
         if(position < container.getChildCount()) {
             LinearLayout view = (LinearLayout)container.getChildAt(position);
+
+            LinearLayout linearLayout = ((LinearLayout)view.getChildAt(0));
+            LinearLayout studentView1 = ((LinearLayout)linearLayout.getChildAt(0));
+            LinearLayout studentView2 = ((LinearLayout)linearLayout.getChildAt(2));
+
+            StudentViewManager.setStudentView(activity, studentView1, student1);
+            StudentViewManager.setStudentView(activity, studentView2, student2);
             view.setVisibility(View.VISIBLE);
             return view;
         }
 
-        Student student1 = couple.getStudent1();
-        Student student2 = couple.getStudent2();
         CoupleView view = new CoupleView(activity, student1, student2, hideExtra);
         container.addView(view);
 

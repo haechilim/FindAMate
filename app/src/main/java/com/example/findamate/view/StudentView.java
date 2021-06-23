@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 
 import com.example.findamate.R;
 import com.example.findamate.domain.Student;
+import com.example.findamate.manager.StudentViewManager;
 
 public class StudentView extends LinearLayout {
     private Student student;
@@ -43,25 +44,13 @@ public class StudentView extends LinearLayout {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutInflater.inflate(R.layout.layout_profile, this, true);
 
-        ImageView avatar = findViewById(R.id.avatarImage);
-        TextView nameView = findViewById(R.id.name);
-        TextView statusMessage = findViewById(R.id.statusMessage);
-        TextView score = findViewById(R.id.score);
-
         if(student == null) return;
 
-        avatar.setImageResource(toAvatarResourceId(student.getAvatarId()));
-        nameView.setText(student.getName());
-        statusMessage.setText(student.getStatusMessage());
-        score.setText(Math.round(student.getHappiness()) + "%");
+        StudentViewManager.setStudentView(context, this, student);
     }
 
     public void hideExtra() {
         findViewById(R.id.statusMessage).setVisibility(INVISIBLE);
         findViewById(R.id.score).setVisibility(INVISIBLE);
-    }
-
-    private int toAvatarResourceId(int id) {
-        return context.getResources().getIdentifier(String.format("avatar%02d", id), "drawable", context.getPackageName());
     }
 }
