@@ -20,12 +20,12 @@ import java.net.URL;
 import java.util.List;
 
 public class ApiManager {
-    private static final String HOST = "http://35.247.50.32:8000";
+    private static final String HOST = "http://34.105.126.228:8000";
     private static int memberId;
     private static ObjectMapper objectMapper = new ObjectMapper();
 
-    public static void signup(String name, String id, String password, String school, int year, int number, SignupCallback callback) {
-        request(String.format("%s/%s?name=%s&loginId=%s&password=%s&school=%s&year=%d&number=%d", HOST, "signup", name, id, password, school, year, number), new JsonCallback() {
+    public static void signup(String id, String password, SignupCallback callback) {
+        request(String.format("%s/%s?loginId=%s&password=%s", HOST, "signup", id, password), new JsonCallback() {
             @Override
             public void success(String json) {
                 try {

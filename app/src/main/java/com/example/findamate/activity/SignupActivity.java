@@ -16,13 +16,9 @@ import com.example.findamate.manager.ApiManager;
 import java.util.regex.Pattern;
 
 public class SignupActivity extends AppCompatActivity {
-    private String name;
     private String loginId;
     private String password;
     private String checkPassword;
-    private String schoolName;
-    private String year;
-    private String number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +35,9 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void getEditTexts() {
-        name = ((TextView)findViewById(R.id.name)).getText().toString().trim();
         loginId = ((TextView)findViewById(R.id.loginId)).getText().toString().trim();
         password = ((TextView)findViewById(R.id.password)).getText().toString().trim();
         checkPassword = ((TextView)findViewById(R.id.checkPassword)).getText().toString().trim();
-        schoolName = ((TextView)findViewById(R.id.schoolName)).getText().toString().trim();
-        year = ((TextView)findViewById(R.id.year)).getText().toString().trim();
-        number = ((TextView)findViewById(R.id.number)).getText().toString().trim();
     }
 
     private void bindEvents() {
@@ -62,7 +54,7 @@ public class SignupActivity extends AppCompatActivity {
                 getEditTexts();
                 if(!checkValidation()) return;
 
-                ApiManager.signup(name, loginId, password, schoolName, Integer.parseInt(year), Integer.parseInt(number), new ApiManager.SignupCallback() {
+                ApiManager.signup(loginId, password, new ApiManager.SignupCallback() {
                     @Override
                     public void success(boolean success) {
                         String message = success ? "회원가입이 정상적으로 완료되었습니다." : "사용할 수 없는 아이디 입니다.";
@@ -87,26 +79,6 @@ public class SignupActivity extends AppCompatActivity {
 
         if(checkPassword.isEmpty()) {
             Util.toast(this, "비밀번호를 한번더 입력해주세요.", true);
-            return false;
-        }
-
-        if(name.isEmpty()) {
-            Util.toast(this, "교사명을 입력해주세요.", true);
-            return false;
-        }
-
-        if(schoolName.isEmpty()) {
-            Util.toast(this, "학교명을 입력해주세요.", true);
-            return false;
-        }
-
-        if(year.isEmpty()) {
-            Util.toast(this, "학년을 입력해주세요.", true);
-            return false;
-        }
-
-        if(number.isEmpty()) {
-            Util.toast(this, "학급을 입력해주세요.", true);
             return false;
         }
 

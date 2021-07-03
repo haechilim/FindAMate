@@ -11,6 +11,8 @@ public class Classroom {
     public static List<History> clonedHistories = new ArrayList<>();
 
     public static String getClassInfo() {
+        if(school.getName().isEmpty()) return "학급을 설정해 주세요.";
+
         return String.format("%s %s학년 %s반", school.getName(), school.getYear(), school.getNumber());
     }
 

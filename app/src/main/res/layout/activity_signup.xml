@@ -8,18 +8,19 @@
     android:paddingLeft="50dp"
     android:paddingTop="20dp"
     android:paddingRight="50dp"
-    android:paddingBottom="20dp">
+    android:paddingBottom="20dp"
+    android:gravity="center">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logo"
+        android:layout_marginBottom="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -49,7 +50,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -79,7 +79,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -108,129 +107,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="교사명"
-            android:textColor="#FFFFFF" />
-
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:backgroundTint="#FFFFFF"
-            android:ems="10"
-            android:hint="나선린"
-            android:inputType="textPersonName"
-            android:maxLength="5"
-            android:paddingLeft="10dp"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#555" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="학교명"
-            android:textColor="#FFFFFF" />
-
-        <EditText
-            android:id="@+id/schoolName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:backgroundTint="#FFFFFF"
-            android:ems="10"
-            android:hint="선린고등학교"
-            android:inputType="textPersonName"
-            android:maxLength="15"
-            android:paddingLeft="10dp"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#555" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="학년"
-            android:textColor="#FFFFFF" />
-
-        <EditText
-            android:id="@+id/year"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:backgroundTint="#FFFFFF"
-            android:ems="10"
-            android:hint="1"
-            android:inputType="number"
-            android:maxLength="5"
-            android:paddingLeft="10dp"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#555" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="학급"
-            android:textColor="#FFFFFF" />
-
-        <EditText
-            android:id="@+id/number"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:backgroundTint="#FFFFFF"
-            android:ems="10"
-            android:hint="4"
-            android:inputType="number"
-            android:maxLength="5"
-            android:paddingLeft="10dp"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#555" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
 
         <TextView
             android:id="@+id/singup"
