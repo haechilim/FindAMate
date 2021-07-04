@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.findamate.R;
@@ -44,9 +45,31 @@ public class ContactAdapter extends BaseAdapter {
         LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.layout_contact_item, parent, false);
 
-        ((TextView) view.findViewById(R.id.name)).setText(contact.getName());
-        ((TextView) view.findViewById(R.id.number)).setText(contact.getNumber());
+        updateName(view, contact.getName());
+        updateNumber(view, contact.getNumber());
+        updateCheckBox(view, contact.isSelected());
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                contact.reverseSelected();
+                updateCheckBox(view, contact.isSelected());
+                notifyDataSetChanged();
+            }
+        });
 
         return view;
+    }
+
+    private void updateName(View view, String name) {
+        ((TextView) view.findViewById(R.id.name)).setText(name);
+    }
+
+    private void updateNumber(View view, String number) {
+        ((TextView) view.findViewById(R.id.number)).setText(number);
+    }
+
+    private void updateCheckBox(View view, boolean isChecked) {
+        ((RadioButton) view.findViewById(R.id.checkBox)).setChecked(isChecked);
     }
 }

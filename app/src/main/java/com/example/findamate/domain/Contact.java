@@ -32,11 +32,24 @@ public class Contact {
         this.number = number;
     }
 
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public void reverseSelected() {
+        selected = !selected;
+    }
+
     @Override
     public String toString() {
         return "Contact{" +
                 "name='" + name + '\'' +
                 ", number='" + number + '\'' +
+                ", selected=" + selected +
                 '}';
     }
 }
