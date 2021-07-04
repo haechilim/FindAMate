@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +14,7 @@ import com.example.findamate.adapter.ContactAdapter;
 import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.Contact;
 import com.example.findamate.domain.Student;
+import com.example.findamate.helper.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +58,11 @@ public class PopupContactActivity extends AppCompatActivity {
                     Classroom.tempStudents.add(new Student(contact.getName(),
                             contact.getCheckMode() == Contact.CHECK_MALE, contact.getNumber(),
                             new Random().nextInt(MainActivity.AVATAR_COUNT) + 1));
+                }
+
+                if(Classroom.tempStudents.isEmpty()) {
+                    Util.toast(PopupContactActivity.this, "1명 이상의 학생을 선택해 주세요.", true);
+                    return;
                 }
 
                 setResult(RESULT_LOAD);
