@@ -1,19 +1,23 @@
 package com.example.findamate.domain;
 
 public class Contact {
+    public static final int CHECK_NONE = 0;
+    public static final int CHECK_MALE = 1;
+    public static final int CHECK_FEMALE = 2;
+
     private String name;
     private String number;
-    private boolean selected;
+    private int checkMode = CHECK_NONE;
 
     public Contact(String name, String number) {
         this.name = name;
         this.number = number;
     }
 
-    public Contact(String name, String number, boolean selected) {
+    public Contact(String name, String number, int checkMode) {
         this.name = name;
         this.number = number;
-        this.selected = selected;
+        this.checkMode = checkMode;
     }
 
     public String getName() {
@@ -32,16 +36,18 @@ public class Contact {
         this.number = number;
     }
 
-    public boolean isSelected() {
-        return selected;
+    public int getCheckMode() {
+        return checkMode;
     }
 
-    public void setSelected(boolean selected) {
-        this.selected = selected;
+    public void setCheckMode(int checkMode) {
+        this.checkMode = checkMode;
     }
 
-    public void reverseSelected() {
-        selected = !selected;
+    public void nextCheckMode() {
+        if(checkMode == CHECK_NONE) checkMode = CHECK_MALE;
+        else if(checkMode == CHECK_MALE) checkMode = CHECK_FEMALE;
+        else if(checkMode == CHECK_FEMALE) checkMode = CHECK_NONE;
     }
 
     @Override
@@ -49,7 +55,7 @@ public class Contact {
         return "Contact{" +
                 "name='" + name + '\'' +
                 ", number='" + number + '\'' +
-                ", selected=" + selected +
+                ", checkMode=" + checkMode +
                 '}';
     }
 }

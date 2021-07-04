@@ -24,9 +24,7 @@ public class Student {
     private boolean hasPartner;
     private static int sequence = 0;
 
-    public Student() {
-
-    }
+    public Student() {}
 
     public Student(String name, boolean male, String phone, int avatarId) {
         this.name = name;

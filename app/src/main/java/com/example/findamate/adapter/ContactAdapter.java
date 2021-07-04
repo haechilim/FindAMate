@@ -2,11 +2,12 @@ package com.example.findamate.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.RadioButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.findamate.R;
@@ -47,13 +48,13 @@ public class ContactAdapter extends BaseAdapter {
 
         updateName(view, contact.getName());
         updateNumber(view, contact.getNumber());
-        updateCheckBox(view, contact.isSelected());
+        updateCheckBox(view, contact.getCheckMode());
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                contact.reverseSelected();
-                updateCheckBox(view, contact.isSelected());
+                contact.nextCheckMode();
+                updateCheckBox(view, contact.getCheckMode());
                 notifyDataSetChanged();
             }
         });
@@ -69,7 +70,13 @@ public class ContactAdapter extends BaseAdapter {
         ((TextView) view.findViewById(R.id.number)).setText(number);
     }
 
-    private void updateCheckBox(View view, boolean isChecked) {
-        ((RadioButton) view.findViewById(R.id.checkBox)).setChecked(isChecked);
+    private void updateCheckBox(View view, int checkMode) {
+        int drawable;
+
+        if(checkMode == Contact.CHECK_NONE) drawable = R.drawable.layout_check;
+        else if(checkMode == Contact.CHECK_MALE) drawable = R.drawable.layout_checked_male;
+        else drawable = R.drawable.layout_checked_female;
+
+        view.findViewById(R.id.check).setBackground(activity.getResources().getDrawable(drawable, activity.getTheme()));
     }
 }

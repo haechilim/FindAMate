@@ -2,32 +2,57 @@ package com.example.findamate.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.view.View;
 import android.widget.ListView;
 
 import com.example.findamate.R;
 import com.example.findamate.adapter.ContactAdapter;
+import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.Contact;
+import com.example.findamate.domain.School;
+import com.example.findamate.domain.Student;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
 public class PopupContactActivity extends AppCompatActivity {
+    List<Contact> contacts = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popup_contact);
 
-        ContactAdapter contactAdapter = new ContactAdapter(this, getContacts());
+        getContacts();
+
+        ContactAdapter contactAdapter = new ContactAdapter(this, contacts);
         ((ListView)findViewById(R.id.list)).setAdapter(contactAdapter);
+
+        bindEvents();
     }
-    
-    private List<Contact> getContacts() {
-        List<Contact> contacts = new ArrayList<>();
+
+    private void bindEvents() {
+        findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        findViewById(R.id.confirm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
+    private void getContacts() {
         Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null, null, null);
 
         while (cursor.moveToNext()) {
@@ -37,8 +62,6 @@ public class PopupContactActivity extends AppCompatActivity {
             contacts.add(new Contact(name, getPhoneNumber(number)));
         }
         cursor.close();
-
-        return contacts;
     }
 
     public static String getPhoneNumber(String number) {
