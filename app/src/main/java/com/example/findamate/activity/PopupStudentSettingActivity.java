@@ -74,17 +74,6 @@ public class PopupStudentSettingActivity extends Activity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(PopupStudentSettingActivity.this, PopupContactActivity.class));
-
-                /*Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null, null, null);
-
-                while (cursor.moveToNext()) {
-                    String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                    String phNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-
-                    Logger.debug(contactName);
-                    Logger.debug(phNumber);
-                }
-                cursor.close();*/
             }
         });
 
