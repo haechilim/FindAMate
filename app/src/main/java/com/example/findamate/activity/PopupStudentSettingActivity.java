@@ -1,10 +1,14 @@
 package com.example.findamate.activity;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -13,6 +17,7 @@ import android.widget.RadioGroup;
 import com.example.findamate.R;
 import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.Student;
+import com.example.findamate.helper.Logger;
 import com.example.findamate.helper.Util;
 
 import java.util.regex.Pattern;
@@ -52,16 +57,34 @@ public class PopupStudentSettingActivity extends Activity {
             radioGroupGender.check(student.isMale() ? R.id.male : R.id.female);
         }
 
-        showDeleteButton(resultCode == RESULT_MODIFY);
-        bindEvents(resultCode);
+        showButton();
+        bindEvents();
     }
 
-    private void bindEvents(int resultCode) {
+    private void bindEvents() {
         findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setResult(RESULT_REMOVE);
                 finish();
+            }
+        });
+
+        findViewById(R.id.load).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PopupStudentSettingActivity.this, PopupContactActivity.class));
+
+                /*Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null, null, null);
+
+                while (cursor.moveToNext()) {
+                    String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                    String phNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+                    Logger.debug(contactName);
+                    Logger.debug(phNumber);
+                }
+                cursor.close();*/
             }
         });
 
@@ -110,7 +133,16 @@ public class PopupStudentSettingActivity extends Activity {
         return true;
     }
 
+    private void showButton() {
+        showDeleteButton(resultCode == RESULT_MODIFY);
+        showLoadButton(resultCode == RESULT_ADD);
+    }
+
     private void showDeleteButton(boolean visibility) {
-        findViewById(R.id.delete).setVisibility(visibility ? View.VISIBLE : View.INVISIBLE);
+        findViewById(R.id.delete).setVisibility(visibility ? View.VISIBLE : View.GONE);
+    }
+
+    private void showLoadButton(boolean visibility) {
+        findViewById(R.id.load).setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 }

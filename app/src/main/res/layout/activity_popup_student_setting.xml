@@ -137,7 +137,19 @@
                     android:textSize="15sp"
                     android:textColor="#ff0000"
                     android:textStyle="bold"
-                    android:layout_marginRight="90dp"/>
+                    android:layout_marginRight="90dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/load"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="불러오기"
+                    android:textSize="15sp"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:layout_marginRight="66dp"
+                    android:visibility="visible"/>
 
                 <TextView
                     android:id="@+id/ok"

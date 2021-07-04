@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
     private void onResultRun(int resultCode, Intent data, boolean isSimulation) {
         if(resultCode != RESULT_OK) return;
 
-        Intent intent = new Intent(this, isSimulation ? MatchingActivity.class : WaitingActivity.class);
+        Intent intent = new Intent(this, MatchingActivity.class);
         intent.putExtra("isSimulation", isSimulation);
         intent.putExtra("mode", data.getIntExtra("mode", 0));
         intent.putExtra("duplicate", data.getBooleanExtra("duplicate", false));
