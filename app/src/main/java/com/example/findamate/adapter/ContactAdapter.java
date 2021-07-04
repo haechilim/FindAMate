@@ -3,6 +3,7 @@ package com.example.findamate.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.icu.text.MessagePattern;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +55,8 @@ public class ContactAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 contact.nextCheckMode();
-                updateCheckBox(view, contact.getCheckMode());
+                updateCheckBox(v, contact.getCheckMode());
+                updateCount();
                 notifyDataSetChanged();
             }
         });
@@ -78,5 +80,21 @@ public class ContactAdapter extends BaseAdapter {
         else drawable = R.drawable.layout_checked_female;
 
         view.findViewById(R.id.check).setBackground(activity.getResources().getDrawable(drawable, activity.getTheme()));
+    }
+
+    private void updateCount() {
+        int maleCount = 0;
+        int femaleCount = 0;
+
+        for(int i = 0; i < contacts.size(); i++) {
+            Contact contact = contacts.get(i);
+
+            if(contact.getCheckMode() == Contact.CHECK_NONE) continue;
+            else if(contact.getCheckMode() == Contact.CHECK_MALE) maleCount++;
+            else if(contact.getCheckMode() == Contact.CHECK_FEMALE) femaleCount++;
+        }
+
+        ((TextView)activity.findViewById(R.id.selectedMaleCount)).setText(maleCount + " 명");
+        ((TextView)activity.findViewById(R.id.selectedFemaleCount)).setText(femaleCount + " 명");
     }
 }

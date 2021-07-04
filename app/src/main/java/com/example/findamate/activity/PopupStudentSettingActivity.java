@@ -74,6 +74,7 @@ public class PopupStudentSettingActivity extends Activity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(PopupStudentSettingActivity.this, PopupContactActivity.class));
+                finish();
             }
         });
 
