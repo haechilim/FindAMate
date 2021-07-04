@@ -78,10 +78,20 @@ public class PopupContactActivity extends AppCompatActivity {
             String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
-            if(!Pattern.matches("^\\d{10,11}$", number)) continue;
+            if(!Pattern.matches("^\\d{10,11}$", number) || isExist(number)) continue;
 
             contacts.add(new Contact(name, number));
         }
         cursor.close();
+    }
+
+    private boolean isExist(String number) {
+        List<Student> students = Classroom.students;
+
+        for(int i = 0; i < students.size(); i++) {
+            if(students.get(i).getPhone().equals(number)) return true;
+        }
+
+        return false;
     }
 }

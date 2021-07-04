@@ -12,7 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.findamate.R;
+import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.Contact;
+import com.example.findamate.domain.Student;
 
 import java.util.List;
 
