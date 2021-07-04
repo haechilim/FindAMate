@@ -16,8 +16,10 @@ import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.History;
 import com.example.findamate.domain.School;
 import com.example.findamate.domain.Student;
+import com.example.findamate.helper.Logger;
 import com.example.findamate.manager.ApiManager;
 import com.example.findamate.manager.StudentViewManager;
+import com.example.findamate.view.StudentView;
 
 import java.util.List;
 import java.util.Random;
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int POPUP_STUDENT = 1;
     private static final int POPUP_MATCHING = 2;
     private static final int POPUP_SIMULATION = 3;
-    private static final int AVATAR_COUNT = 54;
+    public static final int AVATAR_COUNT = 54;
 
     private FrameLayout studentContainer;
     private FrameLayout tip;
@@ -151,19 +153,18 @@ public class MainActivity extends AppCompatActivity {
             String phone = data.getStringExtra("phone");
             boolean male = data.getBooleanExtra("male", true);
 
-            Student student = new Student(name, male, phone, new Random().nextInt(AVATAR_COUNT) + 1);
+            addStudent(name, male, phone);
+        }
+        else if(resultCode == PopupContactActivity.RESULT_LOAD) {
+            List<Student> students = Classroom.tempStudents;
 
-            ApiManager.addStudent(student, new ApiManager.StudentCallback() {
-                @Override
-                public void success(Student student) {
-                    View view = addStudentView(student);
-                    StudentViewManager.randomPosition(MainActivity.this, studentContainer, view, studentViewPositions);
-                    StudentViewManager.startWaveAnimation(MainActivity.this, studentContainer, view);
+            for(int i = 0; i < students.size(); i++) {
+                Student student = students.get(i);
 
-                    Classroom.students.add(student);
-                    updateButtons();
-                }
-            });
+                addStudent(student.getName(), student.isMale(), student.getPhone());
+            }
+
+            students.clear();
         }
         else if(resultCode == PopupStudentSettingActivity.RESULT_MODIFY) {
             Student student = targetStudent;
@@ -213,6 +214,21 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("mode", data.getIntExtra("mode", 0));
         intent.putExtra("duplicate", data.getBooleanExtra("duplicate", false));
         startActivity(intent);
+    }
+
+    private void addStudent(String name, boolean male, String phone) {
+        Student student = new Student(name, male, phone, new Random().nextInt(AVATAR_COUNT) + 1);
+
+        ApiManager.addStudent(student, new ApiManager.StudentCallback() {
+            @Override
+            public void success(Student student) {
+                View view = addStudentView(student);
+                StudentViewManager.randomPosition(MainActivity.this, studentContainer, view, studentViewPositions);
+                StudentViewManager.startWaveAnimation(MainActivity.this, studentContainer, view);
+                Classroom.students.add(student);
+                updateButtons();
+            }
+        });
     }
 
     private void bindEvents() {

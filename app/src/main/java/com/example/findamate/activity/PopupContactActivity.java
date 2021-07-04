@@ -1,26 +1,27 @@
 package com.example.findamate.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.ListView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.findamate.R;
 import com.example.findamate.adapter.ContactAdapter;
 import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.Contact;
-import com.example.findamate.domain.School;
 import com.example.findamate.domain.Student;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 public class PopupContactActivity extends AppCompatActivity {
+    public static int RESULT_LOAD = 800;
+
     List<Contact> contacts = new ArrayList<>();
 
     @Override
@@ -47,7 +48,18 @@ public class PopupContactActivity extends AppCompatActivity {
         findViewById(R.id.confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                for(int i = 0; i < contacts.size(); i++) {
+                    Contact contact = contacts.get(i);
 
+                    if(contact.getCheckMode() == Contact.CHECK_NONE) continue;
+
+                    Classroom.tempStudents.add(new Student(contact.getName(),
+                            contact.getCheckMode() == Contact.CHECK_MALE, contact.getNumber(),
+                            new Random().nextInt(MainActivity.AVATAR_COUNT) + 1));
+                }
+
+                setResult(RESULT_LOAD);
+                finish();
             }
         });
     }
@@ -59,16 +71,10 @@ public class PopupContactActivity extends AppCompatActivity {
             String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
-            contacts.add(new Contact(name, getPhoneNumber(number)));
+            if(!Pattern.matches("^\\d{10,11}$", number)) continue;
+
+            contacts.add(new Contact(name, number));
         }
         cursor.close();
-    }
-
-    public static String getPhoneNumber(String number) {
-        if(!Pattern.matches("^\\d{10,11}$", number)) return number;
-
-        int index = number.length() == 10 ? 6 : 7;
-
-        return number.substring(0, 3) + "-" + number.substring(3, index) + "-" + number.substring(index, index + 4);
     }
 }

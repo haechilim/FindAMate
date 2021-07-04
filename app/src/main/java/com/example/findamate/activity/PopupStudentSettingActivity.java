@@ -23,6 +23,8 @@ import com.example.findamate.helper.Util;
 import java.util.regex.Pattern;
 
 public class PopupStudentSettingActivity extends Activity {
+    private static final int POPUP_CONTACT = 1100;
+
     public static final int RESULT_ADD = 100;
     public static final int RESULT_MODIFY = 200;
     public static final int RESULT_REMOVE = 300;
@@ -61,6 +63,20 @@ public class PopupStudentSettingActivity extends Activity {
         bindEvents();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case POPUP_CONTACT:
+                if(resultCode == PopupContactActivity.RESULT_LOAD) {
+                    setResult(PopupContactActivity.RESULT_LOAD);
+                    finish();
+                }
+                break;
+        }
+    }
+
     private void bindEvents() {
         findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,8 +89,7 @@ public class PopupStudentSettingActivity extends Activity {
         findViewById(R.id.load).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(PopupStudentSettingActivity.this, PopupContactActivity.class));
-                finish();
+                startActivityForResult(new Intent(PopupStudentSettingActivity.this, PopupContactActivity.class), POPUP_CONTACT);
             }
         });
 

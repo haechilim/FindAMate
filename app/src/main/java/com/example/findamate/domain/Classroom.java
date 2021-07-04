@@ -9,6 +9,7 @@ public class Classroom {
     public static List<History> histories = new ArrayList<>();
     public static List<Student> clonedStudents = new ArrayList<>();
     public static List<History> clonedHistories = new ArrayList<>();
+    public static List<Student> tempStudents = new ArrayList<>();
 
     public static String getClassInfo() {
         if(school.getName().isEmpty()) return "학급을 설정해 주세요.";
@@ -54,14 +55,6 @@ public class Classroom {
     public static List<History> clonedHistories() {
         clonedHistories.clear();
         return clonedHistories;
-
-        /*clonedHistories.clear();
-
-        for(int i = 0; i < histories.size(); i++) {
-            clonedHistories.add(histories.get(i).clone());
-        }
-
-        return clonedHistories;*/
     }
 
     public static List<Student> getClonedStudents() {
