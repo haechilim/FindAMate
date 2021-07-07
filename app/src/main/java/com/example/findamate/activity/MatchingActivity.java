@@ -40,7 +40,6 @@ public class MatchingActivity extends AppCompatActivity {
     private LinearLayout happinessContainer;
     private LinearLayout resultContainer;
     private CoupleView coupleView;
-    private TextView classInformation;
     private List<Student> students;
     private List<Couple> couples;
     private List<History> histories;
@@ -65,14 +64,12 @@ public class MatchingActivity extends AppCompatActivity {
             histories = isSimulation ? Classroom.clonedHistories() : Classroom.histories;
         }
 
-        classInformation = findViewById(R.id.classInformation);
         happinessContainer = findViewById(R.id.happinessContainer);
         resultContainer = findViewById(R.id.resultContainer);
         student1 = findViewById(R.id.student1);
         student2 = findViewById(R.id.student2);
         versus = findViewById(R.id.versus);
 
-        init(Classroom.getClassInfo());
         bindEvents();
         startMatching();
     }
@@ -135,10 +132,6 @@ public class MatchingActivity extends AppCompatActivity {
                 startLogActivity();
             }
         });
-    }
-
-    private void init(String classInformation) {
-        this.classInformation.setText(classInformation);
     }
 
     private void updateDb(int roundId) {

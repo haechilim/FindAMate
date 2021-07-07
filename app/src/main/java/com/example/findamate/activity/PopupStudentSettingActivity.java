@@ -1,24 +1,26 @@
 package com.example.findamate.activity;
 
+import android.Manifest;
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.example.findamate.R;
 import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.Student;
 import com.example.findamate.helper.Logger;
 import com.example.findamate.helper.Util;
+import com.example.findamate.manager.PermissionManager;
 
 import java.util.regex.Pattern;
 
@@ -77,6 +79,15 @@ public class PopupStudentSettingActivity extends Activity {
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == PermissionManager.READ_CONTACT) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                startActivityForResult(new Intent(PopupStudentSettingActivity.this, PopupContactActivity.class), POPUP_CONTACT);
+            else Util.toast(PopupStudentSettingActivity.this, "권한 거부로 인해 해당기능이 제한됩니다.", true);
+        }
+    }
+
     private void bindEvents() {
         findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +100,12 @@ public class PopupStudentSettingActivity extends Activity {
         findViewById(R.id.load).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(PopupStudentSettingActivity.this, PopupContactActivity.class), POPUP_CONTACT);
+                int permission  = ContextCompat.checkSelfPermission(PopupStudentSettingActivity.this, Manifest.permission.READ_CONTACTS);
+
+                if(permission == PackageManager.PERMISSION_GRANTED)
+                    startActivityForResult(new Intent(PopupStudentSettingActivity.this, PopupContactActivity.class), POPUP_CONTACT);
+                else if(permission == PackageManager.PERMISSION_DENIED)
+                    PermissionManager.requestPermissionReadContact(PopupStudentSettingActivity.this);
             }
         });
 

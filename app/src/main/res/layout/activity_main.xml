@@ -136,7 +136,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_weight="10"
                 android:gravity="center_vertical|right"
-                android:text="선린인터넷고등학교 1학년 1반"
+                android:text="학급을 설정해 주세요."
                 android:textColor="#ffffff" />
 
 
@@ -181,7 +181,7 @@
                     android:gravity="center"
                     android:lines="1"
                     android:maxLines="1"
-                    android:text="나선린"
+                    android:text="이름"
                     android:textColor="#ffffff"
                     android:textSize="10sp" />
 
@@ -194,7 +194,7 @@
                     android:gravity="center"
                     android:lines="1"
                     android:maxLines="1"
-                    android:text="피자 사주세요!!"
+                    android:text="상태메시지"
                     android:textColor="#ffffff"
                     android:textSize="7sp" />
             </LinearLayout>
@@ -279,14 +279,14 @@
             app:srcCompat="@drawable/arrow8" />
 
         <TextView
-            android:layout_width="240dp"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="130dp"
             android:layout_marginTop="150dp"
             android:fontFamily="@font/nanum_pen_script_regular"
             android:lineSpacingMultiplier="0.8"
             android:rotation="-5"
-            android:text="선생님이 담당하고 계신 학급의 학생들을 빠짐없이 등록해주세요. 주소록 간편등록은 다음 버전에 제공됩니다."
+            android:text="선생님이 담당하고 계신 학급의 학생들을 빠짐없이 등록해주세요."
             android:textColor="#EEBE25"
             android:textSize="20sp" />
 

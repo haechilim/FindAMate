@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.findamate.R;
 import com.example.findamate.helper.Util;
 import com.example.findamate.manager.ApiManager;
+import com.example.findamate.manager.PermissionManager;
 
 public class LoginActivity extends AppCompatActivity {
     EditText loginId;
@@ -24,6 +25,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        PermissionManager.requestPermissionReadContact(this);
 
         SharedPreferences sharedPreferences = getSharedPreferences("auto login", MODE_PRIVATE);
         boolean isAutoLogin = sharedPreferences.getBoolean("is auto login", false);

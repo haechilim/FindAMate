@@ -16,10 +16,8 @@ import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.History;
 import com.example.findamate.domain.School;
 import com.example.findamate.domain.Student;
-import com.example.findamate.helper.Logger;
 import com.example.findamate.manager.ApiManager;
 import com.example.findamate.manager.StudentViewManager;
-import com.example.findamate.view.StudentView;
 
 import java.util.List;
 import java.util.Random;
