@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        PermissionManager.requestPermissionReadContact(this);
+        PermissionManager.requestPermissions(this);
 
         SharedPreferences sharedPreferences = getSharedPreferences("auto login", MODE_PRIVATE);
         boolean isAutoLogin = sharedPreferences.getBoolean("is auto login", false);

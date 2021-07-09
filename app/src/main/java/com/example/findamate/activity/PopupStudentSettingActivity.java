@@ -18,7 +18,6 @@ import androidx.core.content.ContextCompat;
 import com.example.findamate.R;
 import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.Student;
-import com.example.findamate.helper.Logger;
 import com.example.findamate.helper.Util;
 import com.example.findamate.manager.PermissionManager;
 
@@ -81,7 +80,7 @@ public class PopupStudentSettingActivity extends Activity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == PermissionManager.READ_CONTACT) {
+        if(requestCode == PermissionManager.RC_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 startActivityForResult(new Intent(PopupStudentSettingActivity.this, PopupContactActivity.class), POPUP_CONTACT);
             else Util.toast(PopupStudentSettingActivity.this, "권한 거부로 인해 해당기능이 제한됩니다.", true);
@@ -105,7 +104,7 @@ public class PopupStudentSettingActivity extends Activity {
                 if(permission == PackageManager.PERMISSION_GRANTED)
                     startActivityForResult(new Intent(PopupStudentSettingActivity.this, PopupContactActivity.class), POPUP_CONTACT);
                 else if(permission == PackageManager.PERMISSION_DENIED)
-                    PermissionManager.requestPermissionReadContact(PopupStudentSettingActivity.this);
+                    PermissionManager.requestPermissions(PopupStudentSettingActivity.this);
             }
         });
 

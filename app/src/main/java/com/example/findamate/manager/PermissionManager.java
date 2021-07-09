@@ -6,9 +6,9 @@ import android.app.Activity;
 import androidx.core.app.ActivityCompat;
 
 public class PermissionManager {
-    public static final int READ_CONTACT = 2000;
+    public static final int RC_PERMISSION = 2000;
 
-    public static void requestPermissionReadContact(Activity activity) {
-        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_CONTACTS}, READ_CONTACT);
+    public static void requestPermissions(Activity activity) {
+        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.SEND_SMS}, RC_PERMISSION);
     }
 }
