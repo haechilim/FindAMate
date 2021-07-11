@@ -52,6 +52,8 @@ public class MatchingActivity extends AppCompatActivity {
         mode = intent.getIntExtra("mode", 1);
         duplicated = intent.getBooleanExtra("duplicated", false);
 
+        Classroom.couples.clear();
+
         if (type == LogActivity.TYPE_SIMULATION) {
             students = Classroom.getClonedStudents();
             histories = Classroom.getClonedHistories();
@@ -171,6 +173,9 @@ public class MatchingActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, PollActivity.class);
         intent.putExtra("type", isSimulation ? PollActivity.TYPE_SIMULATION : PollActivity.TYPE_RESULT);
+        intent.putExtra("mode", mode);
+        intent.putExtra("duplicated", duplicated);
+
         startActivity(intent);
     }
 

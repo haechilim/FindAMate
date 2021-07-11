@@ -1,7 +1,9 @@
 package com.example.findamate.activity;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,6 +19,7 @@ import com.example.findamate.domain.Poll;
 import com.example.findamate.helper.Logger;
 import com.example.findamate.helper.Util;
 import com.example.findamate.manager.ApiManager;
+import com.example.findamate.manager.MatchingManager;
 import com.example.findamate.manager.PermissionManager;
 
 import java.util.ArrayList;
@@ -29,6 +32,8 @@ public class PollActivity extends AppCompatActivity {
     public final static int TYPE_SIMULATION = 2;
 
     private int type;
+    private int mode;
+    private boolean duplicated;
     private TextView agreeView;
     private TextView disagreeView;
 
@@ -37,7 +42,10 @@ public class PollActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poll);
 
-        type = getIntent().getIntExtra("type", TYPE_SIMULATION);
+        Intent intent = getIntent();
+        type = intent.getIntExtra("type", TYPE_SIMULATION);
+        mode = intent.getIntExtra("mode", 1);
+        duplicated = intent.getBooleanExtra("duplicated", false);
 
         agreeView = findViewById(R.id.agree);
         disagreeView = findViewById(R.id.disagree);
@@ -53,6 +61,8 @@ public class PollActivity extends AppCompatActivity {
             });
         });
 
+        bindEvents();
+
         //Util.sendSms(this, "01034993068", "test");
     }
 
@@ -62,6 +72,18 @@ public class PollActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) Util.sendSms(this, "01034993068", "test");
             else Util.toast(PollActivity.this, "권한 거부로 인해 설문조사 기능이 제한됩니다.", true);
         }
+    }
+
+    private void bindEvents() {
+        findViewById(R.id.again).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PollActivity.this, MatchingActivity.class);
+                intent.putExtra("mode", mode);
+                intent.putExtra("duplicated", duplicated);
+                startActivity(intent);
+            }
+        });
     }
 
     // 설문 시작 or 종료
