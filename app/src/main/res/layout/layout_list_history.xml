@@ -28,6 +28,38 @@
         android:textColor="#ffffff" />
 
     <LinearLayout
+        android:id="@+id/poll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="15dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/agree"
+            android:layout_width="130dp"
+            android:layout_height="match_parent"
+            android:text="좋아요 0%"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/disagree"
+            android:layout_width="130dp"
+            android:layout_height="match_parent"
+            android:text="다시해요 0%"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/couplesContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

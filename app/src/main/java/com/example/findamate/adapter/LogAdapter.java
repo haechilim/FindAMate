@@ -69,6 +69,7 @@ public class LogAdapter extends BaseAdapter {
         if(isPoll) {
             rootView.findViewById(R.id.decoration).setVisibility(View.GONE);
             rootView.findViewById(R.id.date).setVisibility(View.GONE);
+            rootView.findViewById(R.id.poll).setVisibility(View.GONE);
         }
 
         LinearLayout couplesRow = null;
@@ -82,6 +83,8 @@ public class LogAdapter extends BaseAdapter {
         }
 
         ((TextView) rootView.findViewById(R.id.date)).setText(formatDate(history));
+        ((TextView) rootView.findViewById(R.id.agree)).setText(String.format("좋아요 %s%%", history.getAgree()));
+        ((TextView) rootView.findViewById(R.id.disagree)).setText(String.format("다시해요 %s%%", 100 - history.getAgree()));
 
         return rootView;
     }
