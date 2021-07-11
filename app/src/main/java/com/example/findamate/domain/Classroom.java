@@ -10,6 +10,7 @@ public class Classroom {
     public static List<Student> clonedStudents = new ArrayList<>();
     public static List<History> clonedHistories = new ArrayList<>();
     public static List<Student> tempStudents = new ArrayList<>();
+    public static List<Couple> couples = new ArrayList<>();
 
     public static String getClassInfo() {
         if(school.getName().isEmpty()) return "학급을 설정해 주세요.";

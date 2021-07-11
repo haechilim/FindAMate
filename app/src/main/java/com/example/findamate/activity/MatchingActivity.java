@@ -39,7 +39,6 @@ public class MatchingActivity extends AppCompatActivity {
     private LinearLayout resultContainer;
     private CoupleView coupleView;
     private List<Student> students;
-    private List<Couple> couples;
     private List<History> histories;
 
     @Override
@@ -83,20 +82,21 @@ public class MatchingActivity extends AppCompatActivity {
             return;
         }
 
-        ApiManager.addRound(new ApiManager.AddRoundCallback() {
+        match();
+        startAnimation();
+
+        /*ApiManager.addRound(new ApiManager.AddRoundCallback() {
             @Override
             public void success(History history) {
-                match();
-                startAnimation();
                 updateDb(history.getId());
             }
-        });
+        });*/
     }
 
     private void match() {
         MatchingManager matchingManager = new MatchingManager(isSimulation, mode, duplicated, students);
         matchingManager.match();
-        couples = matchingManager.getCouples();
+        Classroom.couples = matchingManager.getCouples();
     }
 
     private void startAnimation() {
@@ -110,9 +110,9 @@ public class MatchingActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         updateResultView();
-                        if(coupleIndex >= couples.size()) startLogActivity();
+                        if(coupleIndex >= Classroom.couples.size()) startPollActivity();
                         else {
-                            startMatchingAnimation(couples.get(coupleIndex));
+                            startMatchingAnimation(Classroom.couples.get(coupleIndex));
                             coupleIndex++;
                         }
                     }
@@ -127,14 +127,14 @@ public class MatchingActivity extends AppCompatActivity {
         findViewById(R.id.skip).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startLogActivity();
+                startPollActivity();
             }
         });
     }
 
     private void updateDb(int roundId) {
-        for(int i = 0; i < couples.size(); i++) {
-            Couple couple = couples.get(i);
+        for(int i = 0; i < Classroom.couples.size(); i++) {
+            Couple couple = Classroom.couples.get(i);
             ApiManager.addMate(couple.getStudent1(), couple.getStudent2(), roundId);
         }
 
@@ -146,7 +146,7 @@ public class MatchingActivity extends AppCompatActivity {
     private void addHistory() {
         History history = new History();
         history.setDate(new Date());
-        history.setCouples(couples);
+        history.setCouples(Classroom.couples);
         histories.add(history);
     }
 
@@ -166,7 +166,7 @@ public class MatchingActivity extends AppCompatActivity {
         resultContainer.addView(coupleView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
-    private void startLogActivity() {
+    private void startPollActivity() {
         timer.cancel();
 
         Intent intent = new Intent(this, PollActivity.class);
@@ -186,9 +186,9 @@ public class MatchingActivity extends AppCompatActivity {
         String result = "-";
 
         for(int i = 0; i <= coupleIndex; i++) {
-            if(i >= couples.size()) break;
+            if(i >= Classroom.couples.size()) break;
 
-            Couple couple = couples.get(i);
+            Couple couple = Classroom.couples.get(i);
             Student student1 = couple.getStudent1();
             Student student2 = couple.getStudent2();
 

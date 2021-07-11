@@ -1,6 +1,7 @@
 package com.example.findamate.manager;
 
 import com.example.findamate.domain.History;
+import com.example.findamate.domain.Poll;
 import com.example.findamate.domain.Response;
 import com.example.findamate.domain.School;
 import com.example.findamate.domain.Student;
@@ -171,6 +172,19 @@ public class ApiManager {
         });
     }
 
+    public static void pollStatus(PollListCallback callback) {
+        request(String.format("%s/%s?memberId=%d", HOST, "poll/status", memberId), new JsonCallback() {
+            @Override
+            public void success(String json) {
+                try {
+                    callback.success(objectMapper.readValue(json, new TypeReference<List<Poll>>() {}));
+                } catch (JsonProcessingException e) {
+                    Logger.debug(e.getMessage());
+                }
+            }
+        });
+    }
+
     private static void request(String url, JsonCallback callback) {
         new AsyncJob<String, Void, String>() {
             @Override
@@ -251,18 +265,7 @@ public class ApiManager {
         void success(History history);
     }
 
-    /*class ResponseCode {
-        private boolean seccess;
-
-        public ResponseCode() {
-        }
-
-        public boolean isSeccess() {
-            return seccess;
-        }
-
-        public void setSeccess(boolean seccess) {
-            this.seccess = seccess;
-        }
-    }*/
+    public interface PollListCallback {
+        void success(List<Poll> polls);
+    }
 }

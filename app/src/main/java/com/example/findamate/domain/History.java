@@ -17,6 +17,11 @@ public class History {
     public History() {
     }
 
+    public History(List<Couple> couples) {
+        this.date = new SimpleDateFormat(DATE_FORMAT).format(new Date());
+        this.couples = couples;
+    }
+
     public History(String date, List<Couple> couples) {
         this.date = date;
         this.couples = couples;

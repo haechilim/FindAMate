@@ -12,6 +12,8 @@ import com.example.findamate.adapter.LogAdapter;
 import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.Couple;
 import com.example.findamate.domain.History;
+import com.example.findamate.domain.Poll;
+import com.example.findamate.helper.Logger;
 import com.example.findamate.helper.Util;
 import com.example.findamate.manager.ApiManager;
 import com.example.findamate.manager.PermissionManager;
@@ -34,28 +36,12 @@ public class PollActivity extends AppCompatActivity {
 
         type = getIntent().getIntExtra("type", TYPE_SIMULATION);
 
-        ApiManager.getRounds(new ApiManager.RoundListCallback() {
-            @Override
-            public void success(List<History> histories) {
-                refineHistories(histories);
+        List<History> histories = new ArrayList<>();
+        histories.add(new History(Classroom.couples));
+        LogAdapter logAdapter = new LogAdapter(PollActivity.this, histories, true);
+        ((ListView)findViewById(R.id.list)).setAdapter(logAdapter);
 
-                if(type == TYPE_SIMULATION) {
-                    List<History> simulationHistories = Classroom.getClonedHistories();
-
-                    for(int i = 0; i < simulationHistories.size(); i++) {
-                        histories.add(0, simulationHistories.get(i));
-                    }
-                }
-
-                List<History> historyList = new ArrayList<>();
-                historyList.add(histories.get(0));
-
-                LogAdapter logAdapter = new LogAdapter(PollActivity.this, historyList, true);
-                ((ListView)findViewById(R.id.list)).setAdapter(logAdapter);
-            }
-        });
-
-        Util.sendSms(this, "01034993068", "test");
+        //Util.sendSms(this, "01034993068", "test");
     }
 
     @Override
@@ -72,18 +58,26 @@ public class PollActivity extends AppCompatActivity {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable() {
+                ApiManager.pollStatus(new ApiManager.PollListCallback() {
                     @Override
-                    public void run() {
+                    public void success(List<Poll> polls) {
+                        Logger.debug(polls.toString());
 
+                        int agree = 0;
+                        int disagree = 0;
+
+                        for(int i = 0; i < polls.size(); i++) {
+                            //polls.get(i).
+                        }
                     }
                 });
             }
         };
 
-        timer.schedule(timerTask, 0, 5000);
+        timer.schedule(timerTask, 0, 500);
     }
 
+    // 아이디를 객체와 연결
     private void refineHistories(List<History> histories) {
         for(int i = 0; i < histories.size(); i++) {
             History history = histories.get(i);
