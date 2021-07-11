@@ -55,7 +55,8 @@
         android:layout_marginTop="30dp"
         android:gravity="bottom"
         android:orientation="horizontal"
-        android:paddingTop="90dp">
+        android:paddingTop="90dp"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"

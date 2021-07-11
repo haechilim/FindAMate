@@ -4,7 +4,6 @@ import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,6 +25,7 @@ import com.example.findamate.manager.PermissionManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -75,19 +75,23 @@ public class PollActivity extends AppCompatActivity {
         LogAdapter logAdapter = new LogAdapter(PollActivity.this, histories, true);
         ((ListView)findViewById(R.id.list)).setAdapter(logAdapter);
 
-        if(!isSimulation) {
-            updatePollRate(0);
+        runPoll();
+        bindEvents();
 
+        //Util.sendSms(this, "01034993068", "test");
+    }
+
+    private void runPoll() {
+        updateSubmits(0);
+
+        if(isSimulation) monitorPollFake();
+        else {
             poll(false, () -> {
                 poll(true, () -> {
                     monitorPoll();
                 });
             });
         }
-
-        bindEvents();
-
-        //Util.sendSms(this, "01034993068", "test");
     }
 
     @Override
@@ -157,6 +161,26 @@ public class PollActivity extends AppCompatActivity {
          timer.schedule(timerTask, 0, 1000);
      }
 
+    private void monitorPollFake() {
+        List<Poll> polls = new ArrayList<>();
+        Random random = new Random();
+
+        timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(() -> {
+                    polls.add(new Poll(random.nextBoolean()));
+                    updatePollResult(polls);
+
+                    if(submits >= students.size()) timer.cancel();
+                });
+            }
+        };
+
+        timer.schedule(timerTask, 3000, 3000);
+    }
+
     // 학생들의 설문결과를 가져옴
     private void pollStatus() {
         ApiManager.pollStatus(new ApiManager.PollListCallback() {
@@ -191,12 +215,12 @@ public class PollActivity extends AppCompatActivity {
 
                 startCountingAnimation(agreeView, "%d%%", agree);
                 startCountingAnimation(disagreeView, "%d%%", disagree);
-                updatePollRate(submits);
+                updateSubmits(submits);
             }
         }
     }
 
-    private void updatePollRate(int submits) {
+    private void updateSubmits(int submits) {
         pollRate.setText(String.format("%d/%d명", submits, students.size()));
     }
 
@@ -223,10 +247,7 @@ public class PollActivity extends AppCompatActivity {
     }
 
     private void addSimulationHistory() {
-        History history = new History();
-        history.setDate(new Date());
-        history.setCouples(Classroom.clonedCouples());
-        histories.add(history);
+        histories.add(new History(Classroom.clonedCouples(), agree));
     }
 
     private void updateDb(int roundId) {

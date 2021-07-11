@@ -11,6 +11,10 @@ public class Poll {
         this.agree = agree;
     }
 
+    public Poll(boolean agree) {
+        this(0, agree);
+    }
+
     public int getId() {
         return id;
     }
