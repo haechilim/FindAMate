@@ -3,6 +3,7 @@ package com.example.findamate.activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,8 @@ public class PollActivity extends AppCompatActivity {
     public final static int TYPE_SIMULATION = 2;
 
     private int type;
+    private TextView agreeView;
+    private TextView disagreeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,9 @@ public class PollActivity extends AppCompatActivity {
         setContentView(R.layout.activity_poll);
 
         type = getIntent().getIntExtra("type", TYPE_SIMULATION);
+
+        agreeView = findViewById(R.id.agree);
+        disagreeView = findViewById(R.id.disagree);
 
         List<History> histories = new ArrayList<>();
         histories.add(new History(Classroom.couples));
@@ -94,14 +100,24 @@ public class PollActivity extends AppCompatActivity {
     private void updatePollResult(List<Poll> polls) {
         Logger.debug(polls.toString());
 
+        if(polls.isEmpty()) return;
+
         int agree = 0;
-        int disagree = 0;
+        int sum = 0;
 
         for(int i = 0; i < polls.size(); i++) {
-            //polls.get(i).
+            if(polls.get(i).isAgree()) agree++;
+            sum++;
+        }
+
+        if(sum != 0) {
+            int agreePercent = Math.round((float) agree / sum * 100);
+            int disagreePercent = 100 - agreePercent;
+
+            agreeView.setText(String.format("좋아요 %d%%", agreePercent));
+            disagreeView.setText(String.format("다시해요 %d%%", disagreePercent));
         }
     }
-
 
     // 아이디를 객체와 연결
     private void refineHistories(List<History> histories) {
