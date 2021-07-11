@@ -15,14 +15,12 @@ import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.Couple;
 import com.example.findamate.domain.History;
 import com.example.findamate.domain.Student;
-import com.example.findamate.helper.Logger;
 import com.example.findamate.manager.ApiManager;
 import com.example.findamate.manager.MatchingManager;
 import com.example.findamate.manager.StudentViewManager;
 import com.example.findamate.view.CoupleView;
 import com.example.findamate.view.StudentView;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
@@ -171,8 +169,8 @@ public class MatchingActivity extends AppCompatActivity {
     private void startLogActivity() {
         timer.cancel();
 
-        Intent intent = new Intent(this, LogActivity.class);
-        intent.putExtra("type", isSimulation ? LogActivity.TYPE_SIMULATION : LogActivity.TYPE_RESULT);
+        Intent intent = new Intent(this, PollActivity.class);
+        intent.putExtra("type", isSimulation ? PollActivity.TYPE_SIMULATION : PollActivity.TYPE_RESULT);
         startActivity(intent);
     }
 

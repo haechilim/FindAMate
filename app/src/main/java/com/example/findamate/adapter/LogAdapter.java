@@ -2,18 +2,16 @@ package com.example.findamate.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.findamate.R;
+import com.example.findamate.domain.Classroom;
 import com.example.findamate.domain.Couple;
 import com.example.findamate.domain.History;
 import com.example.findamate.domain.Student;
@@ -21,7 +19,6 @@ import com.example.findamate.helper.Logger;
 import com.example.findamate.helper.Util;
 import com.example.findamate.manager.StudentViewManager;
 import com.example.findamate.view.CoupleView;
-import com.example.findamate.view.StudentView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,16 +28,16 @@ import java.util.List;
 public class LogAdapter extends BaseAdapter {
     private Activity activity;
     private List<History> histories;
+    private boolean isPoll;
+
     private int itemsPerRow;
 
-    public LogAdapter(Activity activity, List<History> histories) {
+    public LogAdapter(Activity activity, List<History> histories, boolean isPoll) {
         this.activity = activity;
         this.histories = histories;
+        this.isPoll = isPoll;
 
-        WindowManager windowManager = activity.getWindowManager();
-        DisplayMetrics metrics = activity.getResources().getDisplayMetrics();
-        int width = StudentViewManager.MINI_WIDTH + 15;
-        itemsPerRow = (int)Math.floor(metrics.widthPixels / Util.dpToPx(windowManager, width));
+        itemsPerRow = Util.getItemPerRow(activity);
     }
 
     @Override
@@ -67,6 +64,11 @@ public class LogAdapter extends BaseAdapter {
         if(convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             rootView = layoutInflater.inflate(R.layout.layout_list_history, parent, false);
+        }
+
+        if(isPoll) {
+            rootView.findViewById(R.id.decoration).setVisibility(View.GONE);
+            rootView.findViewById(R.id.date).setVisibility(View.GONE);
         }
 
         LinearLayout couplesRow = null;

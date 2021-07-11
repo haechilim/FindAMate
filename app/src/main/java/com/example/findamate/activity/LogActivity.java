@@ -105,7 +105,7 @@ public class LogActivity extends AppCompatActivity {
     }
 
     private void setAdapter(List<History> histories) {
-        LogAdapter logAdapter = new LogAdapter(this, histories);
+        LogAdapter logAdapter = new LogAdapter(this, histories, false);
         ((ListView)findViewById(R.id.logList)).setAdapter(logAdapter);
     }
 

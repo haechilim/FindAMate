@@ -6,6 +6,7 @@
     android:background="#323232">
 
     <ImageView
+        android:id="@+id/decoration"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
