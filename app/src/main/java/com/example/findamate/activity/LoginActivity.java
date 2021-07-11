@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.findamate.R;
+import com.example.findamate.helper.Logger;
 import com.example.findamate.helper.Util;
 import com.example.findamate.manager.ApiManager;
 import com.example.findamate.manager.PermissionManager;
