@@ -86,13 +86,6 @@ public class MatchingActivity extends AppCompatActivity {
 
         match();
         startAnimation();
-
-        /*ApiManager.addRound(new ApiManager.AddRoundCallback() {
-            @Override
-            public void success(History history) {
-                updateDb(history.getId());
-            }
-        });*/
     }
 
     private void match() {
@@ -134,17 +127,6 @@ public class MatchingActivity extends AppCompatActivity {
         });
     }
 
-    private void updateDb(int roundId) {
-        for(int i = 0; i < Classroom.couples.size(); i++) {
-            Couple couple = Classroom.couples.get(i);
-            ApiManager.addMate(couple.getStudent1(), couple.getStudent2(), roundId);
-        }
-
-        for(int i = 0; i < students.size(); i++) {
-            ApiManager.modifyStudent(students.get(i), null);
-        }
-    }
-
     private void addHistory() {
         History history = new History();
         history.setDate(new Date());
@@ -173,6 +155,7 @@ public class MatchingActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, PollActivity.class);
         intent.putExtra("type", isSimulation ? PollActivity.TYPE_SIMULATION : PollActivity.TYPE_RESULT);
+        intent.putExtra("isSimulation", isSimulation);
         intent.putExtra("mode", mode);
         intent.putExtra("duplicated", duplicated);
 

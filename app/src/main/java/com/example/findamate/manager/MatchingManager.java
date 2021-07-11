@@ -5,8 +5,11 @@ import com.example.findamate.domain.Student;
 import com.example.findamate.helper.Logger;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 public class MatchingManager {
     public static final int MATCHING_MODE_DIFF = 1;
@@ -42,12 +45,7 @@ public class MatchingManager {
     }
 
     private void sort() {
-        students.sort(new Comparator<Student>() {
-            @Override
-            public int compare(Student o1, Student o2) {
-                return o1.getScore() - o2.getScore();
-            }
-        });
+        Collections.shuffle(students);
     }
 
     private void clearPartners() {

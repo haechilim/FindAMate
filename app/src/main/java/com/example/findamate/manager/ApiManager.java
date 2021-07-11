@@ -159,8 +159,8 @@ public class ApiManager {
         });
     }
 
-    public static void addRound(AddRoundCallback callback) {
-        request(String.format("%s/%s?memberId=%d", HOST, "round/add", memberId), new JsonCallback() {
+    public static void addRound(int agree, AddRoundCallback callback) {
+        request(String.format("%s/%s?memberId=%d&agree=%d", HOST, "round/add", memberId, agree), new JsonCallback() {
             @Override
             public void success(String json) {
                 try {
@@ -199,6 +199,8 @@ public class ApiManager {
     }
 
     private static void request(String url, JsonCallback callback) {
+        Logger.debug(url);
+
         new AsyncJob<String, Void, String>() {
             @Override
             protected String doInBackground(String... strings) {

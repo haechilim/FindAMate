@@ -11,20 +11,22 @@ public class History {
 
     private int id;
     private String date;
+    private int agree;
     private List<Couple> couples;
     private List<Couple> clonedCouples = new ArrayList<>();
 
-    public History() {
-    }
+    public History() {}
 
-    public History(List<Couple> couples) {
+    public History(List<Couple> couples, int agree) {
         this.date = new SimpleDateFormat(DATE_FORMAT).format(new Date());
+        this.agree = agree;
         this.couples = couples;
     }
 
-    public History(String date, List<Couple> couples) {
+    public History(String date, int agree, List<Couple> couples) {
         this.date = date;
         this.couples = couples;
+        this.agree = agree;
     }
 
     public History clone() {
@@ -32,7 +34,7 @@ public class History {
             clonedCouples.add(couples.get(i).clone());
         }
 
-        return new History(date, clonedCouples);
+        return new History(date, agree, clonedCouples);
     }
 
     public int getId() {
@@ -41,6 +43,14 @@ public class History {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getAgree() {
+        return agree;
+    }
+
+    public void setAgree(int agree) {
+        this.agree = agree;
     }
 
     public String getDate() {
