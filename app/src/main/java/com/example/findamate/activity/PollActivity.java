@@ -23,6 +23,7 @@ import com.example.findamate.manager.ApiManager;
 import com.example.findamate.manager.PermissionManager;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -38,6 +39,7 @@ public class PollActivity extends AppCompatActivity {
     private Timer timer;
     private int agree = 0;
     private List<Student> students;
+    private List<History> histories;
     private TextView agreeView;
     private TextView disagreeView;
 
@@ -52,8 +54,14 @@ public class PollActivity extends AppCompatActivity {
         mode = intent.getIntExtra("mode", 1);
         duplicated = intent.getBooleanExtra("duplicated", false);
 
-        if (type == LogActivity.TYPE_SIMULATION) students = Classroom.getClonedStudents();
-        else students = isSimulation ? Classroom.clonedStudents() : Classroom.students;
+        if (type == LogActivity.TYPE_SIMULATION) {
+            students = Classroom.getClonedStudents();
+            histories = Classroom.getClonedHistories();
+        }
+        else {
+            students = isSimulation ? Classroom.clonedStudents() : Classroom.students;
+            histories = isSimulation ? Classroom.clonedHistories() : Classroom.histories;
+        }
 
         agreeView = findViewById(R.id.agree);
         disagreeView = findViewById(R.id.disagree);
@@ -63,11 +71,13 @@ public class PollActivity extends AppCompatActivity {
         LogAdapter logAdapter = new LogAdapter(PollActivity.this, histories, true);
         ((ListView)findViewById(R.id.list)).setAdapter(logAdapter);
 
-        poll(false, () -> {
-            poll(true, () -> {
-                monitorPoll();
+        if(!isSimulation) {
+            poll(false, () -> {
+                poll(true, () -> {
+                    monitorPoll();
+                });
             });
-        });
+        }
 
         bindEvents();
 
@@ -89,6 +99,12 @@ public class PollActivity extends AppCompatActivity {
         findViewById(R.id.again).setOnClickListener((v) -> startMatchingActivity());
 
         findViewById(R.id.ok).setOnClickListener((v) -> {
+            if(isSimulation) {
+                addSimulationHistory();
+                startLogActivity();
+                return;
+            }
+
             poll(false, () -> {
                 ApiManager.addRound(agree, (history) -> {
                     updateDb(history.getId());
@@ -107,6 +123,7 @@ public class PollActivity extends AppCompatActivity {
 
     private void startMatchingActivity() {
         Intent intent = new Intent(PollActivity.this, MatchingActivity.class);
+        intent.putExtra("type", type);
         intent.putExtra("mode", mode);
         intent.putExtra("duplicated", duplicated);
         startActivity(intent);
@@ -179,6 +196,13 @@ public class PollActivity extends AppCompatActivity {
                 couple.setStudent2(Classroom.findStudentById(couple.getStudentId2(), false));
             }
         }
+    }
+
+    private void addSimulationHistory() {
+        History history = new History();
+        history.setDate(new Date());
+        history.setCouples(Classroom.clonedCouples());
+        histories.add(history);
     }
 
     private void updateDb(int roundId) {

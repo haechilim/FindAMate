@@ -77,13 +77,6 @@ public class MatchingActivity extends AppCompatActivity {
     public void onBackPressed() {}
 
     private void startMatching() {
-        if(isSimulation) {
-            match();
-            startAnimation();
-            addHistory();
-            return;
-        }
-
         match();
         startAnimation();
     }
@@ -125,13 +118,6 @@ public class MatchingActivity extends AppCompatActivity {
                 startPollActivity();
             }
         });
-    }
-
-    private void addHistory() {
-        History history = new History();
-        history.setDate(new Date());
-        history.setCouples(Classroom.couples);
-        histories.add(history);
     }
 
     private void startMatchingAnimation(Couple couple) {

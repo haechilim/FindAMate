@@ -1,5 +1,9 @@
 package com.example.findamate.domain;
 
+import android.util.Log;
+
+import com.example.findamate.helper.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +56,16 @@ public class Classroom {
         }
 
         return clonedStudents;
+    }
+
+    public static List<Couple> clonedCouples() {
+        List<Couple> result = new ArrayList<>();
+
+        for(int i = 0; i < couples.size(); i++) {
+            result.add(couples.get(i).clone());
+        }
+
+        return result;
     }
 
     public static List<History> clonedHistories() {
