@@ -36,10 +36,14 @@ public class PollActivity extends AppCompatActivity {
 
         type = getIntent().getIntExtra("type", TYPE_SIMULATION);
 
+
+
         List<History> histories = new ArrayList<>();
         histories.add(new History(Classroom.couples));
         LogAdapter logAdapter = new LogAdapter(PollActivity.this, histories, true);
         ((ListView)findViewById(R.id.list)).setAdapter(logAdapter);
+
+        moniterPoll();
 
         //Util.sendSms(this, "01034993068", "test");
     }
@@ -52,30 +56,46 @@ public class PollActivity extends AppCompatActivity {
         }
     }
 
-    private void startRequest() {
-        Timer timer = new Timer();
+    // 타이머로 주기 적으로 데이터 요청 후 화면 갱신
+     private void moniterPoll() {
+         Timer timer = new Timer();
+         TimerTask timerTask = new TimerTask() {
+             @Override
+             public void run() {
+                 runOnUiThread(new Runnable() {
+                     @Override
+                     public void run() {
+                         pollStatus();
+                     }
+                 });
+             }
+         };
 
-        TimerTask timerTask = new TimerTask() {
+         timer.schedule(timerTask, 0, 500);
+     }
+
+    // 학생들의 설문결과를 가져옴
+    private void pollStatus() {
+        ApiManager.pollStatus(new ApiManager.PollListCallback() {
             @Override
-            public void run() {
-                ApiManager.pollStatus(new ApiManager.PollListCallback() {
-                    @Override
-                    public void success(List<Poll> polls) {
-                        Logger.debug(polls.toString());
-
-                        int agree = 0;
-                        int disagree = 0;
-
-                        for(int i = 0; i < polls.size(); i++) {
-                            //polls.get(i).
-                        }
-                    }
-                });
+            public void success(List<Poll> polls) {
+                updatePollResult(polls);
             }
-        };
-
-        timer.schedule(timerTask, 0, 500);
+        });
     }
+
+    //좋아요 다시해요 갱신
+    private void updatePollResult(List<Poll> polls) {
+        Logger.debug(polls.toString());
+
+        int agree = 0;
+        int disagree = 0;
+
+        for(int i = 0; i < polls.size(); i++) {
+            //polls.get(i).
+        }
+    }
+
 
     // 아이디를 객체와 연결
     private void refineHistories(List<History> histories) {

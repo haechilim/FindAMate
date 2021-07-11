@@ -173,6 +173,7 @@ public class ApiManager {
     }
 
     public static void pollStatus(PollListCallback callback) {
+        Logger.debug("MemberId: " + memberId);
         request(String.format("%s/%s?memberId=%d", HOST, "poll/status", memberId), new JsonCallback() {
             @Override
             public void success(String json) {
