@@ -172,8 +172,20 @@ public class ApiManager {
         });
     }
 
+    public static void poll(boolean begin, PollCallback callback) {
+        request(String.format("%s/poll/%s?memberId=%d", HOST, begin ? "begin" : "end", memberId), new JsonCallback() {
+            @Override
+            public void success(String json) {
+                try {
+                    callback.success(objectMapper.readValue(json, new TypeReference<Response>() {}).isSuccess());
+                } catch (JsonProcessingException e) {
+                    Logger.debug(e.getMessage());
+                }
+            }
+        });
+    }
+
     public static void pollStatus(PollListCallback callback) {
-        Logger.debug("MemberId: " + memberId);
         request(String.format("%s/%s?memberId=%d", HOST, "poll/status", memberId), new JsonCallback() {
             @Override
             public void success(String json) {
@@ -264,6 +276,10 @@ public class ApiManager {
 
     public interface AddRoundCallback {
         void success(History history);
+    }
+
+    public interface PollCallback {
+        void success(boolean success);
     }
 
     public interface PollListCallback {

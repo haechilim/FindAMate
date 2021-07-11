@@ -36,14 +36,16 @@ public class PollActivity extends AppCompatActivity {
 
         type = getIntent().getIntExtra("type", TYPE_SIMULATION);
 
-
-
         List<History> histories = new ArrayList<>();
         histories.add(new History(Classroom.couples));
         LogAdapter logAdapter = new LogAdapter(PollActivity.this, histories, true);
         ((ListView)findViewById(R.id.list)).setAdapter(logAdapter);
 
-        moniterPoll();
+        poll(false, () -> {
+            poll(true, () -> {
+                moniterPoll();
+            });
+        });
 
         //Util.sendSms(this, "01034993068", "test");
     }
@@ -56,22 +58,26 @@ public class PollActivity extends AppCompatActivity {
         }
     }
 
+    // 설문 시작 or 종료
+    private void poll(boolean begin, PollCallback callback) {
+        ApiManager.poll(begin, (success) -> {
+            callback.complete();
+        });
+    }
+
     // 타이머로 주기 적으로 데이터 요청 후 화면 갱신
      private void moniterPoll() {
          Timer timer = new Timer();
          TimerTask timerTask = new TimerTask() {
              @Override
              public void run() {
-                 runOnUiThread(new Runnable() {
-                     @Override
-                     public void run() {
-                         pollStatus();
-                     }
+                 runOnUiThread(() -> {
+                     pollStatus();
                  });
              }
          };
 
-         timer.schedule(timerTask, 0, 500);
+         timer.schedule(timerTask, 0, 1000);
      }
 
     // 학생들의 설문결과를 가져옴
@@ -109,5 +115,9 @@ public class PollActivity extends AppCompatActivity {
                 couple.setStudent2(Classroom.findStudentById(couple.getStudentId2(), false));
             }
         }
+    }
+
+    private interface PollCallback {
+        void complete();
     }
 }
