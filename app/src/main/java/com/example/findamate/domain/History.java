@@ -17,6 +17,10 @@ public class History {
 
     public History() {}
 
+    public History(List<Couple> couples) {
+        this(couples, 0);
+    }
+
     public History(List<Couple> couples, int agree) {
         this.date = new SimpleDateFormat(DATE_FORMAT).format(new Date());
         this.agree = agree;

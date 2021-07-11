@@ -199,15 +199,6 @@
                     android:textSize="7sp" />
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="100%"
-                android:textColor="#ffffff"
-                android:textSize="10sp" />
         </FrameLayout>
 
         <ImageView
@@ -313,27 +304,6 @@
             android:layout_width="50dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="50dp"
-            android:layout_marginBottom="50dp"
-            android:rotation="40"
-            app:srcCompat="@drawable/arrow10" />
-
-        <TextView
-            android:layout_width="55dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="95dp"
-            android:layout_marginBottom="50dp"
-            android:fontFamily="@font/nanum_pen_script_regular"
-            android:lineSpacingMultiplier="0.8"
-            android:text="학생의 만족도를 나타냅니다."
-            android:textColor="#FFFFFF"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
             android:layout_marginLeft="45dp"
             android:layout_marginTop="35dp"
             android:rotation="70"
@@ -405,14 +375,14 @@
             app:srcCompat="@drawable/arrow1" />
 
         <TextView
-            android:layout_width="250dp"
+            android:layout_width="255dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
             android:layout_marginRight="30dp"
-            android:layout_marginBottom="170dp"
+            android:layout_marginBottom="180dp"
             android:fontFamily="@font/nanum_pen_script_regular"
             android:lineSpacingMultiplier="0.85"
-            android:text="학생들 각자가 선호하는 짝을 여러가지 방식으로 공평하게 찾아줍니다. 참고로 짝찾기 회수가 많아질수록 모두에게 좀더 공평한 결과가 나옵니다."
+            android:text="학생들이 만족할때까지 여러가지 방식으로 짝을 찾아줍니다. 참고로 짝찾기 회수가 많아질수록 모두에게 좀더 공평한 결과가 나옵니다."
             android:textColor="#3CD0BC"
             android:textSize="20sp" />
     </FrameLayout>

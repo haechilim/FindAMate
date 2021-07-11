@@ -1,5 +1,6 @@
 package com.example.findamate.activity;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -36,12 +37,14 @@ public class PollActivity extends AppCompatActivity {
     private boolean isSimulation;
     private int mode;
     private boolean duplicated;
+    private int agree;
+    private int submits;
     private Timer timer;
-    private int agree = 0;
     private List<Student> students;
     private List<History> histories;
     private TextView agreeView;
     private TextView disagreeView;
+    private TextView pollRate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +68,16 @@ public class PollActivity extends AppCompatActivity {
 
         agreeView = findViewById(R.id.agree);
         disagreeView = findViewById(R.id.disagree);
+        pollRate = findViewById(R.id.pollRate);
 
         List<History> histories = new ArrayList<>();
-        histories.add(new History(Classroom.couples, agree));
+        histories.add(new History(Classroom.couples));
         LogAdapter logAdapter = new LogAdapter(PollActivity.this, histories, true);
         ((ListView)findViewById(R.id.list)).setAdapter(logAdapter);
 
         if(!isSimulation) {
+            updatePollRate(0);
+
             poll(false, () -> {
                 poll(true, () -> {
                     monitorPoll();
@@ -161,27 +167,45 @@ public class PollActivity extends AppCompatActivity {
         });
     }
 
-    //좋아요 다시해요 갱신
+    //좋아요, 다시해요, 응답율 갱신
     private void updatePollResult(List<Poll> polls) {
         Logger.debug(polls.toString());
 
         if(polls.isEmpty()) return;
 
-        int agreeCount = 0;
-        int sum = 0;
+        int count = 0;
+        int submits = 0;
 
         for(int i = 0; i < polls.size(); i++) {
-            if(polls.get(i).isAgree()) agreeCount++;
-            sum++;
+            if(polls.get(i).isAgree()) count++;
+            submits++;
         }
 
-        if(sum != 0) {
-            agree = Math.round((float) agreeCount / sum * 100);
-            int disagreePercent = 100 - agree;
+        if(submits != 0) {
+            int agree = Math.round((float) count / submits * 100);
+            int disagree = 100 - agree;
 
-            agreeView.setText(String.format("좋아요 %d%%", agree));
-            disagreeView.setText(String.format("다시해요 %d%%", disagreePercent));
+            if(submits != this.submits) {
+                this.agree = agree;
+                this.submits = submits;
+
+                startCountingAnimation(agreeView, "%d%%", agree);
+                startCountingAnimation(disagreeView, "%d%%", disagree);
+                updatePollRate(submits);
+            }
         }
+    }
+
+    private void updatePollRate(int submits) {
+        pollRate.setText(String.format("%d/%d명", submits, students.size()));
+    }
+
+    private void startCountingAnimation(TextView view, String format, int value) {
+        ValueAnimator animator = new ValueAnimator();
+        animator.setObjectValues(0, value);
+        animator.addUpdateListener((animation) -> view.setText(String.format(format, animation.getAnimatedValue())));
+        animator.setDuration(500);
+        animator.start();
     }
 
     // 아이디를 객체와 연결
