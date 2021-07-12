@@ -137,7 +137,8 @@
         android:layout_gravity="right|bottom"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/done" />
+        android:src="@drawable/confirm"
+        android:layout_marginBottom="-35dp"/>
 
     <ImageView
         android:id="@+id/again"
@@ -146,6 +147,7 @@
         android:layout_gravity="right|bottom"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/simulation2"
-        android:layout_marginRight="65dp"/>
+        android:src="@drawable/again"
+        android:layout_marginRight="65dp"
+        android:layout_marginBottom="-35dp"/>
 </FrameLayout>
