@@ -18,6 +18,8 @@ import com.example.findamate.helper.Util;
 import com.example.findamate.manager.ApiManager;
 import com.example.findamate.manager.PermissionManager;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+
 public class LoginActivity extends AppCompatActivity {
     EditText loginId;
     EditText password;
@@ -104,6 +106,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.commit();
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.setFlags(FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
                 else if(!autoLogin) Util.toast(LoginActivity.this, "아이디 또는 비밀번호가 일치하지 않습니다.", true);

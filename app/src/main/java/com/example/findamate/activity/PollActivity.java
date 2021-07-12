@@ -1,6 +1,5 @@
 package com.example.findamate.activity;
 
-import android.Manifest;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.example.findamate.R;
 import com.example.findamate.adapter.LogAdapter;
@@ -29,6 +27,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 
 public class PollActivity extends AppCompatActivity {
     public final static int TYPE_RESULT = 1;
@@ -79,7 +79,6 @@ public class PollActivity extends AppCompatActivity {
 
         runPoll();
         bindEvents();
-        sendSms(true);
     }
 
     private void runPoll() {
@@ -87,6 +86,8 @@ public class PollActivity extends AppCompatActivity {
 
         if(isSimulation) monitorPollFake();
         else {
+            sendSms(true);
+
             poll(false, () -> {
                 poll(true, () -> {
                     monitorPoll();
@@ -104,14 +105,38 @@ public class PollActivity extends AppCompatActivity {
     // 권한 확인 후 메시지 전송
     private void sendSms(boolean checkPermission) {
         if(checkPermission && !PermissionManager.isSmsGranted(this)) PermissionManager.requestSmsPermission(this);
-        else Util.sendSms("01034993068", "test");
+        else {
+            for(int i = 0; i < Classroom.couples.size(); i++) {
+                Couple couple = Classroom.couples.get(i);
+                Student student1 = couple.getStudent1();
+                Student student2 = couple.getStudent2();
+
+                sendPollSms(student1, student2);
+                sendPollSms(student2, student1);
+            }
+        }
+    }
+
+    private void sendPollSms(Student receiver, Student mate) {
+        if(receiver == null) return;
+
+        String url = String.format("%s?sid=%d&id=%d&mid=%d",
+                ApiManager.HOST, ApiManager.getMemberId(),
+                receiver != null ? receiver.getId() : -1,
+                mate != null ? mate.getId() : -1);
+        String message = "[내짝궁 설문] \n" + url;
+
+        Util.sendSms(this, receiver.getPhone(), message);
     }
 
     @Override
     public void onBackPressed() {}
 
     private void bindEvents() {
-        findViewById(R.id.again).setOnClickListener((v) -> startMatchingActivity());
+        findViewById(R.id.again).setOnClickListener((v) -> {
+            timer.cancel();
+            startMatchingActivity();
+        });
 
         findViewById(R.id.ok).setOnClickListener((v) -> {
             if(isSimulation) {
@@ -138,8 +163,10 @@ public class PollActivity extends AppCompatActivity {
 
     private void startMatchingActivity() {
         Intent intent = new Intent(PollActivity.this, MatchingActivity.class);
+        intent.setFlags(FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("type", type);
         intent.putExtra("mode", mode);
+        intent.putExtra("isSimulation", isSimulation);
         intent.putExtra("duplicated", duplicated);
         startActivity(intent);
     }

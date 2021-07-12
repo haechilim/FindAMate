@@ -1,9 +1,11 @@
 package com.example.findamate.helper;
 
-import android.Manifest;
 import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.pm.PackageManager;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Rect;
 import android.telephony.SmsManager;
 import android.util.DisplayMetrics;
@@ -13,15 +15,14 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import androidx.core.content.ContextCompat;
-
-import com.example.findamate.activity.PollActivity;
-import com.example.findamate.manager.PermissionManager;
 import com.example.findamate.manager.StudentViewManager;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class Util {
+    private static PendingIntent sentIntent;
+    private static PendingIntent deliveryIntent;
+
     public static int dpToPx(WindowManager windowManager, int dp) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
@@ -50,8 +51,53 @@ public class Util {
         Toast.makeText(context, message, isShort ? Toast.LENGTH_SHORT : Toast.LENGTH_LONG).show();
     }
 
-    public static void sendSms(String phone, String text) {
-        SmsManager.getDefault().sendTextMessage(phone, null, text, null, null);
+    public static void sendSms(Context context, String number, String message) {
+        registerSmsReceivers(context);
+        SmsManager.getDefault().sendTextMessage(number, null, message, sentIntent, deliveryIntent);
+    }
+
+    private static void registerSmsReceivers(Context context) {
+        if(sentIntent != null || deliveryIntent != null) return;
+
+        sentIntent = PendingIntent.getBroadcast(context, 0, new Intent("SMS_SENT_ACTION"), 0);
+        deliveryIntent = PendingIntent.getBroadcast(context, 0, new Intent("SMS_DELIVERED_ACTION"), 0);
+
+        context.registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                switch(getResultCode()){
+                    case Activity.RESULT_OK:
+                        Logger.debug("전송 완료");
+                        break;
+                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                        Logger.debug("전송 실패  " + intent.toString());
+                        break;
+                    case SmsManager.RESULT_ERROR_NO_SERVICE:
+                        Logger.debug("서비스 지역이 아닙니다");
+                        break;
+                    case SmsManager.RESULT_ERROR_RADIO_OFF:
+                        Logger.debug("무선(Radio)가 꺼져있습니다");
+                        break;
+                    case SmsManager.RESULT_ERROR_NULL_PDU:
+                        Logger.debug("PDU Null");
+                        break;
+                }
+            }
+        }, new IntentFilter("SMS_SENT_ACTION"));
+
+        context.registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                switch (getResultCode()){
+                    case Activity.RESULT_OK:
+                        Logger.debug("SMS 도착 완료");
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        Logger.debug("SMS 도착 실패");
+                        break;
+                }
+            }
+        }, new IntentFilter("SMS_DELIVERED_ACTION"));
     }
 
     public static int getItemPerRow(Activity activity) {

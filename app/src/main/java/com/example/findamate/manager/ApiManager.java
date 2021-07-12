@@ -21,7 +21,7 @@ import java.net.URL;
 import java.util.List;
 
 public class ApiManager {
-    private static final String HOST = "http://34.105.126.228:8000";
+    public static final String HOST = "http://34.105.126.228:8000";
     private static int memberId;
     private static ObjectMapper objectMapper = new ObjectMapper();
 

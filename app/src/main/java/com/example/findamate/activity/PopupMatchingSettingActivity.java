@@ -13,6 +13,8 @@ import android.widget.RadioGroup;
 import com.example.findamate.R;
 import com.example.findamate.manager.MatchingManager;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+
 public class PopupMatchingSettingActivity extends Activity {
     private int type;
 
@@ -40,6 +42,7 @@ public class PopupMatchingSettingActivity extends Activity {
 
                 if (type == LogActivity.TYPE_SIMULATION) {
                     Intent intent = new Intent(PopupMatchingSettingActivity.this, MatchingActivity.class);
+                    intent.setFlags(FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("type", type);
                     intent.putExtra("mode", mode);
                     intent.putExtra("duplicated", duplicated);

@@ -18,6 +18,8 @@ import com.example.findamate.manager.ApiManager;
 
 import java.util.List;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+
 public class LogActivity extends AppCompatActivity {
     public final static int TYPE_HISTORY = 0;
     public final static int TYPE_RESULT = 1;
@@ -120,7 +122,9 @@ public class LogActivity extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getBaseContext(), MainActivity.class));
+                Intent intent = new Intent(LogActivity.this, MainActivity.class);
+                intent.setFlags(FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
     }

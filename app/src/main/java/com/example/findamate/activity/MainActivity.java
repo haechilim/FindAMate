@@ -22,6 +22,8 @@ import com.example.findamate.manager.StudentViewManager;
 import java.util.List;
 import java.util.Random;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+
 public class MainActivity extends AppCompatActivity {
     private static final int POPUP_CLASS = 0;
     private static final int POPUP_STUDENT = 1;
@@ -208,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
         if(resultCode != RESULT_OK) return;
 
         Intent intent = new Intent(this, MatchingActivity.class);
+        intent.setFlags(FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("isSimulation", isSimulation);
         intent.putExtra("mode", data.getIntExtra("mode", 0));
         intent.putExtra("duplicate", data.getBooleanExtra("duplicate", false));

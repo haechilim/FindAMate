@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+
 public class MatchingActivity extends AppCompatActivity {
     private Timer timer;
     private int coupleIndex;
@@ -140,6 +142,7 @@ public class MatchingActivity extends AppCompatActivity {
         timer.cancel();
 
         Intent intent = new Intent(this, PollActivity.class);
+        intent.setFlags(FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("type", isSimulation ? PollActivity.TYPE_SIMULATION : PollActivity.TYPE_RESULT);
         intent.putExtra("isSimulation", isSimulation);
         intent.putExtra("mode", mode);

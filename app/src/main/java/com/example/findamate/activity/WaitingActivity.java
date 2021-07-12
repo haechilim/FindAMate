@@ -17,6 +17,8 @@ import com.example.findamate.manager.StudentViewManager;
 
 import java.util.List;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+
 public class WaitingActivity extends AppCompatActivity {
     FrameLayout studentContainer;
     FrameLayout tip;
@@ -72,6 +74,7 @@ public class WaitingActivity extends AppCompatActivity {
                 commitTip();
 
                 Intent intent = new Intent(getBaseContext(), MatchingActivity.class);
+                intent.setFlags(FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("isSimulation", false);
                 intent.putExtra("mode", mode);
                 intent.putExtra("duplicated", duplicated);
