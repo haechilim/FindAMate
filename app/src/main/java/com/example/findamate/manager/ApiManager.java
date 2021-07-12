@@ -159,8 +159,8 @@ public class ApiManager {
         });
     }
 
-    public static void addRound(int agree, AddRoundCallback callback) {
-        request(String.format("%s/%s?memberId=%d&agree=%d", HOST, "round/add", memberId, agree), new JsonCallback() {
+    public static void addRound(int agree, int disagree, AddRoundCallback callback) {
+        request(String.format("%s/%s?memberId=%d&agree=%d&disagree=%d", HOST, "round/add", memberId, agree, disagree), new JsonCallback() {
             @Override
             public void success(String json) {
                 try {

@@ -12,25 +12,25 @@ public class History {
     private int id;
     private String date;
     private int agree;
+    private int disagree;
     private List<Couple> couples;
     private List<Couple> clonedCouples = new ArrayList<>();
 
     public History() {}
 
     public History(List<Couple> couples) {
-        this(couples, 0);
+        this(couples, 0, 0);
     }
 
-    public History(List<Couple> couples, int agree) {
-        this.date = new SimpleDateFormat(DATE_FORMAT).format(new Date());
-        this.agree = agree;
-        this.couples = couples;
+    public History(List<Couple> couples, int agree, int disagree) {
+        this(new SimpleDateFormat(DATE_FORMAT).format(new Date()), agree, disagree, couples);
     }
 
-    public History(String date, int agree, List<Couple> couples) {
+    public History(String date, int agree, int disagree, List<Couple> couples) {
         this.date = date;
-        this.couples = couples;
         this.agree = agree;
+        this.disagree = disagree;
+        this.couples = couples;
     }
 
     public History clone() {
@@ -38,7 +38,7 @@ public class History {
             clonedCouples.add(couples.get(i).clone());
         }
 
-        return new History(date, agree, clonedCouples);
+        return new History(date, agree, disagree, clonedCouples);
     }
 
     public int getId() {
@@ -55,6 +55,14 @@ public class History {
 
     public void setAgree(int agree) {
         this.agree = agree;
+    }
+
+    public int getDisagree() {
+        return disagree;
+    }
+
+    public void setDisagree(int disagree) {
+        this.disagree = disagree;
     }
 
     public String getDate() {
@@ -91,6 +99,8 @@ public class History {
         return "History{" +
                 "id=" + id +
                 ", date='" + date + '\'' +
+                ", agree=" + agree +
+                ", disagree=" + disagree +
                 ", couples=" + couples +
                 ", clonedCouples=" + clonedCouples +
                 '}';

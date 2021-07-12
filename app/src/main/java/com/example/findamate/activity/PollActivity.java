@@ -23,7 +23,6 @@ import com.example.findamate.manager.ApiManager;
 import com.example.findamate.manager.PermissionManager;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
@@ -38,6 +37,7 @@ public class PollActivity extends AppCompatActivity {
     private int mode;
     private boolean duplicated;
     private int agree;
+    private int disagree;
     private int submits;
     private Timer timer;
     private List<Student> students;
@@ -78,6 +78,11 @@ public class PollActivity extends AppCompatActivity {
         runPoll();
         bindEvents();
 
+        /*int permission  = ContextCompat.checkSelfPermission(PopupStudentSettingActivity.this, Manifest.permission.READ_CONTACTS);
+
+        if(permission == PackageManager.PERMISSION_GRANTED)
+        PermissionManager.requestSmsPermission();*/
+
         //Util.sendSms(this, "01034993068", "test");
     }
 
@@ -116,7 +121,7 @@ public class PollActivity extends AppCompatActivity {
             }
 
             poll(false, () -> {
-                ApiManager.addRound(agree, (history) -> {
+                ApiManager.addRound(agree, disagree, (history) -> {
                     updateDb(history.getId());
                     timer.cancel();
                     startLogActivity();
@@ -211,6 +216,7 @@ public class PollActivity extends AppCompatActivity {
 
             if(submits != this.submits) {
                 this.agree = agree;
+                this.disagree = disagree;
                 this.submits = submits;
 
                 startCountingAnimation(agreeView, "%d%%", agree);
@@ -247,7 +253,7 @@ public class PollActivity extends AppCompatActivity {
     }
 
     private void addSimulationHistory() {
-        histories.add(new History(Classroom.clonedCouples(), agree));
+        histories.add(new History(Classroom.clonedCouples(), agree, disagree));
     }
 
     private void updateDb(int roundId) {

@@ -77,7 +77,7 @@ public class PopupContactActivity extends AppCompatActivity {
             String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
-            if(!Pattern.matches("^\\d{10,11}$", number) || isExist(number)) continue;
+            if(isExist(number)) continue;
 
             contacts.add(new Contact(name, number));
         }

@@ -54,7 +54,7 @@ public class Util {
         int permission  = ContextCompat.checkSelfPermission(activity, Manifest.permission.SEND_SMS);
 
         if(permission == PackageManager.PERMISSION_GRANTED) SmsManager.getDefault().sendTextMessage(phone, null, text, null, null);
-        else if(permission == PackageManager.PERMISSION_DENIED) PermissionManager.requestPermissions(activity);
+        else if(permission == PackageManager.PERMISSION_DENIED) PermissionManager.requestSmsPermission(activity);
     }
 
     public static int getItemPerRow(Activity activity) {

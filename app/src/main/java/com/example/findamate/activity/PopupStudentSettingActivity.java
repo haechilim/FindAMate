@@ -83,7 +83,7 @@ public class PopupStudentSettingActivity extends Activity {
         if(requestCode == PermissionManager.RC_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 startActivityForResult(new Intent(PopupStudentSettingActivity.this, PopupContactActivity.class), POPUP_CONTACT);
-            else Util.toast(PopupStudentSettingActivity.this, "권한 거부로 인해 해당기능이 제한됩니다.", true);
+            else Util.toast(PopupStudentSettingActivity.this, "권한 거부로 인해 해당기능이 제한됩니다.", false);
         }
     }
 
@@ -104,7 +104,7 @@ public class PopupStudentSettingActivity extends Activity {
                 if(permission == PackageManager.PERMISSION_GRANTED)
                     startActivityForResult(new Intent(PopupStudentSettingActivity.this, PopupContactActivity.class), POPUP_CONTACT);
                 else if(permission == PackageManager.PERMISSION_DENIED)
-                    PermissionManager.requestPermissions(PopupStudentSettingActivity.this);
+                    PermissionManager.requestContactPermission(PopupStudentSettingActivity.this);
             }
         });
 
