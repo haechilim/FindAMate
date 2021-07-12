@@ -114,6 +114,8 @@ public class PollActivity extends AppCompatActivity {
                 sendPollSms(student1, student2);
                 sendPollSms(student2, student1);
             }
+
+            Util.toast(this, "학생들에게 문자메시지를 발송하였습니다.", false);
         }
     }
 
@@ -142,6 +144,7 @@ public class PollActivity extends AppCompatActivity {
             if(isSimulation) {
                 addSimulationHistory();
                 startLogActivity();
+                finish();
                 return;
             }
 
@@ -150,6 +153,7 @@ public class PollActivity extends AppCompatActivity {
                     updateDb(history.getId());
                     timer.cancel();
                     startLogActivity();
+                    finish();
                 });
             });
         });
