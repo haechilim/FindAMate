@@ -1,5 +1,6 @@
 package com.example.findamate.activity;
 
+import android.Manifest;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.example.findamate.R;
 import com.example.findamate.adapter.LogAdapter;
@@ -77,13 +79,7 @@ public class PollActivity extends AppCompatActivity {
 
         runPoll();
         bindEvents();
-
-        /*int permission  = ContextCompat.checkSelfPermission(PopupStudentSettingActivity.this, Manifest.permission.READ_CONTACTS);
-
-        if(permission == PackageManager.PERMISSION_GRANTED)
-        PermissionManager.requestSmsPermission();*/
-
-        //Util.sendSms(this, "01034993068", "test");
+        sendSms(true);
     }
 
     private void runPoll() {
@@ -101,10 +97,14 @@ public class PollActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == PermissionManager.RC_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) Util.sendSms(this, "01034993068", "test");
-            else Util.toast(PollActivity.this, "권한 거부로 인해 설문조사 기능이 제한됩니다.", true);
-        }
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) sendSms(false);
+        else Util.toast(PollActivity.this, "권한 거부로 인해 설문조사 기능이 제한됩니다.", true);
+    }
+
+    // 권한 확인 후 메시지 전송
+    private void sendSms(boolean checkPermission) {
+        if(checkPermission && !PermissionManager.isSmsGranted(this)) PermissionManager.requestSmsPermission(this);
+        else Util.sendSms("01034993068", "test");
     }
 
     @Override

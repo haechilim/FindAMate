@@ -78,15 +78,6 @@ public class PopupStudentSettingActivity extends Activity {
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == PermissionManager.RC_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                startActivityForResult(new Intent(PopupStudentSettingActivity.this, PopupContactActivity.class), POPUP_CONTACT);
-            else Util.toast(PopupStudentSettingActivity.this, "권한 거부로 인해 해당기능이 제한됩니다.", false);
-        }
-    }
-
     private void bindEvents() {
         findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,17 +87,7 @@ public class PopupStudentSettingActivity extends Activity {
             }
         });
 
-        findViewById(R.id.load).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int permission  = ContextCompat.checkSelfPermission(PopupStudentSettingActivity.this, Manifest.permission.READ_CONTACTS);
-
-                if(permission == PackageManager.PERMISSION_GRANTED)
-                    startActivityForResult(new Intent(PopupStudentSettingActivity.this, PopupContactActivity.class), POPUP_CONTACT);
-                else if(permission == PackageManager.PERMISSION_DENIED)
-                    PermissionManager.requestContactPermission(PopupStudentSettingActivity.this);
-            }
-        });
+        findViewById(R.id.load).setOnClickListener((v) -> startContactsActivity(true));
 
         findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,6 +113,18 @@ public class PopupStudentSettingActivity extends Activity {
                 finish();
             }
         });
+    }
+
+    // 권한을 체크해서 주소록 실행
+    private void startContactsActivity(boolean checkPermission) {
+        if(checkPermission && !PermissionManager.isContactsGranted(this)) PermissionManager.requestContactsPermission(this);
+        else startActivityForResult(new Intent(this, PopupContactActivity.class), POPUP_CONTACT);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) startContactsActivity(false);
+        else Util.toast(PopupStudentSettingActivity.this, "권한 거부로 인해 해당기능이 제한됩니다.", false);
     }
 
     private boolean checkValidation(String name, String phoneNumber) {

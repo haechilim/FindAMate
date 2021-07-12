@@ -50,11 +50,8 @@ public class Util {
         Toast.makeText(context, message, isShort ? Toast.LENGTH_SHORT : Toast.LENGTH_LONG).show();
     }
 
-    public static void sendSms(Activity activity, String phone, String text) {
-        int permission  = ContextCompat.checkSelfPermission(activity, Manifest.permission.SEND_SMS);
-
-        if(permission == PackageManager.PERMISSION_GRANTED) SmsManager.getDefault().sendTextMessage(phone, null, text, null, null);
-        else if(permission == PackageManager.PERMISSION_DENIED) PermissionManager.requestSmsPermission(activity);
+    public static void sendSms(String phone, String text) {
+        SmsManager.getDefault().sendTextMessage(phone, null, text, null, null);
     }
 
     public static int getItemPerRow(Activity activity) {
