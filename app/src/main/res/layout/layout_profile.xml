@@ -42,7 +42,8 @@
             android:lines="1"
             android:maxLines="1"
             android:textColor="#ffffff"
-            android:textSize="7sp" />
+            android:textSize="7sp"
+            android:visibility="invisible" />
     </LinearLayout>
 
     <TextView

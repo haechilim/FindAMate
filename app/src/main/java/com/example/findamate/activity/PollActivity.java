@@ -163,6 +163,7 @@ public class PollActivity extends AppCompatActivity {
         Intent intent = new Intent(PollActivity.this, LogActivity.class);
         intent.putExtra("type", type);
         startActivity(intent);
+        finish();
     }
 
     private void startMatchingActivity() {
@@ -173,6 +174,7 @@ public class PollActivity extends AppCompatActivity {
         intent.putExtra("isSimulation", isSimulation);
         intent.putExtra("duplicated", duplicated);
         startActivity(intent);
+        finish();
     }
 
     // 설문 시작 or 종료

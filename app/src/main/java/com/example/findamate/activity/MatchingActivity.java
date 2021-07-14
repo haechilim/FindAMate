@@ -147,8 +147,8 @@ public class MatchingActivity extends AppCompatActivity {
         intent.putExtra("isSimulation", isSimulation);
         intent.putExtra("mode", mode);
         intent.putExtra("duplicated", duplicated);
-
         startActivity(intent);
+        finish();
     }
 
     private void resetViews() {

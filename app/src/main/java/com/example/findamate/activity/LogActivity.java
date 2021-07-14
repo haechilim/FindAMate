@@ -60,6 +60,7 @@ public class LogActivity extends AppCompatActivity {
                         Intent intent = new Intent(LogActivity.this, PopupMatchingSettingActivity.class);
                         intent.putExtra("type", TYPE_SIMULATION);
                         startActivity(intent);
+                        finish();
                     }
                 });
                 break;
